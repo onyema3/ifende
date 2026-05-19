@@ -1,13 +1,19 @@
 <?php
 /**
  * Ifende Portfolio — page.php
+ * Template for displaying static pages.
+ *
+ * @package Ifende
  */
+
 get_header();
 ?>
-<div style="padding:140px 5vw 80px;max-width:860px;margin:0 auto;">
-  <?php while(have_posts()): the_post(); ?>
-    <h1 style="font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,5vw,3.5rem);font-weight:300;color:var(--white);margin-bottom:32px;"><?php the_title(); ?></h1>
-    <div style="font-size:0.95rem;line-height:1.8;color:rgba(245,242,236,0.7);"><?php the_content(); ?></div>
+<main id="main-content" class="page-content-wrap">
+  <?php while ( have_posts() ) : the_post(); ?>
+    <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+      <h1><?php the_title(); ?></h1>
+      <div class="entry-content"><?php the_content(); ?></div>
+    </article>
   <?php endwhile; ?>
-</div>
+</main>
 <?php get_footer(); ?>
