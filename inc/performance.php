@@ -158,3 +158,41 @@ function ifende_dns_prefetch( $urls, $relation_type ) {
 	return $urls;
 }
 add_filter( 'wp_resource_hints', 'ifende_dns_prefetch', 10, 2 );
+
+/**
+ * Add Content Security Policy headers to prevent XSS and inline injection.
+ *
+ * Uses a permissive policy that works with Google Fonts, analytics, and
+ * common third-party services while still blocking truly malicious injections.
+ *
+ * @param array $headers Existing headers.
+ * @return array Modified headers.
+ */
+function ifende_security_headers( $headers ) {
+	// Don't add CSP in admin (breaks many WP features).
+	if ( is_admin() ) {
+		return $headers;
+	}
+
+	// Content Security Policy — permissive but protective.
+	$csp = "default-src 'self'; ";
+	$csp .= "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://assets.calendly.com https://app.cal.com https://embed.tawk.to https://client.crisp.chat https://wa.me; ";
+	$csp .= "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://assets.calendly.com; ";
+	$csp .= "font-src 'self' https://fonts.gstatic.com; ";
+	$csp .= "img-src 'self' data: https: http:; ";
+	$csp .= "connect-src 'self' https://www.google-analytics.com https://formspree.io https://api.web3forms.com https://region1.google-analytics.com; ";
+	$csp .= "frame-src https://calendly.com https://app.cal.com https://www.youtube.com https://player.vimeo.com; ";
+	$csp .= "object-src 'none'; ";
+	$csp .= "base-uri 'self';";
+
+	$headers['Content-Security-Policy'] = $csp;
+
+	// Additional security headers.
+	$headers['X-Content-Type-Options'] = 'nosniff';
+	$headers['X-Frame-Options']        = 'SAMEORIGIN';
+	$headers['Referrer-Policy']        = 'strict-origin-when-cross-origin';
+	$headers['Permissions-Policy']     = 'camera=(), microphone=(), geolocation=()';
+
+	return $headers;
+}
+add_filter( 'wp_headers', 'ifende_security_headers' );

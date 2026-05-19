@@ -22,6 +22,8 @@ if ( function_exists( 'elementor_theme_do_location' ) && elementor_theme_do_loca
 </footer>
 <?php } ?>
 
+<?php do_action( 'ifende_before_footer_end' ); ?>
+
 <!-- Back to Top Button -->
 <button class="back-to-top" id="backToTop" aria-label="<?php esc_attr_e( 'Back to top', 'ifende' ); ?>" title="<?php esc_attr_e( 'Back to top', 'ifende' ); ?>">
   <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
