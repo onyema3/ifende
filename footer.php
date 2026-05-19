@@ -4,6 +4,11 @@
  *
  * @package Ifende
  */
+
+// Allow Elementor Pro Theme Builder to override the footer.
+if ( function_exists( 'elementor_theme_do_location' ) && elementor_theme_do_location( 'footer' ) ) {
+  // Elementor Pro handles the footer — skip default.
+} else {
 ?>
 <footer class="site-footer" role="contentinfo">
   <div class="footer-logo"><?php echo esc_html( get_bloginfo( 'name' ) ?: 'Onyemechi' ); ?><em>.</em></div>
@@ -15,6 +20,7 @@
     <a href="#contact"><?php esc_html_e( 'Contact', 'ifende' ); ?></a>
   </nav>
 </footer>
+<?php } ?>
 <?php wp_footer(); ?>
 </body>
 </html>
