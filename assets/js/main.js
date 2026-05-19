@@ -44,6 +44,24 @@ if (nav) {
   }, { passive: true });
 }
 
+/* DARK / LIGHT MODE TOGGLE */
+var themeToggle = document.getElementById('themeToggle');
+if (themeToggle) {
+  themeToggle.addEventListener('click', function() {
+    var current = document.documentElement.getAttribute('data-theme') || 'dark';
+    var next = current === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('ifende-theme', next);
+  });
+
+  // Listen for system theme changes (if user hasn't manually chosen).
+  window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', function(e) {
+    if (!localStorage.getItem('ifende-theme')) {
+      document.documentElement.setAttribute('data-theme', e.matches ? 'light' : 'dark');
+    }
+  });
+}
+
 /* MOBILE DRAWER with proper ARIA */
 window.toggleDrawer = function() {
   var btn = document.getElementById('hamburger');
@@ -219,6 +237,22 @@ function showSuccess(btn, msg) {
     msg.setAttribute('role', 'status');
     msg.setAttribute('aria-live', 'polite');
   }
+}
+
+/* BACK TO TOP BUTTON */
+var backToTop = document.getElementById('backToTop');
+if (backToTop) {
+  window.addEventListener('scroll', function() {
+    if (window.scrollY > 600) {
+      backToTop.classList.add('visible');
+    } else {
+      backToTop.classList.remove('visible');
+    }
+  }, { passive: true });
+
+  backToTop.addEventListener('click', function() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
 }
 
 })();
