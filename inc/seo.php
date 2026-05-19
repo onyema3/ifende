@@ -48,18 +48,168 @@ function ifende_structured_data() {
     $schema['image'] = $photo;
   }
 
-  // Also add WebSite schema.
+  // Also add WebSite schema, including the SearchAction so search engines
+  // can advertise the site search box (sitelinks searchbox in Google
+  // results) when our SERP entry qualifies.
   $website_schema = [
-    '@context' => 'https://schema.org',
-    '@type'    => 'WebSite',
-    'name'     => get_bloginfo( 'name' ),
-    'url'      => home_url( '/' ),
+    '@context'        => 'https://schema.org',
+    '@type'           => 'WebSite',
+    'name'            => get_bloginfo( 'name' ),
+    'url'             => home_url( '/' ),
+    'potentialAction' => [
+      '@type'       => 'SearchAction',
+      'target'      => [
+        '@type'       => 'EntryPoint',
+        'urlTemplate' => home_url( '/?s={search_term_string}' ),
+      ],
+      'query-input' => 'required name=search_term_string',
+    ],
   ];
 
   echo '<script type="application/ld+json">' . wp_json_encode( $schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT ) . '</script>' . "\n";
   echo '<script type="application/ld+json">' . wp_json_encode( $website_schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT ) . '</script>' . "\n";
 }
 add_action( 'wp_head', 'ifende_structured_data', 5 );
+
+/**
+ * Output Schema.org BlogPosting JSON-LD on single blog posts.
+ *
+ * Pairs with the existing Person/WebSite (homepage) and CreativeWork
+ * (single project) schemas to give Google a structured representation of
+ * every primary content surface in the theme. Includes the publisher
+ * logo when one is configured via the WP custom-logo support so rich
+ * results can show the brand mark next to the headline.
+ *
+ * @since 1.5.0
+ */
+function ifende_blog_post_schema() {
+  if ( ! is_singular( 'post' ) ) {
+    return;
+  }
+
+  $post_id   = get_the_ID();
+  $author_id = (int) get_post_field( 'post_author', $post_id );
+  $image     = get_the_post_thumbnail_url( $post_id, 'large' );
+
+  // get_the_excerpt() returns the auto-trim if no manual excerpt set,
+  // which is exactly what we want for description.
+  $description = get_the_excerpt( $post_id );
+  if ( '' === $description ) {
+    $description = wp_trim_words( wp_strip_all_tags( get_post_field( 'post_content', $post_id ) ), 30 );
+  }
+
+  $word_count = str_word_count( wp_strip_all_tags( get_post_field( 'post_content', $post_id ) ) );
+
+  $schema = [
+    '@context'         => 'https://schema.org',
+    '@type'            => 'BlogPosting',
+    'headline'         => get_the_title( $post_id ),
+    'description'      => $description,
+    'datePublished'    => get_the_date( 'c', $post_id ),
+    'dateModified'     => get_the_modified_date( 'c', $post_id ),
+    'mainEntityOfPage' => [
+      '@type' => 'WebPage',
+      '@id'   => get_permalink( $post_id ),
+    ],
+    'author'           => [
+      '@type' => 'Person',
+      'name'  => get_the_author_meta( 'display_name', $author_id ),
+      'url'   => get_author_posts_url( $author_id ),
+    ],
+    'publisher'        => [
+      '@type' => 'Organization',
+      'name'  => get_bloginfo( 'name' ),
+    ],
+  ];
+
+  if ( $image ) {
+    $schema['image'] = $image;
+  }
+
+  $categories = get_the_category( $post_id );
+  if ( ! empty( $categories ) ) {
+    $schema['articleSection'] = wp_list_pluck( $categories, 'name' );
+  }
+
+  $tags = get_the_tags( $post_id );
+  if ( ! empty( $tags ) ) {
+    $schema['keywords'] = implode( ', ', wp_list_pluck( $tags, 'name' ) );
+  }
+
+  if ( $word_count > 0 ) {
+    $schema['wordCount'] = $word_count;
+  }
+
+  // Attach publisher logo when a WP custom logo is configured.
+  $custom_logo_id = (int) get_theme_mod( 'custom_logo' );
+  if ( $custom_logo_id ) {
+    $logo_src = wp_get_attachment_image_src( $custom_logo_id, 'full' );
+    if ( $logo_src ) {
+      $schema['publisher']['logo'] = [
+        '@type'  => 'ImageObject',
+        'url'    => $logo_src[0],
+        'width'  => (int) $logo_src[1],
+        'height' => (int) $logo_src[2],
+      ];
+    }
+  }
+
+  echo '<script type="application/ld+json">' . wp_json_encode( $schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT ) . '</script>' . "\n";
+}
+add_action( 'wp_head', 'ifende_blog_post_schema', 6 );
+
+/**
+ * Output Schema.org BreadcrumbList JSON-LD on every non-front-page request.
+ *
+ * Reuses the trail array built by {@see ifende_breadcrumb_items()} so the
+ * JSON-LD and the visible HTML breadcrumbs (which already carry inline
+ * Microdata) stay in lockstep. The visible breadcrumbs only render when
+ * `ifende_after_header` fires (some templates skip it); emitting the
+ * JSON-LD unconditionally on `wp_head` means search engines see the
+ * trail even on those templates.
+ *
+ * @since 1.5.0
+ */
+function ifende_breadcrumb_jsonld() {
+  if ( is_front_page() || is_admin() ) {
+    return;
+  }
+  if ( ! function_exists( 'ifende_breadcrumb_items' ) ) {
+    return;
+  }
+
+  $items = ifende_breadcrumb_items();
+
+  // A trail of one entry would be just "Home" with no current page —
+  // not useful as a breadcrumb. Skip in that case.
+  if ( count( $items ) < 2 ) {
+    return;
+  }
+
+  $list = [];
+  foreach ( $items as $i => $item ) {
+    $entry = [
+      '@type'    => 'ListItem',
+      'position' => $i + 1,
+      'name'     => $item['name'],
+    ];
+    // Per Google's BreadcrumbList spec, the final item ("current page")
+    // should omit the item URL — that's what an empty 'url' encodes here.
+    if ( ! empty( $item['url'] ) ) {
+      $entry['item'] = $item['url'];
+    }
+    $list[] = $entry;
+  }
+
+  $schema = [
+    '@context'        => 'https://schema.org',
+    '@type'           => 'BreadcrumbList',
+    'itemListElement' => $list,
+  ];
+
+  echo '<script type="application/ld+json">' . wp_json_encode( $schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT ) . '</script>' . "\n";
+}
+add_action( 'wp_head', 'ifende_breadcrumb_jsonld', 7 );
 
 /**
  * Output Open Graph and Twitter Card meta tags.
