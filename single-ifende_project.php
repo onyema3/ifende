@@ -11,7 +11,7 @@
 
 get_header();
 ?>
-<main id="main-content" class="if-section" style="padding-top:140px;">
+<main id="main-content" tabindex="-1" class="if-section" style="padding-top:140px;">
   <?php while ( have_posts() ) : the_post();
     $client = get_post_meta( get_the_ID(), '_ifende_project_client', true );
     $url    = get_post_meta( get_the_ID(), '_ifende_project_url', true );

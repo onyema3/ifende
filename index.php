@@ -9,7 +9,7 @@
 get_header();
 ?>
 
-<main id="main-content">
+<main id="main-content" tabindex="-1">
   <?php do_action( 'ifende_before_hero' ); ?>
   <?php get_template_part( 'template-parts/section', 'hero' ); ?>
   <?php do_action( 'ifende_after_hero' ); ?>
