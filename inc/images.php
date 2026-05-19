@@ -184,3 +184,57 @@ function ifende_allow_webp_upload( $mimes ) {
 	return $mimes;
 }
 add_filter( 'mime_types', 'ifende_allow_webp_upload' );
+
+/**
+ * Make content images keyboard-activatable for the lightbox.
+ *
+ * The lightbox JS in assets/js/main.js targets `.post-content img,
+ * .project-content img` and opens a fullscreen preview on click. Without
+ * tabindex/role the images are completely invisible to keyboard users
+ * (Tab skips them, Enter does nothing). Previously these attributes
+ * were added at runtime in JS, but that left a window where the page
+ * was fully rendered but not yet interactive.
+ *
+ * Adding the attributes server-side via this filter means:
+ *   - Keyboard activation works the moment the HTML reaches the browser.
+ *   - If JS fails to load entirely, the image is at least announced as
+ *     a button by AT (graceful degradation — clicking it does nothing
+ *     useful, but the experience matches a non-JS site).
+ *   - Skipped if the img already has a tabindex (idempotent for content
+ *     authors who set their own).
+ *
+ * Limited to single posts and single ifende_project pages — those are
+ * the only routes where the lightbox JS runs.
+ *
+ * @param string $content Post content HTML.
+ * @return string Filtered content with tabindex/role/aria-label injected
+ *                onto plain <img> tags.
+ */
+function ifende_make_content_images_zoomable( $content ) {
+	if ( ! is_singular( [ 'post', 'ifende_project' ] ) ) {
+		return $content;
+	}
+
+	if ( false === stripos( $content, '<img' ) ) {
+		return $content;
+	}
+
+	$label = esc_attr__( 'View larger image', 'ifende' );
+
+	return preg_replace_callback(
+		'/<img\b([^>]*)>/i',
+		function ( $matches ) use ( $label ) {
+			$attrs = $matches[1];
+
+			// Don't touch images the author has already configured.
+			if ( false !== stripos( $attrs, 'tabindex=' )
+				|| false !== stripos( $attrs, 'role=' ) ) {
+				return $matches[0];
+			}
+
+			return '<img' . $attrs . ' tabindex="0" role="button" aria-label="' . $label . '">';
+		},
+		$content
+	);
+}
+add_filter( 'the_content', 'ifende_make_content_images_zoomable', 20 );

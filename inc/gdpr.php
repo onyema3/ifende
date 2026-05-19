@@ -10,6 +10,34 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
+ * Whether the visitor has consented to tracking cookies.
+ *
+ * Returns true if:
+ *   - The cookie banner is disabled in the Customizer (the site owner has
+ *     opted out of the consent UI — assume they handle compliance another
+ *     way, or the site is not in a jurisdiction that requires it), OR
+ *   - The visitor explicitly clicked Accept (a cookie 'ifende-consent' with
+ *     value 'accepted' is set; see the closeCookieBanner() handler in
+ *     assets/js/main.js).
+ *
+ * Returns false if the banner is enabled and the cookie is missing or set
+ * to anything else (e.g. 'dismissed'). Callers that load tracking scripts
+ * (analytics, pixels, visitor counts) MUST gate on this before rendering.
+ *
+ * @return bool
+ */
+function ifende_consent_given() {
+  // If the site owner disabled the banner, gating off would prevent
+  // analytics from ever firing — fall back to "consent assumed".
+  if ( ! get_theme_mod( 'ifende_cookie_notice_enabled', true ) ) {
+    return true;
+  }
+
+  $cookie = isset( $_COOKIE['ifende-consent'] ) ? sanitize_text_field( wp_unslash( $_COOKIE['ifende-consent'] ) ) : '';
+  return 'accepted' === $cookie;
+}
+
+/**
  * Output cookie consent banner in the footer.
  */
 function ifende_cookie_banner() {

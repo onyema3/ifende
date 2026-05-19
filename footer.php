@@ -63,12 +63,12 @@ if ( function_exists( 'elementor_theme_do_location' ) && elementor_theme_do_loca
         // (in-page smooth scroll); on every other route we prepend the home
         // URL so clicking, say, "About" from a blog post navigates to the
         // homepage and scrolls to that section instead of dead-clicking.
-        $base = is_front_page() ? '' : esc_url( home_url( '/' ) );
+        $prefix = is_front_page() ? '' : home_url( '/' );
         ?>
-        <a href="<?php echo $base; ?>#home"><?php esc_html_e( 'Home', 'ifende' ); ?></a>
-        <a href="<?php echo $base; ?>#about"><?php esc_html_e( 'About', 'ifende' ); ?></a>
-        <a href="<?php echo $base; ?>#services"><?php esc_html_e( 'Services', 'ifende' ); ?></a>
-        <a href="<?php echo $base; ?>#contact"><?php esc_html_e( 'Contact', 'ifende' ); ?></a>
+        <a href="<?php echo esc_url( $prefix . '#home' ); ?>"><?php esc_html_e( 'Home', 'ifende' ); ?></a>
+        <a href="<?php echo esc_url( $prefix . '#about' ); ?>"><?php esc_html_e( 'About', 'ifende' ); ?></a>
+        <a href="<?php echo esc_url( $prefix . '#services' ); ?>"><?php esc_html_e( 'Services', 'ifende' ); ?></a>
+        <a href="<?php echo esc_url( $prefix . '#contact' ); ?>"><?php esc_html_e( 'Contact', 'ifende' ); ?></a>
         <?php
       }
     }

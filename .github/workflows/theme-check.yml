@@ -38,17 +38,20 @@ jobs:
 
       - name: Install PHPCS and WP Standards
         run: |
-          composer global require "squizlabs/php_codesniffer=*"
-          composer global require "wp-coding-standards/wpcs=*"
-          composer global require "phpcompatibility/phpcompatibility-wp=*"
-          phpcs --config-set installed_paths $(composer global config home)/vendor/wp-coding-standards/wpcs,$(composer global config home)/vendor/phpcompatibility/phpcompatibility-wp
+          composer global require "squizlabs/php_codesniffer=^3.13" \
+                                  "wp-coding-standards/wpcs=^3.3" \
+                                  "phpcompatibility/phpcompatibility-wp=*" \
+                                  --with-all-dependencies
 
-      - name: Run PHPCS (errors only)
+      - name: Run PHPCS (security & correctness gate)
         run: |
-          phpcs --standard=WordPress-Theme --extensions=php \
-            --ignore=node_modules,vendor,.git \
-            --error-severity=1 --warning-severity=0 \
-            --report=summary . || true
+          $(composer global config home)/vendor/bin/phpcs --report=summary
+        # Reads phpcs.xml.dist at the repo root. The ruleset is curated to
+        # security/correctness sniffs only (escaping, nonce, sanitisation,
+        # i18n, deprecated APIs, PHP-version compat). Cosmetic formatting
+        # sniffs are explicitly excluded — they're a separate cleanup PR.
+        # Pre-existing-debt files are excluded inside phpcs.xml.dist with
+        # a TODO list; chip away at those entries to expand coverage.
 
       - name: Check required files exist
         run: |
