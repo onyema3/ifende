@@ -24,9 +24,12 @@ js:
 	@if [ -x ./node_modules/.bin/terser ]; then \
 		./node_modules/.bin/terser assets/js/main.js --compress --mangle --output assets/js/main.min.js; \
 		echo "  → assets/js/main.min.js (terser-minified)"; \
-	else \
+	elif [ ! -f assets/js/main.min.js ]; then \
 		cp assets/js/main.js assets/js/main.min.js; \
 		echo "  → assets/js/main.min.js (verbatim copy — run \`npm install\` to enable terser)"; \
+	else \
+		echo "  ⚠ terser not installed; leaving existing assets/js/main.min.js untouched"; \
+		echo "    (run \`npm install\` then \`make minify\` again to actually rebuild)"; \
 	fi
 
 

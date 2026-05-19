@@ -94,7 +94,10 @@
   <rule ref="WordPress.PHP.DontExtract"/>
   <rule ref="WordPress.PHP.DiscouragedPHPFunctions"/>
   <rule ref="WordPress.PHP.NoSilencedErrors"/>
-  <rule ref="WordPress.PHP.POSIXFunctions"/>
+  <!-- WordPress.PHP.POSIXFunctions was deprecated in WPCS 3.3 and removed
+       in WPCS 4.0. The PHPCompatibilityWP ruleset below already catches
+       the POSIX functions on the PHP versions we target, so the rule is
+       redundant. -->
   <rule ref="Universal.Operators.StrictComparisons"/>
   <rule ref="WordPress.PHP.StrictInArray"/>
   <rule ref="WordPress.PHP.IniSet"/>
