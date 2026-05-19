@@ -152,6 +152,8 @@ Generic building blocks not tied to a specific section. Built from native core b
 
 - Section patterns are emitted as raw HTML blocks — switch the block to **Edit as HTML** to change copy, or use **Convert to blocks** to break the markup into editable native blocks.
 - The block editor canvas loads `assets/css/main.css` (via `add_editor_style()` in `inc/setup.php`), so pattern previews and the editing experience visually match the front-end.
+- Each pattern lives as a standalone file under `/patterns/` (one file per pattern, named after the slug). WordPress 6.0+ auto-discovers these on theme activation. To add a new pattern, drop a file into `/patterns/` with a header block (`Title:`, `Slug:`, `Categories:`, `Description:`, `Keywords:`, `Inserter:`) and the block markup in the body — no PHP registration required.
+- The `ifende` pattern category itself is registered explicitly in `inc/patterns.php`. Anything else lives in `/patterns/`.
 
 ---
 
@@ -251,13 +253,27 @@ ifende/
 │   ├── images.php              — WebP / picture element helpers
 │   ├── livechat.php            — Live chat widget integration
 │   ├── page-builders.php       — Elementor compatibility
-│   ├── patterns.php            — Block patterns registration
+│   ├── patterns.php            — Block pattern *category* registration only
 │   ├── performance.php         — Critical CSS, defer, preload
 │   ├── seo.php                 — JSON-LD, Open Graph
 │   ├── setup.php               — Theme setup, widget areas
 │   └── woocommerce.php         — WooCommerce support
 ├── languages/
 │   └── ifende.pot              — Translation template
+├── patterns/                   — Auto-discovered block patterns (one file per pattern)
+│   ├── hero.php
+│   ├── marquee.php
+│   ├── about.php
+│   ├── services.php
+│   ├── clients.php
+│   ├── testimonials.php
+│   ├── blog.php
+│   ├── faq.php
+│   ├── newsletter.php
+│   ├── contact.php
+│   ├── portfolio.php
+│   ├── cta.php
+│   └── pricing.php
 ├── template-parts/             — Homepage sections
 ├── functions.php               — Bootstrap / includes
 ├── style.css                   — Theme header (metadata only)
