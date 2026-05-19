@@ -9,7 +9,26 @@
 if ( function_exists( 'elementor_theme_do_location' ) && elementor_theme_do_location( 'footer' ) ) {
   // Elementor Pro handles the footer — skip default.
 } else {
+
+  // Collect the active footer widget areas so we only render the row when needed.
+  $ifende_footer_columns = [];
+  for ( $i = 1; $i <= 4; $i++ ) {
+    if ( is_active_sidebar( 'ifende-footer-' . $i ) ) {
+      $ifende_footer_columns[] = $i;
+    }
+  }
+  $ifende_col_count = count( $ifende_footer_columns );
 ?>
+<?php if ( $ifende_col_count ) : ?>
+<div class="footer-widgets footer-widgets--cols-<?php echo (int) $ifende_col_count; ?>">
+  <?php foreach ( $ifende_footer_columns as $i ) : ?>
+    <div class="footer-widget-col footer-widget-col--<?php echo (int) $i; ?>">
+      <?php dynamic_sidebar( 'ifende-footer-' . $i ); ?>
+    </div>
+  <?php endforeach; ?>
+</div>
+<?php endif; ?>
+
 <footer class="site-footer" role="contentinfo">
   <div class="footer-logo"><?php echo esc_html( get_bloginfo( 'name' ) ?: 'Onyemechi' ); ?><em>.</em></div>
   <div class="footer-copy">&copy; <?php echo esc_html( wp_date( 'Y' ) ); ?> <?php bloginfo( 'name' ); ?> &middot; <?php esc_html_e( 'All rights reserved', 'ifende' ); ?></div>
@@ -24,15 +43,37 @@ if ( function_exists( 'elementor_theme_do_location' ) && elementor_theme_do_loca
         'fallback_cb'    => false,
       ] );
     } else {
-      ?>
-      <a href="#home"><?php esc_html_e( 'Home', 'ifende' ); ?></a>
-      <a href="#about"><?php esc_html_e( 'About', 'ifende' ); ?></a>
-      <a href="#services"><?php esc_html_e( 'Services', 'ifende' ); ?></a>
-      <a href="#contact"><?php esc_html_e( 'Contact', 'ifende' ); ?></a>
-      <?php
+      // Auto-link Privacy / Terms when those pages exist, otherwise fall back to anchors.
+      $privacy_url = function_exists( 'get_privacy_policy_url' ) ? get_privacy_policy_url() : '';
+      $terms_id    = (int) get_option( 'ifende_terms_page_id' );
+      $terms_url   = ( $terms_id && get_post_status( $terms_id ) === 'publish' ) ? get_permalink( $terms_id ) : '';
+
+      if ( $privacy_url || $terms_url ) {
+        echo '<ul class="footer-menu">';
+        echo '<li><a href="' . esc_url( home_url( '/' ) ) . '">' . esc_html__( 'Home', 'ifende' ) . '</a></li>';
+        if ( $privacy_url ) {
+          echo '<li><a href="' . esc_url( $privacy_url ) . '">' . esc_html__( 'Privacy', 'ifende' ) . '</a></li>';
+        }
+        if ( $terms_url ) {
+          echo '<li><a href="' . esc_url( $terms_url ) . '">' . esc_html__( 'Terms', 'ifende' ) . '</a></li>';
+        }
+        echo '</ul>';
+      } else {
+        ?>
+        <a href="#home"><?php esc_html_e( 'Home', 'ifende' ); ?></a>
+        <a href="#about"><?php esc_html_e( 'About', 'ifende' ); ?></a>
+        <a href="#services"><?php esc_html_e( 'Services', 'ifende' ); ?></a>
+        <a href="#contact"><?php esc_html_e( 'Contact', 'ifende' ); ?></a>
+        <?php
+      }
     }
     ?>
   </nav>
+  <?php if ( function_exists( 'ifende_render_social_menu' ) && has_nav_menu( 'social' ) ) : ?>
+    <div class="footer-social">
+      <?php ifende_render_social_menu(); ?>
+    </div>
+  <?php endif; ?>
 </footer>
 <?php } ?>
 

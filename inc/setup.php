@@ -72,6 +72,7 @@ function ifende_setup() {
   register_nav_menus( [
     'primary' => esc_html__( 'Primary Navigation', 'ifende' ),
     'footer'  => esc_html__( 'Footer Navigation', 'ifende' ),
+    'social'  => esc_html__( 'Social Links', 'ifende' ),
   ] );
 }
 add_action( 'after_setup_theme', 'ifende_setup' );
@@ -89,6 +90,20 @@ function ifende_widgets_init() {
     'before_title'  => '<h3 class="widget-title">',
     'after_title'   => '</h3>',
   ] );
+
+  // Footer widget columns. Up to 4; only ones with widgets render.
+  for ( $i = 1; $i <= 4; $i++ ) {
+    register_sidebar( [
+      'name'          => sprintf( esc_html__( 'Footer Column %d', 'ifende' ), $i ),
+      'id'            => 'ifende-footer-' . $i,
+      /* translators: %d: footer column number */
+      'description'   => sprintf( esc_html__( 'Widgets added here appear in column %d of the footer. Empty columns are skipped.', 'ifende' ), $i ),
+      'before_widget' => '<section id="%1$s" class="widget footer-widget %2$s">',
+      'after_widget'  => '</section>',
+      'before_title'  => '<h4 class="footer-widget-title">',
+      'after_title'   => '</h4>',
+    ] );
+  }
 }
 add_action( 'widgets_init', 'ifende_widgets_init' );
 
