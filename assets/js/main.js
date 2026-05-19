@@ -113,6 +113,19 @@ if (hamburgerBtn) {
   hamburgerBtn.addEventListener('click', window.toggleDrawer);
 }
 
+/* CALENDLY BOOKING BUTTON — delegated click handler.
+ * Fires only when the booking widget is rendered with a data-calendly-url
+ * attribute (see inc/booking.php) AND Calendly's widget.js has loaded its
+ * global. Replaces the previous inline onclick="" attribute, so the markup
+ * stays CSP-friendly. */
+document.addEventListener('click', function(e) {
+  var btn = e.target.closest('.ifende-booking-btn[data-calendly-url]');
+  if (!btn) return;
+  if (typeof window.Calendly === 'undefined' || !window.Calendly.initPopupWidget) return;
+  e.preventDefault();
+  window.Calendly.initPopupWidget({ url: btn.getAttribute('data-calendly-url') });
+});
+
 document.querySelectorAll('#mobileDrawer a').forEach(function(a) {
   a.addEventListener('click', function() {
     document.getElementById('hamburger').classList.remove('open');

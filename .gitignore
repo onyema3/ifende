@@ -1,0 +1,10 @@
+# Build dependencies (see package.json). Re-create with `npm install`.
+node_modules/
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.idea/
+.vscode/
