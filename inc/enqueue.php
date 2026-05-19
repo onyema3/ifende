@@ -39,11 +39,14 @@ function ifende_enqueue() {
     null
   );
 
+  // Use minified assets in production, unminified in debug mode.
+  $suffix = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? '' : '.min';
+
   // Main stylesheet.
-  wp_enqueue_style( 'ifende-main', IFENDE_URI . '/assets/css/main.css', [ 'ifende-google-fonts' ], IFENDE_VERSION );
+  wp_enqueue_style( 'ifende-main', IFENDE_URI . '/assets/css/main' . $suffix . '.css', [ 'ifende-google-fonts' ], IFENDE_VERSION );
 
   // Main script.
-  wp_enqueue_script( 'ifende-main', IFENDE_URI . '/assets/js/main.js', [], IFENDE_VERSION, true );
+  wp_enqueue_script( 'ifende-main', IFENDE_URI . '/assets/js/main' . $suffix . '.js', [], IFENDE_VERSION, true );
 
   // Localize script data — email NOT exposed directly (security).
   // The JS mailto fallback will use the AJAX endpoint to retrieve it only when needed.
