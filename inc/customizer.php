@@ -204,5 +204,26 @@ function ifende_customizer( $wp_customize ) {
       'type'    => 'text',
     ] );
   }
+
+
+  // --- TESTIMONIALS SECTION ---
+  $wp_customize->add_section( 'ifende_testimonials', [
+    'title'       => esc_html__( 'Testimonials', 'ifende' ),
+    'panel'       => 'ifende_panel',
+    'description' => esc_html__( 'Add testimonials. Format per line: Name|Role|Quote', 'ifende' ),
+  ] );
+
+  $testimonials_default = "Chidi Okafor|CEO, Leadetics|Working with Onyemechi was a game-changer. He delivered our web platform on time and exceeded our expectations in every way.\nAmara Nwosu|Director, Fort Solutions|His project management skills are top-notch. He kept our team aligned and the project moving forward effortlessly.\nEmeka Eze|Founder, Liberty Mall|From branding to web development, Onyemechi brings a rare combination of creativity and technical excellence.";
+
+  $wp_customize->add_setting( 'ifende_testimonials_list', [
+    'default'           => $testimonials_default,
+    'sanitize_callback' => 'sanitize_textarea_field',
+  ] );
+  $wp_customize->add_control( 'ifende_testimonials_list', [
+    'label'       => esc_html__( 'Testimonials (Name|Role|Quote per line)', 'ifende' ),
+    'section'     => 'ifende_testimonials',
+    'type'        => 'textarea',
+    'input_attrs' => [ 'rows' => 10 ],
+  ] );
 }
 add_action( 'customize_register', 'ifende_customizer' );

@@ -1,6 +1,22 @@
 (function(){
 'use strict';
 
+/* PAGE PRELOADER — fade out once DOM is ready */
+var preloader = document.getElementById('sitePreloader');
+if (preloader) {
+  window.addEventListener('load', function() {
+    preloader.classList.add('loaded');
+    // Remove from DOM after transition completes
+    setTimeout(function() { preloader.remove(); }, 500);
+  });
+  // Failsafe: remove preloader after 4s even if load event stalls
+  setTimeout(function() {
+    if (preloader && !preloader.classList.contains('loaded')) {
+      preloader.classList.add('loaded');
+    }
+  }, 4000);
+}
+
 /* CUSTOM CURSOR — only on non-touch devices */
 var cursor = document.getElementById('cursor');
 var ring = document.getElementById('cursorRing');
