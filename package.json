@@ -1,0 +1,12 @@
+{
+  "name": "ifende-theme-build",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Build tooling for the Ifende WordPress theme. Not shipped to wordpress.org or installed on the production site — only used to regenerate assets/js/main.min.js via `npm run build` or `make minify`.",
+  "scripts": {
+    "build": "terser assets/js/main.js --compress --mangle --output assets/js/main.min.js"
+  },
+  "devDependencies": {
+    "terser": "^5.47.1"
+  }
+}

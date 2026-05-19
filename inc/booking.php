@@ -186,8 +186,9 @@ function ifende_booking_calendly( $url, $button_text, $show_float ) {
 	<script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
 	<?php if ( $show_float ) : ?>
 	<button
+		type="button"
 		class="ifende-booking-btn"
-		onclick="Calendly.initPopupWidget({url: '<?php echo esc_url( $url ); ?>'}); return false;"
+		data-calendly-url="<?php echo esc_url( $url ); ?>"
 		aria-label="<?php echo esc_attr( $button_text ); ?>"
 	>
 		<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
