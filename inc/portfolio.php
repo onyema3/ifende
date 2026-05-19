@@ -57,6 +57,14 @@ function ifende_register_portfolio() {
 add_action( 'init', 'ifende_register_portfolio' );
 
 /**
+ * Flush rewrite rules when theme is activated (registers CPT permalinks).
+ */
+add_action( 'after_switch_theme', function() {
+	ifende_register_portfolio();
+	flush_rewrite_rules();
+} );
+
+/**
  * Register meta box for project details.
  */
 function ifende_project_meta_box() {
