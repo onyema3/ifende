@@ -181,9 +181,14 @@ add_action( 'wp_footer', 'ifende_booking_output', 98 );
  */
 function ifende_booking_calendly( $url, $button_text, $show_float ) {
 	?>
-	<!-- Calendly Booking Widget -->
+	<!-- Calendly Booking Widget. The CSS/JS are emitted directly rather than
+	     enqueued because we're already inside wp_footer (priority 98) — too
+	     late for the standard wp_enqueue_* lifecycle, and this hook only
+	     fires when the booking provider is configured as Calendly. -->
+	<?php // phpcs:disable WordPress.WP.EnqueuedResources -- See note above. ?>
 	<link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
 	<script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
+	<?php // phpcs:enable WordPress.WP.EnqueuedResources ?>
 	<?php if ( $show_float ) : ?>
 	<button
 		type="button"

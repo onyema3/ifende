@@ -1,0 +1,128 @@
+<?xml version="1.0"?>
+<ruleset name="Ifende Theme">
+  <description>
+    PHPCS ruleset for the Ifende WordPress theme.
+
+    Curated subset of the WordPress and PHPCompatibility standards. Focuses
+    on security and correctness sniffs — escaping output, nonce verification,
+    capability checks, i18n correctness, DB safety, PHP version compat —
+    while explicitly excluding cosmetic formatting sniffs (whitespace,
+    Yoda conditions, alignment, file naming) that would be noise without
+    moving the needle on bug count.
+
+    The intent is a gate that catches real bugs and stays green so it can
+    be enforced in CI. Reformatting follow-ups can be done with PHPCBF and
+    a wider ruleset in a separate PR.
+  </description>
+
+  <!-- What to scan. -->
+  <file>.</file>
+  <exclude-pattern>*/node_modules/*</exclude-pattern>
+  <exclude-pattern>*/vendor/*</exclude-pattern>
+  <exclude-pattern>*/.git/*</exclude-pattern>
+  <exclude-pattern>*/languages/*</exclude-pattern>
+  <exclude-pattern>*.min.css</exclude-pattern>
+  <exclude-pattern>*.min.js</exclude-pattern>
+
+  <!-- =====================================================================
+       PRE-EXISTING-DEBT EXCLUSIONS
+
+       These files have known violations of the security/correctness sniffs
+       below. Excluding them lets us enforce the gate on new code today
+       without a 50-fix cleanup commit blocking everything else. Each is
+       a follow-up:
+
+       - comments.php                 (1)  unescaped output on line 22
+       - inc/ajax.php                 (6)  $_POST/$_SERVER unslash + sanitize
+       - inc/cpt.php                  (10) meta_save handlers, same family
+       - inc/export-import.php        (4)  unescaped output, $_FILES handling
+       - inc/legal-pages.php          (1)  unescaped output
+       - inc/maintenance.php          (3)  $_SERVER['REQUEST_URI'] handling
+       - inc/portfolio.php            (6)  meta_save handlers
+       - inc/project-inquiry.php      (8)  $_POST handling in form processor
+       - inc/testimonial-request.php  (13) $_POST handling in form processor
+
+       Total: 52 errors across 9 files. All real bugs (escaping/sanitisation),
+       all mechanically fixable (wrap with wp_unslash/sanitize_*/esc_*).
+       Remove each entry as the file is cleaned up.
+       ===================================================================== -->
+  <exclude-pattern>*/comments.php</exclude-pattern>
+  <exclude-pattern>*/inc/ajax.php</exclude-pattern>
+  <exclude-pattern>*/inc/cpt.php</exclude-pattern>
+  <exclude-pattern>*/inc/export-import.php</exclude-pattern>
+  <exclude-pattern>*/inc/legal-pages.php</exclude-pattern>
+  <exclude-pattern>*/inc/maintenance.php</exclude-pattern>
+  <exclude-pattern>*/inc/portfolio.php</exclude-pattern>
+  <exclude-pattern>*/inc/project-inquiry.php</exclude-pattern>
+  <exclude-pattern>*/inc/testimonial-request.php</exclude-pattern>
+
+  <!-- Errors only — warnings are advisory, we don't gate on them. -->
+  <arg name="extensions" value="php"/>
+  <arg name="warning-severity" value="0"/>
+  <arg name="error-severity" value="1"/>
+  <config name="minimum_supported_wp_version" value="6.0"/>
+  <config name="testVersion" value="8.0-"/>
+
+  <!-- ===========================================================
+       SECURITY — the high-value sniffs. Escaping output, nonce
+       verification, capability checks, SQL safety. Catches real
+       XSS / CSRF / privilege-escalation bugs.
+       =========================================================== -->
+  <rule ref="WordPress.Security.EscapeOutput"/>
+  <rule ref="WordPress.Security.NonceVerification"/>
+  <rule ref="WordPress.Security.ValidatedSanitizedInput"/>
+  <rule ref="WordPress.Security.SafeRedirect"/>
+  <rule ref="WordPress.Security.PluginMenuSlug"/>
+
+  <!-- DB safety — direct queries should be prepared, caches considered. -->
+  <rule ref="WordPress.DB.PreparedSQL"/>
+  <rule ref="WordPress.DB.PreparedSQLPlaceholders"/>
+  <rule ref="WordPress.DB.RestrictedClasses"/>
+  <rule ref="WordPress.DB.RestrictedFunctions"/>
+
+  <!-- i18n correctness — translators comments, parameter ordering,
+       text-domain consistency. Catches strings that won't translate. -->
+  <rule ref="WordPress.WP.I18n">
+    <properties>
+      <property name="text_domain" type="array">
+        <element value="ifende"/>
+      </property>
+    </properties>
+  </rule>
+
+  <!-- PHP language correctness. -->
+  <rule ref="WordPress.PHP.DontExtract"/>
+  <rule ref="WordPress.PHP.DiscouragedPHPFunctions"/>
+  <rule ref="WordPress.PHP.NoSilencedErrors"/>
+  <rule ref="WordPress.PHP.POSIXFunctions"/>
+  <rule ref="Universal.Operators.StrictComparisons"/>
+  <rule ref="WordPress.PHP.StrictInArray"/>
+  <rule ref="WordPress.PHP.IniSet"/>
+
+  <!-- WP-specific correctness — using the right APIs. -->
+  <rule ref="WordPress.WP.AlternativeFunctions"/>
+  <rule ref="WordPress.WP.DeprecatedClasses"/>
+  <rule ref="WordPress.WP.DeprecatedFunctions"/>
+  <rule ref="WordPress.WP.DeprecatedParameters"/>
+  <rule ref="WordPress.WP.DeprecatedParameterValues"/>
+  <rule ref="WordPress.WP.EnqueuedResources"/>
+  <rule ref="WordPress.WP.EnqueuedResourceParameters"/>
+  <rule ref="WordPress.WP.PostsPerPage"/>
+
+  <!-- PHP cross-version compatibility. testVersion is set above. -->
+  <rule ref="PHPCompatibilityWP"/>
+
+  <!-- ===========================================================
+       EXPLICITLY EXCLUDED (kept here for posterity / future PRs):
+
+       - WordPress.WhiteSpace.*    — alignment, indentation
+       - WordPress.Arrays.ArrayDeclarationSpacing
+       - WordPress.Files.FileName  — would force inc/footer-menu.php style
+       - Generic.WhiteSpace.*       — tab/space issues
+       - Squiz.Commenting.*         — docblock formatting
+       - WordPress.NamingConventions.PrefixAllGlobals (we already prefix)
+
+       These are reformatting concerns — the right vehicle is a
+       single PHPCBF pass in a dedicated PR, not noise in this gate.
+       =========================================================== -->
+</ruleset>
