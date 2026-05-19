@@ -27,34 +27,13 @@
   <!-- =====================================================================
        PRE-EXISTING-DEBT EXCLUSIONS
 
-       These files have known violations of the security/correctness sniffs
-       below. Excluding them lets us enforce the gate on new code today
-       without a 50-fix cleanup commit blocking everything else. Each is
-       a follow-up:
-
-       - comments.php                 (1)  unescaped output on line 22
-       - inc/ajax.php                 (6)  $_POST/$_SERVER unslash + sanitize
-       - inc/cpt.php                  (10) meta_save handlers, same family
-       - inc/export-import.php        (4)  unescaped output, $_FILES handling
-       - inc/legal-pages.php          (1)  unescaped output
-       - inc/maintenance.php          (3)  $_SERVER['REQUEST_URI'] handling
-       - inc/portfolio.php            (6)  meta_save handlers
-       - inc/project-inquiry.php      (8)  $_POST handling in form processor
-       - inc/testimonial-request.php  (13) $_POST handling in form processor
-
-       Total: 52 errors across 9 files. All real bugs (escaping/sanitisation),
-       all mechanically fixable (wrap with wp_unslash/sanitize_*/esc_*).
-       Remove each entry as the file is cleaned up.
+       (none currently — the previous backlog of escaping/sanitisation
+       issues across comments.php and 8 inc/ files was paid down in the
+       chore/phpcs-debt-cleanup PR. Keep this block in place: if a future
+       PR introduces a new file with debt that's too large to clean up
+       in-PR, list it here with a TODO so the gate stays enforceable for
+       the rest of the codebase.)
        ===================================================================== -->
-  <exclude-pattern>*/comments.php</exclude-pattern>
-  <exclude-pattern>*/inc/ajax.php</exclude-pattern>
-  <exclude-pattern>*/inc/cpt.php</exclude-pattern>
-  <exclude-pattern>*/inc/export-import.php</exclude-pattern>
-  <exclude-pattern>*/inc/legal-pages.php</exclude-pattern>
-  <exclude-pattern>*/inc/maintenance.php</exclude-pattern>
-  <exclude-pattern>*/inc/portfolio.php</exclude-pattern>
-  <exclude-pattern>*/inc/project-inquiry.php</exclude-pattern>
-  <exclude-pattern>*/inc/testimonial-request.php</exclude-pattern>
 
   <!-- Errors only — warnings are advisory, we don't gate on them. -->
   <arg name="extensions" value="php"/>

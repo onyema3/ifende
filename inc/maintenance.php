@@ -69,7 +69,10 @@ function ifende_maintenance_mode() {
 	}
 
 	// Allow wp-login and admin AJAX to work.
-	if ( is_admin() || ( defined( 'DOING_AJAX' ) && DOING_AJAX ) || strpos( $_SERVER['REQUEST_URI'], 'wp-login' ) !== false ) {
+	$request_uri = isset( $_SERVER['REQUEST_URI'] )
+		? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) )
+		: '';
+	if ( is_admin() || ( defined( 'DOING_AJAX' ) && DOING_AJAX ) || ( '' !== $request_uri && false !== strpos( $request_uri, 'wp-login' ) ) ) {
 		return;
 	}
 

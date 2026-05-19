@@ -19,7 +19,7 @@ if ( post_password_required() ) {
       printf(
         /* translators: 1: comment count */
         esc_html( _n( '%1$s Comment', '%1$s Comments', $comment_count, 'ifende' ) ),
-        number_format_i18n( $comment_count )
+        esc_html( number_format_i18n( $comment_count ) )
       );
       ?>
     </h2>

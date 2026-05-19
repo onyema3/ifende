@@ -188,26 +188,26 @@ function ifende_testimonial_meta_cb( $post ) {
  */
 function ifende_save_cpt_meta( $post_id ) {
 	// Service icon.
-	if ( isset( $_POST['ifende_service_nonce'] ) && wp_verify_nonce( $_POST['ifende_service_nonce'], 'ifende_service_meta' ) ) {
+	if ( isset( $_POST['ifende_service_nonce'] ) && wp_verify_nonce( sanitize_key( wp_unslash( $_POST['ifende_service_nonce'] ) ), 'ifende_service_meta' ) ) {
 		if ( isset( $_POST['ifende_service_icon'] ) ) {
-			update_post_meta( $post_id, '_ifende_service_icon', sanitize_text_field( $_POST['ifende_service_icon'] ) );
+			update_post_meta( $post_id, '_ifende_service_icon', sanitize_text_field( wp_unslash( $_POST['ifende_service_icon'] ) ) );
 		}
 	}
 
 	// Client URL and icon.
-	if ( isset( $_POST['ifende_client_nonce'] ) && wp_verify_nonce( $_POST['ifende_client_nonce'], 'ifende_client_meta' ) ) {
+	if ( isset( $_POST['ifende_client_nonce'] ) && wp_verify_nonce( sanitize_key( wp_unslash( $_POST['ifende_client_nonce'] ) ), 'ifende_client_meta' ) ) {
 		if ( isset( $_POST['ifende_client_url'] ) ) {
-			update_post_meta( $post_id, '_ifende_client_url', esc_url_raw( $_POST['ifende_client_url'] ) );
+			update_post_meta( $post_id, '_ifende_client_url', esc_url_raw( wp_unslash( $_POST['ifende_client_url'] ) ) );
 		}
 		if ( isset( $_POST['ifende_client_icon'] ) ) {
-			update_post_meta( $post_id, '_ifende_client_icon', sanitize_text_field( $_POST['ifende_client_icon'] ) );
+			update_post_meta( $post_id, '_ifende_client_icon', sanitize_text_field( wp_unslash( $_POST['ifende_client_icon'] ) ) );
 		}
 	}
 
 	// Testimonial role.
-	if ( isset( $_POST['ifende_testimonial_nonce'] ) && wp_verify_nonce( $_POST['ifende_testimonial_nonce'], 'ifende_testimonial_meta' ) ) {
+	if ( isset( $_POST['ifende_testimonial_nonce'] ) && wp_verify_nonce( sanitize_key( wp_unslash( $_POST['ifende_testimonial_nonce'] ) ), 'ifende_testimonial_meta' ) ) {
 		if ( isset( $_POST['ifende_testimonial_role'] ) ) {
-			update_post_meta( $post_id, '_ifende_testimonial_role', sanitize_text_field( $_POST['ifende_testimonial_role'] ) );
+			update_post_meta( $post_id, '_ifende_testimonial_role', sanitize_text_field( wp_unslash( $_POST['ifende_testimonial_role'] ) ) );
 		}
 	}
 }

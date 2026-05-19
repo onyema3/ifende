@@ -68,13 +68,17 @@ function ifende_legal_pages_notice() {
 		return;
 	}
 
-	echo '<div class="notice notice-info is-dismissible"><p>';
-	printf(
+	// $drafts entries each contain an already-escaped <a> tag (esc_url +
+	// esc_html__ above). Compose the message with __() and run the
+	// concatenated result through wp_kses_post so anchors survive but
+	// any other HTML would be stripped.
+	$message = sprintf(
 		/* translators: %s: comma-separated list of page links */
-		esc_html__( 'Ifende created draft legal pages for you: %s. Review and publish them when ready.', 'ifende' ),
+		__( 'Ifende created draft legal pages for you: %s. Review and publish them when ready.', 'ifende' ),
 		implode( ', ', $drafts )
 	);
-	echo '</p></div>';
+
+	echo '<div class="notice notice-info is-dismissible"><p>' . wp_kses_post( $message ) . '</p></div>';
 }
 add_action( 'admin_notices', 'ifende_legal_pages_notice' );
 
