@@ -2,12 +2,9 @@
 # Run `make minify` to regenerate minified CSS/JS.
 #
 # CSS: simple sed/tr pipeline strips comments + collapses whitespace.
-# JS:  pass-through copy. The previous sed-based JS minifier corrupted
-#      string literals containing `//` (e.g. `'https://...'`) and deleted
-#      whole blocks of code wrapped in `/* ... */`. Until a real minifier
-#      (terser/esbuild) is wired up, we ship `main.js` verbatim as
-#      `main.min.js`. Gzip handles the redundancy in transport, and the
-#      file is small enough that the practical size hit is negligible.
+# JS:  uses terser when node_modules has it (after `npm install`),
+#      otherwise falls back to a verbatim copy. Either way `main.min.js`
+#      is byte-for-byte safe — no string-truncating sed pipelines.
 
 .PHONY: minify css js
 
@@ -19,5 +16,10 @@ css:
 	@echo "  → assets/css/main.min.css"
 
 js:
-	@cp assets/js/main.js assets/js/main.min.js
-	@echo "  → assets/js/main.min.js (copy of main.js — see Makefile note)"
+	@if [ -x ./node_modules/.bin/terser ]; then \
+		./node_modules/.bin/terser assets/js/main.js --compress --mangle --output assets/js/main.min.js; \
+		echo "  → assets/js/main.min.js (terser-minified)"; \
+	else \
+		cp assets/js/main.js assets/js/main.min.js; \
+		echo "  → assets/js/main.min.js (verbatim copy — run \`npm install\` to enable terser)"; \
+	fi
