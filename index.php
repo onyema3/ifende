@@ -17,6 +17,7 @@ get_header();
   <?php get_template_part( 'template-parts/section', 'clients' ); ?>
   <?php get_template_part( 'template-parts/section', 'testimonials' ); ?>
   <?php get_template_part( 'template-parts/section', 'blog' ); ?>
+  <?php get_template_part( 'template-parts/section', 'faq' ); ?>
   <?php get_template_part( 'template-parts/section', 'newsletter' ); ?>
   <?php get_template_part( 'template-parts/section', 'contact' ); ?>
 </main>

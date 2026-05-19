@@ -22,6 +22,9 @@
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
 
+<!-- Scroll Progress Indicator -->
+<div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+
 <!-- Page Preloader -->
 <div class="site-preloader" id="sitePreloader" aria-hidden="true">
   <div class="preloader-spinner"></div>

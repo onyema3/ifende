@@ -293,4 +293,30 @@ if (cookieBanner) {
   if (dismissBtn) dismissBtn.addEventListener('click', function() { closeCookieBanner('dismissed'); });
 }
 
+/* SCROLL PROGRESS INDICATOR */
+var scrollProgress = document.getElementById('scrollProgress');
+if (scrollProgress) {
+  window.addEventListener('scroll', function() {
+    var scrollTop = window.scrollY;
+    var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    var progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    scrollProgress.style.width = progress + '%';
+  }, { passive: true });
+}
+
+/* FAQ ACCORDION */
+var faqItems = document.querySelectorAll('.faq-item');
+faqItems.forEach(function(item) {
+  var btn = item.querySelector('.faq-question');
+  if (btn) {
+    btn.addEventListener('click', function() {
+      var isOpen = item.classList.contains('open');
+      // Close all others
+      faqItems.forEach(function(other) { other.classList.remove('open'); });
+      // Toggle current
+      if (!isOpen) item.classList.add('open');
+    });
+  }
+});
+
 })();

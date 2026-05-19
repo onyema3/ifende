@@ -227,6 +227,27 @@ function ifende_customizer( $wp_customize ) {
   ] );
 
 
+  // --- FAQ SECTION ---
+  $wp_customize->add_section( 'ifende_faq', [
+    'title'       => esc_html__( 'FAQ Section', 'ifende' ),
+    'panel'       => 'ifende_panel',
+    'description' => esc_html__( 'Add FAQ items. Format per line: Question|Answer. Outputs Schema.org FAQPage structured data for SEO.', 'ifende' ),
+  ] );
+
+  $faq_default = "What services do you offer?|I specialize in web development, project management, consulting, branding, and game development. Each service is tailored to your specific needs.\nHow long does a typical project take?|Project timelines vary based on scope. A standard website takes 2-4 weeks, while larger projects may take 6-8 weeks. I'll provide a detailed timeline during our initial consultation.\nDo you work with clients outside Nigeria?|Absolutely! I work with clients globally. All communication and project management is handled remotely using modern collaboration tools.\nWhat is your pricing structure?|Pricing depends on the project scope, complexity, and timeline. I offer both fixed-price projects and hourly consulting. Let's discuss your needs for an accurate quote.";
+
+  $wp_customize->add_setting( 'ifende_faq_list', [
+    'default'           => $faq_default,
+    'sanitize_callback' => 'sanitize_textarea_field',
+  ] );
+  $wp_customize->add_control( 'ifende_faq_list', [
+    'label'       => esc_html__( 'FAQ Items (Question|Answer per line)', 'ifende' ),
+    'section'     => 'ifende_faq',
+    'type'        => 'textarea',
+    'input_attrs' => [ 'rows' => 12 ],
+  ] );
+
+
   // --- NEWSLETTER SECTION ---
   $wp_customize->add_section( 'ifende_newsletter', [
     'title'       => esc_html__( 'Newsletter Signup', 'ifende' ),
