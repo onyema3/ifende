@@ -28,8 +28,24 @@ $skills     = array_map( 'trim', explode( ',', $skills_raw ) );
     </div>
     <div class="reveal reveal-d2">
       <div class="section-label" style="margin-bottom:20px;"><?php esc_html_e( 'Core Skills', 'ifende' ); ?></div>
-      <div class="skills-grid">
-        <?php foreach ( $skills as $s ) : ?><div class="skill-tag"><?php echo esc_html( $s ); ?></div><?php endforeach; ?>
+      <div class="skills-progress-list">
+        <?php
+        foreach ( $skills as $s ) :
+          // Parse skill with optional percentage: "WordPress:90" or just "WordPress"
+          $skill_parts = array_map( 'trim', explode( ':', $s ) );
+          $skill_name  = $skill_parts[0];
+          $skill_pct   = isset( $skill_parts[1] ) ? intval( $skill_parts[1] ) : 85;
+        ?>
+          <div class="skill-progress-item">
+            <div class="skill-progress-header">
+              <span class="skill-progress-name"><?php echo esc_html( $skill_name ); ?></span>
+              <span class="skill-progress-pct"><?php echo esc_html( $skill_pct ); ?>%</span>
+            </div>
+            <div class="skill-progress-bar">
+              <div class="skill-progress-fill" style="--progress:<?php echo esc_attr( $skill_pct ); ?>%"></div>
+            </div>
+          </div>
+        <?php endforeach; ?>
       </div>
       <div style="margin-top:40px;padding:32px;border:1px solid var(--border);border-radius:2px;background:rgba(33,161,78,0.04);">
         <div class="section-label" style="margin-bottom:16px;"><?php esc_html_e( 'Current Status', 'ifende' ); ?></div>

@@ -31,10 +31,11 @@ add_filter( 'wp_resource_hints', 'ifende_resource_hints', 10, 2 );
  * Enqueue front-end styles and scripts.
  */
 function ifende_enqueue() {
-  // Google Fonts — loaded as a proper stylesheet for caching & non-render-blocking.
+  // Google Fonts — loaded with font-display=optional for performance.
+  // This prevents layout shift by using local fallback until fonts are cached.
   wp_enqueue_style(
     'ifende-google-fonts',
-    'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,600&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&display=swap',
+    'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,600&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&display=optional',
     [],
     null
   );
@@ -60,7 +61,8 @@ function ifende_enqueue() {
 add_action( 'wp_enqueue_scripts', 'ifende_enqueue' );
 
 /**
- * Add font-display: swap to Google Fonts (performance optimization).
+ * Make Google Fonts non-render-blocking via media swap technique.
+ * Also adds crossorigin for proper font loading.
  *
  * @param string $tag    The link tag.
  * @param string $handle The stylesheet handle.
@@ -68,7 +70,10 @@ add_action( 'wp_enqueue_scripts', 'ifende_enqueue' );
  */
 function ifende_font_display_swap( $tag, $handle ) {
   if ( 'ifende-google-fonts' === $handle ) {
-    $tag = str_replace( "media='all'", "media='all' crossorigin='anonymous'", $tag );
+    // Load as print, then swap to all on load — eliminates render blocking.
+    $tag = str_replace( "media='all'", "media='print' onload=\"this.media='all'\" crossorigin='anonymous'", $tag );
+    // Add noscript fallback.
+    $tag .= '<noscript>' . str_replace( " onload=\"this.media='all'\"", '', str_replace( "media='print'", "media='all'", $tag ) ) . '</noscript>';
   }
   return $tag;
 }
