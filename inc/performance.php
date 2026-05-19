@@ -185,6 +185,12 @@ function ifende_defer_non_critical_styles( $tag, $handle, $href, $media ) {
 	$id_attr = esc_attr( $handle . '-css' );
 	$href    = esc_url( $href );
 
+	// phpcs:disable WordPress.WP.EnqueuedResources.NonEnqueuedStylesheet
+	// These <link> tags rebuild the markup for an already-enqueued stylesheet
+	// (we're filtering style_loader_tag for handles registered via
+	// wp_enqueue_style). The sniff's goal — "use wp_enqueue_style instead of
+	// hand-written link tags" — doesn't apply when we ARE the filter that
+	// post-processes enqueue_style's own output.
 	$deferred = sprintf(
 		'<link rel="stylesheet" id="%1$s" href="%2$s" media="print" onload="this.media=\'all\';this.onload=null;">',
 		$id_attr,
@@ -196,6 +202,7 @@ function ifende_defer_non_critical_styles( $tag, $handle, $href, $media ) {
 		$id_attr,
 		$href
 	);
+	// phpcs:enable WordPress.WP.EnqueuedResources.NonEnqueuedStylesheet
 
 	return $deferred . "\n" . $fallback . "\n";
 }
