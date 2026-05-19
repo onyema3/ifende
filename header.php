@@ -87,10 +87,21 @@ if ( function_exists( 'elementor_theme_do_location' ) && elementor_theme_do_loca
 </nav>
 
 <div class="mobile-drawer" id="mobileDrawer" role="dialog" aria-label="<?php esc_attr_e( 'Mobile navigation', 'ifende' ); ?>" aria-hidden="true">
-  <a href="#about"    onclick="toggleDrawer()"><?php esc_html_e( 'About', 'ifende' ); ?></a>
-  <a href="#services" onclick="toggleDrawer()"><?php esc_html_e( 'Services', 'ifende' ); ?></a>
-  <a href="#clients"  onclick="toggleDrawer()"><?php esc_html_e( 'Clients', 'ifende' ); ?></a>
-  <a href="#contact"  onclick="toggleDrawer()"><?php esc_html_e( 'Contact', 'ifende' ); ?></a>
+  <?php wp_nav_menu( [
+    'theme_location' => 'primary',
+    'container'      => false,
+    'menu_class'     => 'mobile-drawer-menu',
+    'items_wrap'     => '<ul class="mobile-drawer-menu">%3$s</ul>',
+    'depth'          => 1,
+    'fallback_cb'    => function() { ?>
+      <ul class="mobile-drawer-menu">
+        <li><a href="#about"><?php esc_html_e( 'About', 'ifende' ); ?></a></li>
+        <li><a href="#services"><?php esc_html_e( 'Services', 'ifende' ); ?></a></li>
+        <li><a href="#clients"><?php esc_html_e( 'Clients', 'ifende' ); ?></a></li>
+        <li><a href="#contact"><?php esc_html_e( 'Contact', 'ifende' ); ?></a></li>
+      </ul>
+    <?php }
+  ] ); ?>
 </div>
 <?php } // End Elementor header check. ?>
 
