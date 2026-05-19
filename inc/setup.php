@@ -61,7 +61,14 @@ function ifende_setup() {
   add_theme_support( 'responsive-embeds' );
   add_theme_support( 'wp-block-styles' );
   add_theme_support( 'editor-styles' );
-  add_editor_style( 'assets/css/editor-style.css' );
+  // editor-style.css curates Gutenberg core blocks (typography, lists,
+  // buttons, etc.). main.css is also loaded so block patterns registered
+  // in inc/patterns.php (which mirror the homepage section markup) render
+  // with theme-accurate styling in the inserter preview and block canvas.
+  add_editor_style( [
+    'assets/css/editor-style.css',
+    'assets/css/main.css',
+  ] );
 
   // Elementor / page builder support — allow full-width layouts.
   add_theme_support( 'elementor', [

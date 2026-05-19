@@ -119,16 +119,39 @@ All settings live under **Appearance > Customize > Ifende Portfolio Options**.
 
 ## Block Patterns
 
-Access via **Block Editor > Patterns > Ifende** category.
+Access via **Block Editor > Patterns > Ifende** category. Patterns mirror the homepage section template parts so you can compose custom pages by inserting the same sections anywhere.
+
+### Section patterns
+
+These reproduce the markup of `template-parts/section-*.php` and use the theme's existing CSS hooks. They render with the theme's section styling out of the box.
+
+| Pattern | Mirrors | Description |
+|---------|---------|-------------|
+| Hero Section | `section-hero.php` | Full-height landing hero with name, role list, bio, CTAs, stat counters, and photo card with status pill |
+| Marquee Strip | `section-marquee.php` | Infinite-loop scrolling text strip of skills/services |
+| About Section | `section-about.php` | Two-column bio with profile facts, animated skill bars, and a CTA card |
+| Services Section | `section-services.php` | Two-by-two services grid with numbered cards and hover accent stripe |
+| Clients Section | `section-clients.php` | Four-column client logo grid with outbound arrows |
+| Testimonials Section | `section-testimonials.php` | Auto-fitting grid of quote cards with avatar initials |
+| Blog / Latest Posts | `section-blog.php` | Three-card teaser grid (placeholder cards — swap for a Latest Posts block to render live content) |
+| FAQ Section | `section-faq.php` | Accordion-style Q&A list (the live section also emits Schema.org `FAQPage` markup) |
+| Newsletter Signup | `section-newsletter.php` | Heading + inline email form (set the form action to your Mailchimp/ConvertKit URL before publishing) |
+| Contact Section | `section-contact.php` | Two-column contact info + name/email/subject/message form |
+| Portfolio Section | `section-portfolio.php` | Three-card grid with client, year, description, and tech tags (placeholder — swap for a Query block on the `ifende_project` CPT for live entries) |
+
+### Utility patterns
+
+Generic building blocks not tied to a specific section. Built from native core blocks, so they're easy to edit visually.
 
 | Pattern | Description |
 |---------|-------------|
-| Hero Section | Full-width hero with headline, CTA buttons, and image |
-| Services Grid | Three-column services with accent borders |
-| Testimonial Cards | Two-column testimonial quotes |
-| Call to Action | CTA banner with heading and buttons |
-| About Section | Bio text with skills list |
-| Pricing Table | Three-tier pricing cards |
+| Call to Action | Full-width CTA banner with headline, supporting text, and primary + outline buttons |
+| Pricing Table | Three-tier pricing table with a highlighted middle plan, feature lists, and CTA buttons |
+
+### Tips
+
+- Section patterns are emitted as raw HTML blocks — switch the block to **Edit as HTML** to change copy, or use **Convert to blocks** to break the markup into editable native blocks.
+- The block editor canvas loads `assets/css/main.css` (via `add_editor_style()` in `inc/setup.php`), so pattern previews and the editing experience visually match the front-end.
 
 ---
 
@@ -165,14 +188,16 @@ Supports **Tawk.to**, **Crisp**, and custom embed codes.
 
 Built-in optimizations (no plugins needed):
 
-- **Critical CSS** — Above-the-fold styles inlined in `<head>`
-- **Script deferral** — Non-critical scripts load with `defer`
-- **Preload hints** — Fonts and main stylesheet preloaded
-- **DNS prefetch** — External domains resolved early
-- **Lazy loading** — Images below the fold use `loading="lazy"`
+- **Critical CSS** — ~5 KB of above-the-fold styles (root vars, nav, hero, CTAs, preloader, mobile breakpoints) inlined in `<head>` for instant first paint
+- **Media-swap CSS deferral** — non-critical stylesheets load with `media="print"` and an `onload` swap to `media="all"`, so they download in parallel without blocking rendering. A `<noscript>` fallback covers JS-disabled clients
+- **Script deferral** — non-critical scripts load with `defer` (theme bootstrap and the no-flash theme detector are exempt)
+- **Self-hosted woff2 fonts** — Cormorant Garamond, Syne, and DM Mono are served from `assets/fonts/` with `font-display: optional` and the two LCP-critical files preloaded
+- **Preload hints** — main stylesheet and critical fonts preloaded
+- **DNS prefetch** — external font/analytics domains resolved early
+- **Lazy loading** — images below the fold use `loading="lazy"`; hero images get `fetchpriority="high"`
 - **Minified assets** — `.min.css` and `.min.js` served in production
 - **Emoji removal** — WordPress emoji scripts disabled
-- **Head cleanup** — Generator tags, RSD, wlwmanifest removed
+- **Head cleanup** — generator tags, RSD, wlwmanifest removed
 
 ---
 
