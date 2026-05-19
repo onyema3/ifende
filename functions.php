@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Theme constants.
-define( 'IFENDE_VERSION', '1.1.0' );
+define( 'IFENDE_VERSION', '1.5.0' );
 define( 'IFENDE_URI', get_template_directory_uri() );
 define( 'IFENDE_DIR', get_template_directory() );
 

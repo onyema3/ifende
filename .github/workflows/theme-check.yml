@@ -75,6 +75,37 @@ jobs:
           grep -q "License:" style.css || (echo "Missing License in style.css" && exit 1)
           echo "style.css header valid."
 
+      - name: Validate block pattern headers
+        run: |
+          # Every file in /patterns/ must declare at least the Title and Slug
+          # headers — those are the two WordPress 6.0+ auto-discovery requires.
+          # Additional headers (Categories, Description, Keywords, Inserter)
+          # are optional but commonly present; we don't gate on them.
+          echo "Validating /patterns/*.php headers..."
+          if [ ! -d patterns ]; then
+            echo "No /patterns/ directory; skipping."
+            exit 0
+          fi
+          shopt -s nullglob
+          fail=0
+          count=0
+          for f in patterns/*.php; do
+            count=$((count + 1))
+            if ! grep -q "^[[:space:]]*\*[[:space:]]*Title:" "$f"; then
+              echo "MISSING 'Title:' header in $f"
+              fail=1
+            fi
+            if ! grep -q "^[[:space:]]*\*[[:space:]]*Slug:" "$f"; then
+              echo "MISSING 'Slug:' header in $f"
+              fail=1
+            fi
+          done
+          if [ "$fail" -eq 1 ]; then
+            echo "Pattern header validation failed."
+            exit 1
+          fi
+          echo "All $count pattern files have required headers."
+
   js-lint:
     name: JavaScript Syntax Check
     runs-on: ubuntu-latest
