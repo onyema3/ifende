@@ -43,6 +43,12 @@ function ifende_enqueue() {
   // Use minified assets in production, unminified in debug mode.
   $suffix = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? '' : '.min';
 
+  // No-flash theme detection — must run synchronously in <head> BEFORE
+  // first paint, so the page is never rendered in the wrong color scheme.
+  // Loaded as a static asset (instead of an inline <script>) so it works
+  // under a strict Content-Security-Policy without needing a nonce.
+  wp_enqueue_script( 'ifende-no-flash', IFENDE_URI . '/assets/js/no-flash.js', [], IFENDE_VERSION, false );
+
   // Main stylesheet.
   wp_enqueue_style( 'ifende-main', IFENDE_URI . '/assets/css/main' . $suffix . '.css', [ 'ifende-google-fonts' ], IFENDE_VERSION );
 

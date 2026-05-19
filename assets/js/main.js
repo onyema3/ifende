@@ -105,6 +105,14 @@ window.toggleDrawer = function() {
   }
 };
 
+// Wire up the hamburger button. Replaces the previous inline
+// onclick="toggleDrawer()" attribute so the markup is CSP-friendly
+// (no inline event handlers required).
+var hamburgerBtn = document.getElementById('hamburger');
+if (hamburgerBtn) {
+  hamburgerBtn.addEventListener('click', window.toggleDrawer);
+}
+
 document.querySelectorAll('#mobileDrawer a').forEach(function(a) {
   a.addEventListener('click', function() {
     document.getElementById('hamburger').classList.remove('open');
