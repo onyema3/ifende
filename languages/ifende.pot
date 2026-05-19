@@ -1,10 +1,14 @@
-# Copyright (C) 2024 Onyemechi Ifende
-# This file is distributed under the GNU General Public License v2 or later.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Onyemechi Ifende
+# This file is distributed under the same license as the Ifende package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Ifende Portfolio 1.0.0\n"
-"Report-Msgid-Bugs-To: https://ifende.com\n"
-"POT-Creation-Date: 2024-01-01 00:00+0000\n"
+"Project-Id-Version: Ifende 1.3.0\n"
+"Report-Msgid-Bugs-To: hello@ifende.com\n"
+"POT-Creation-Date: 2026-05-19 17:28+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -12,266 +16,1142 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Kiro\n"
-"X-Domain: ifende\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: header.php
-msgid "Skip to content"
+#: 404.php:16
+msgid "Page Not Found"
 msgstr ""
 
-#: header.php
-msgid "Primary navigation"
+#: 404.php:17
+msgid "Oops!"
 msgstr ""
 
-#: header.php
-msgid "Toggle mobile menu"
+#: 404.php:17
+msgid "Lost?"
 msgstr ""
 
-#: header.php
-msgid "Toggle dark/light mode"
+#: 404.php:19
+msgid ""
+"The page you're looking for doesn't exist or has been moved. Try searching "
+"or head back home."
 msgstr ""
 
-#: header.php
-msgid "About"
-msgstr ""
-
-#: header.php
-msgid "Services"
-msgstr ""
-
-#: header.php
-msgid "Clients"
-msgstr ""
-
-#: header.php
-msgid "Get In Touch"
-msgstr ""
-
-#: header.php
-msgid "Contact"
-msgstr ""
-
-#: template-parts/section-hero.php
-msgid "Let's Work Together"
-msgstr ""
-
-#: template-parts/section-hero.php
-msgid "View Services"
-msgstr ""
-
-#: template-parts/section-about.php
-msgid "About Me"
-msgstr ""
-
-#: template-parts/section-about.php
-msgid "The Man<br>Behind the <em>Work</em>"
-msgstr ""
-
-#: template-parts/section-about.php
-msgid "Residence"
-msgstr ""
-
-#: template-parts/section-about.php
-msgid "Freelance"
-msgstr ""
-
-#: template-parts/section-about.php
-msgid "Specialties"
-msgstr ""
-
-#: template-parts/section-about.php
-msgid "Twitter/X"
-msgstr ""
-
-#: template-parts/section-about.php
-msgid "Core Skills"
-msgstr ""
-
-#: template-parts/section-about.php
-msgid "Current Status"
-msgstr ""
-
-#: template-parts/section-about.php
-msgid "Open to new projects, collaborations, and consulting engagements."
-msgstr ""
-
-#: template-parts/section-about.php
-msgid "Start a Conversation"
-msgstr ""
-
-#: template-parts/section-services.php
-msgid "What I Do"
-msgstr ""
-
-#: template-parts/section-services.php
-msgid "Services I<br><em>Offer</em>"
-msgstr ""
-
-#: template-parts/section-services.php
-msgid "From web presence to business transformation — I bring a holistic approach to every engagement."
-msgstr ""
-
-#: template-parts/section-clients.php
-msgid "Trusted By"
-msgstr ""
-
-#: template-parts/section-clients.php
-msgid "Clients &amp;<br><em>Partners</em>"
-msgstr ""
-
-#: template-parts/section-testimonials.php
-msgid "Testimonials"
-msgstr ""
-
-#: template-parts/section-testimonials.php
-msgid "What People<br><em>Say</em>"
-msgstr ""
-
-#: template-parts/section-blog.php
-msgid "Latest Posts"
-msgstr ""
-
-#: template-parts/section-blog.php
-msgid "From the<br><em>Blog</em>"
-msgstr ""
-
-#: template-parts/section-blog.php
-msgid "Read More"
-msgstr ""
-
-#: template-parts/section-blog.php
-msgid "View All Posts"
-msgstr ""
-
-#: template-parts/section-newsletter.php
-msgid "Newsletter"
-msgstr ""
-
-#: template-parts/section-newsletter.php
-msgid "Enter your email"
-msgstr ""
-
-#: template-parts/section-newsletter.php
-msgid "Subscribe"
-msgstr ""
-
-#: template-parts/section-newsletter.php
-msgid "No spam. Unsubscribe anytime."
-msgstr ""
-
-#: template-parts/section-contact.php
-msgid "Get In Touch"
-msgstr ""
-
-#: template-parts/section-contact.php
-msgid "Let's Build<br>Something <em>Great</em>"
-msgstr ""
-
-#: template-parts/section-contact.php
-msgid "Location"
-msgstr ""
-
-#: template-parts/section-contact.php
-msgid "Availability"
-msgstr ""
-
-#: template-parts/section-contact.php
-msgid "Website"
-msgstr ""
-
-#: template-parts/section-contact.php
-msgid "Follow Me"
-msgstr ""
-
-#: template-parts/section-contact.php
-msgid "First Name"
-msgstr ""
-
-#: template-parts/section-contact.php
-msgid "Last Name"
-msgstr ""
-
-#: template-parts/section-contact.php
-msgid "Email Address"
-msgstr ""
-
-#: template-parts/section-contact.php
-msgid "Subject"
-msgstr ""
-
-#: template-parts/section-contact.php
-msgid "Your Message"
-msgstr ""
-
-#: template-parts/section-contact.php
-msgid "Send Message"
-msgstr ""
-
-#: footer.php
-msgid "All rights reserved"
-msgstr ""
-
-#: footer.php
-msgid "Home"
-msgstr ""
-
-#: footer.php
-msgid "Back to top"
-msgstr ""
-
-#: 404.php
-msgid "Error 404"
-msgstr ""
-
-#: 404.php
-msgid "Page Not"
-msgstr ""
-
-#: 404.php
-msgid "Found"
-msgstr ""
-
-#: 404.php
+#: 404.php:21
 msgid "Back to Home"
 msgstr ""
 
-#: inc/gdpr.php
-msgid "Accept"
+#: 404.php:23
+msgid "Search the site..."
 msgstr ""
 
-#: inc/gdpr.php
-msgid "Dismiss"
+#: 404.php:23 404.php:24
+msgid "Search"
 msgstr ""
 
-#: inc/gdpr.php
-msgid "Privacy Policy"
+#: archive.php:15 inc/portfolio.php:45
+msgid "Category"
 msgstr ""
 
-#: search.php
-msgid "Search Results"
+#: archive.php:17
+msgid "Tag"
 msgstr ""
 
-#: search.php
-msgid "Results for: %s"
+#: archive.php:19
+msgid "Author"
 msgstr ""
 
-#: search.php
+#: archive.php:21 archive.php:23
+msgid "Archive"
+msgstr ""
+
+#: archive.php:42 search.php:36 template-parts/section-blog.php:36
+msgid "Read More"
+msgstr ""
+
+#: archive.php:48
+msgid "Archive pagination"
+msgstr ""
+
+#: archive.php:51 search.php:45
 msgid "Previous"
 msgstr ""
 
-#: search.php
+#: archive.php:52 search.php:46
 msgid "Next"
 msgstr ""
 
-#: single.php
+#: archive.php:57
+msgid "No posts found in this archive."
+msgstr ""
+
+#: comments.php:13
+msgid "Comments"
+msgstr ""
+
+#: comments.php:15
+msgid "Discussion"
+msgstr ""
+
+#: comments.php:21
+#, php-format
+msgid "%1$s Comment"
+msgid_plural "%1$s Comments"
+msgstr[0] ""
+msgstr[1] ""
+
+#: comments.php:38
+msgid "Comment navigation"
+msgstr ""
+
+#: comments.php:39
+msgid "&larr; Older Comments"
+msgstr ""
+
+#: comments.php:40
+msgid "Newer Comments &rarr;"
+msgstr ""
+
+#: comments.php:45
+msgid "Comments are closed."
+msgstr ""
+
+#: comments.php:51
+msgid "Leave a Comment"
+msgstr ""
+
+#: comments.php:54
+msgid "Your email address will not be published. Required fields are marked *"
+msgstr ""
+
+#: comments.php:57
+msgid "Post Comment"
+msgstr ""
+
+#: footer.php:15
+msgid "All rights reserved"
+msgstr ""
+
+#: footer.php:16
+msgid "Footer navigation"
+msgstr ""
+
+#: footer.php:17
+msgid "Home"
+msgstr ""
+
+#: footer.php:18 header.php:61 header.php:90
+msgid "About"
+msgstr ""
+
+#: footer.php:19 header.php:62 header.php:91 inc/cpt.php:23
+msgid "Services"
+msgstr ""
+
+#: footer.php:20 header.php:93
+msgid "Contact"
+msgstr ""
+
+#: footer.php:26
+msgid "Back to top"
+msgstr ""
+
+#: header.php:34
+msgid "Skip to content"
+msgstr ""
+
+#: header.php:45
+msgid "Primary navigation"
+msgstr ""
+
+#: header.php:63 header.php:92 inc/cpt.php:47
+msgid "Clients"
+msgstr ""
+
+#: header.php:64 template-parts/section-contact.php:13
+msgid "Get In Touch"
+msgstr ""
+
+#: header.php:71 header.php:72
+msgid "Toggle dark/light mode"
+msgstr ""
+
+#: header.php:81
+msgid "Toggle mobile menu"
+msgstr ""
+
+#: header.php:89
+msgid "Mobile navigation"
+msgstr ""
+
+#: inc/ajax.php:24
+msgid "Please wait before sending another message."
+msgstr ""
+
+#: inc/ajax.php:33
+msgid "Required fields missing."
+msgstr ""
+
+#: inc/ajax.php:56
+msgid "Failed to send."
+msgstr ""
+
+#: inc/blog.php:46
+#, php-format
+msgid "%d minute read"
+msgid_plural "%d minutes read"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/blog.php:49
+#, php-format
+msgid "%d min read"
+msgid_plural "%d min read"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/blog.php:126
+msgid "Related Posts"
+msgstr ""
+
+#: inc/blog.php:168
+msgid "Share on X (Twitter)"
+msgstr ""
+
+#: inc/blog.php:173
+msgid "Share on LinkedIn"
+msgstr ""
+
+#: inc/blog.php:178
+msgid "Share on Facebook"
+msgstr ""
+
+#: inc/blog.php:183
+msgid "Share via Email"
+msgstr ""
+
+#: inc/blog.php:189
+msgid "Share this post"
+msgstr ""
+
+#: inc/blog.php:190
+msgid "Share"
+msgstr ""
+
+#: inc/cpt.php:24
+msgid "Service"
+msgstr ""
+
+#: inc/cpt.php:25
+msgid "Add Service"
+msgstr ""
+
+#: inc/cpt.php:26
+msgid "Add New Service"
+msgstr ""
+
+#: inc/cpt.php:27
+msgid "Edit Service"
+msgstr ""
+
+#: inc/cpt.php:28
+msgid "All Services"
+msgstr ""
+
+#: inc/cpt.php:29
+msgid "Search Services"
+msgstr ""
+
+#: inc/cpt.php:30
+msgid "No services found."
+msgstr ""
+
+#: inc/cpt.php:31
+msgid "No services found in Trash."
+msgstr ""
+
+#: inc/cpt.php:48 inc/portfolio.php:131
+msgid "Client"
+msgstr ""
+
+#: inc/cpt.php:49
+msgid "Add Client"
+msgstr ""
+
+#: inc/cpt.php:50
+msgid "Add New Client"
+msgstr ""
+
+#: inc/cpt.php:51
+msgid "Edit Client"
+msgstr ""
+
+#: inc/cpt.php:52
+msgid "All Clients"
+msgstr ""
+
+#: inc/cpt.php:53
+msgid "Search Clients"
+msgstr ""
+
+#: inc/cpt.php:54
+msgid "No clients found."
+msgstr ""
+
+#: inc/cpt.php:55
+msgid "No clients found in Trash."
+msgstr ""
+
+#: inc/cpt.php:71 inc/customizer.php:211
+#: template-parts/section-testimonials.php:22
+msgid "Testimonials"
+msgstr ""
+
+#: inc/cpt.php:72
+msgid "Testimonial"
+msgstr ""
+
+#: inc/cpt.php:73
+msgid "Add Testimonial"
+msgstr ""
+
+#: inc/cpt.php:74
+msgid "Add New Testimonial"
+msgstr ""
+
+#: inc/cpt.php:75
+msgid "Edit Testimonial"
+msgstr ""
+
+#: inc/cpt.php:76
+msgid "All Testimonials"
+msgstr ""
+
+#: inc/cpt.php:77
+msgid "Search Testimonials"
+msgstr ""
+
+#: inc/cpt.php:78
+msgid "No testimonials found."
+msgstr ""
+
+#: inc/cpt.php:79
+msgid "No testimonials found in Trash."
+msgstr ""
+
+#: inc/cpt.php:95
+msgid "FAQs"
+msgstr ""
+
+#: inc/cpt.php:96 template-parts/section-faq.php:73
+msgid "FAQ"
+msgstr ""
+
+#: inc/cpt.php:97
+msgid "Add FAQ"
+msgstr ""
+
+#: inc/cpt.php:98
+msgid "Add New FAQ"
+msgstr ""
+
+#: inc/cpt.php:99
+msgid "Edit FAQ"
+msgstr ""
+
+#: inc/cpt.php:100
+msgid "All FAQs"
+msgstr ""
+
+#: inc/cpt.php:101
+msgid "Search FAQs"
+msgstr ""
+
+#: inc/cpt.php:102
+msgid "No FAQs found."
+msgstr ""
+
+#: inc/cpt.php:103
+msgid "No FAQs found in Trash."
+msgstr ""
+
+#: inc/cpt.php:123
+msgid "Service Details"
+msgstr ""
+
+#: inc/cpt.php:126
+msgid "Client Details"
+msgstr ""
+
+#: inc/cpt.php:129
+msgid "Testimonial Details"
+msgstr ""
+
+#: inc/cpt.php:141
+msgid "Icon (emoji or text)"
+msgstr ""
+
+#: inc/cpt.php:143
+msgid "Use an emoji or short text as the service icon."
+msgstr ""
+
+#: inc/cpt.php:158
+msgid "Website URL"
+msgstr ""
+
+#: inc/cpt.php:162
+msgid "Icon (emoji)"
+msgstr ""
+
+#: inc/cpt.php:178
+msgid "Role / Company"
+msgstr ""
+
+#: inc/cpt.php:182
+msgid ""
+"The post title = person's name. The post content (editor above) = their "
+"quote."
+msgstr ""
+
+#: inc/cpt.php:224 inc/cpt.php:247
+msgid "Icon"
+msgstr ""
+
+#: inc/cpt.php:227 inc/cpt.php:251 inc/cpt.php:278
+msgid "Order"
+msgstr ""
+
+#: inc/cpt.php:248
+msgid "URL"
+msgstr ""
+
+#: inc/cpt.php:275
+msgid "Role"
+msgstr ""
+
+#: inc/customizer.php:19
+msgid "Ifende Portfolio Options"
+msgstr ""
+
+#: inc/customizer.php:25 inc/patterns.php:87
+msgid "Hero Section"
+msgstr ""
+
+#: inc/customizer.php:59 inc/patterns.php:324
+msgid "About Section"
+msgstr ""
+
+#: inc/customizer.php:87
+msgid "Marquee / Scrolling Text"
+msgstr ""
+
+#: inc/customizer.php:89
+msgid "Comma-separated list of items displayed in the scrolling marquee bar."
+msgstr ""
+
+#: inc/customizer.php:97
+msgid "Marquee Items (comma separated)"
+msgstr ""
+
+#: inc/customizer.php:104
+msgid "Services Section"
+msgstr ""
+
+#: inc/customizer.php:106
+msgid ""
+"Configure up to 4 services. Each service has an icon, title, and description."
+msgstr ""
+
+#: inc/customizer.php:124
+#, php-format
+msgid "Service %d Icon (emoji)"
+msgstr ""
+
+#: inc/customizer.php:134
+#, php-format
+msgid "Service %d Title"
+msgstr ""
+
+#: inc/customizer.php:144
+#, php-format
+msgid "Service %d Description"
+msgstr ""
+
+#: inc/customizer.php:153
+msgid "Clients / Partners"
+msgstr ""
+
+#: inc/customizer.php:155
+msgid "Enter clients as a structured list. Format per line: Name|URL|Emoji"
+msgstr ""
+
+#: inc/customizer.php:165
+msgid "Clients List (Name|URL|Emoji per line)"
+msgstr ""
+
+#: inc/customizer.php:176
+msgid "Clients Section Description"
+msgstr ""
+
+#: inc/customizer.php:184
+msgid "Contact & Forms"
+msgstr ""
+
+#: inc/customizer.php:213
+msgid "Add testimonials. Format per line: Name|Role|Quote"
+msgstr ""
+
+#: inc/customizer.php:223
+msgid "Testimonials (Name|Role|Quote per line)"
+msgstr ""
+
+#: inc/customizer.php:232
+msgid "FAQ Section"
+msgstr ""
+
+#: inc/customizer.php:234
+msgid ""
+"Add FAQ items. Format per line: Question|Answer. Outputs Schema.org FAQPage "
+"structured data for SEO."
+msgstr ""
+
+#: inc/customizer.php:244
+msgid "FAQ Items (Question|Answer per line)"
+msgstr ""
+
+#: inc/customizer.php:253
+msgid "Newsletter Signup"
+msgstr ""
+
+#: inc/customizer.php:255
+msgid "Configure the newsletter signup section on the homepage."
+msgstr ""
+
+#: inc/customizer.php:263
+msgid "Heading"
+msgstr ""
+
+#: inc/customizer.php:273
+msgid "Description"
+msgstr ""
+
+#: inc/customizer.php:283
+msgid "Form Action URL (Mailchimp, ConvertKit, etc.)"
+msgstr ""
+
+#: inc/customizer.php:284
+msgid ""
+"Paste the form action URL from your email provider. Leave empty to hide the "
+"section."
+msgstr ""
+
+#: inc/customizer.php:294
+msgid "Email Field Name"
+msgstr ""
+
+#: inc/customizer.php:295
+msgid ""
+"The name attribute for the email input (e.g., EMAIL for Mailchimp, "
+"email_address for ConvertKit)."
+msgstr ""
+
+#: inc/customizer.php:303
+msgid "Analytics & Tracking"
+msgstr ""
+
+#: inc/customizer.php:312
+msgid "Google Analytics Measurement ID"
+msgstr ""
+
+#: inc/customizer.php:313
+msgid ""
+"Enter your GA4 Measurement ID (e.g., G-XXXXXXXXXX). Leave empty to disable."
+msgstr ""
+
+#: inc/customizer.php:323
+msgid "Custom Head Scripts"
+msgstr ""
+
+#: inc/customizer.php:324
+msgid ""
+"Additional scripts to add before </head> (e.g., Meta Pixel, Hotjar). Include "
+"<script> tags."
+msgstr ""
+
+#: inc/customizer.php:332
+msgid "Cookie / GDPR Notice"
+msgstr ""
+
+#: inc/customizer.php:341
+msgid "Show cookie consent banner"
+msgstr ""
+
+#: inc/customizer.php:351
+msgid "Cookie Notice Message"
+msgstr ""
+
+#: inc/customizer.php:361
+msgid "Privacy Policy URL (optional)"
+msgstr ""
+
+#: inc/gdpr.php:29
+msgid "Privacy Policy"
+msgstr ""
+
+#: inc/gdpr.php:33
+msgid "Accept"
+msgstr ""
+
+#: inc/gdpr.php:34
+msgid "Dismiss"
+msgstr ""
+
+#: inc/livechat.php:20
+msgid "Live Chat"
+msgstr ""
+
+#: inc/livechat.php:22
+msgid ""
+"Add a live chat widget to your site. Choose a provider and enter your widget "
+"ID."
+msgstr ""
+
+#: inc/livechat.php:31
+msgid "Chat Provider"
+msgstr ""
+
+#: inc/livechat.php:35
+msgid "Disabled"
+msgstr ""
+
+#: inc/livechat.php:36
+msgid "Tawk.to"
+msgstr ""
+
+#: inc/livechat.php:37
+msgid "Crisp"
+msgstr ""
+
+#: inc/livechat.php:38
+msgid "WhatsApp"
+msgstr ""
+
+#: inc/livechat.php:39
+msgid "Custom Code"
+msgstr ""
+
+#: inc/livechat.php:49
+msgid "Tawk.to Property ID"
+msgstr ""
+
+#: inc/livechat.php:50
+msgid ""
+"Found in Tawk.to Dashboard > Administration > Chat Widget. Format: "
+"xxxxxxxxxxxxxxxxx/xxxxxxxx"
+msgstr ""
+
+#: inc/livechat.php:62
+msgid "Crisp Website ID"
+msgstr ""
+
+#: inc/livechat.php:63
+msgid ""
+"Found in Crisp Dashboard > Settings > Website Settings. Format: xxxxxxxx-"
+"xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+msgstr ""
+
+#: inc/livechat.php:74
+msgid "WhatsApp Phone Number"
+msgstr ""
+
+#: inc/livechat.php:75
+msgid ""
+"Enter your full phone number with country code, no spaces or dashes (e.g., "
+"2348012345678)."
+msgstr ""
+
+#: inc/livechat.php:86
+msgid "WhatsApp Pre-filled Message"
+msgstr ""
+
+#: inc/livechat.php:87
+msgid ""
+"The default message that appears when a visitor clicks the WhatsApp button."
+msgstr ""
+
+#: inc/livechat.php:98
+msgid "Custom Chat Widget Code"
+msgstr ""
+
+#: inc/livechat.php:99
+msgid ""
+"Paste the full embed code from your chat provider (including <script> tags)."
+msgstr ""
+
+#: inc/livechat.php:111
+msgid "Hide chat widget for logged-in admins"
+msgstr ""
+
+#: inc/livechat.php:259
+msgid "Chat on WhatsApp"
+msgstr ""
+
+#: inc/maintenance.php:21
+msgid "Maintenance Mode"
+msgstr ""
+
+#: inc/maintenance.php:23
+msgid ""
+"Show a coming soon / maintenance page to visitors while you work on the site."
+msgstr ""
+
+#: inc/maintenance.php:31
+msgid "Enable Maintenance Mode"
+msgstr ""
+
+#: inc/maintenance.php:41
+msgid "Headline"
+msgstr ""
+
+#: inc/maintenance.php:51
+msgid "Message"
+msgstr ""
+
+#: inc/maintenance.php:108
+msgid "Admin Login"
+msgstr ""
+
+#: inc/maintenance.php:122
+msgid "Maintenance Mode is ON."
+msgstr ""
+
+#: inc/maintenance.php:122
+msgid ""
+"Visitors see the coming soon page. Disable in Customize > Maintenance Mode."
+msgstr ""
+
+#: inc/patterns.php:19
+msgid "Ifende"
+msgstr ""
+
+#: inc/patterns.php:88
+msgid "A full-width hero with headline, tagline, CTA buttons, and image."
+msgstr ""
+
+#: inc/patterns.php:154
+msgid "Services Grid"
+msgstr ""
+
+#: inc/patterns.php:155
+msgid "Three-column services grid with accent borders."
+msgstr ""
+
+#: inc/patterns.php:216
+msgid "Testimonial Cards"
+msgstr ""
+
+#: inc/patterns.php:217
+msgid "Two-column testimonial cards with quotes and attribution."
+msgstr ""
+
+#: inc/patterns.php:268
+msgid "Call to Action"
+msgstr ""
+
+#: inc/patterns.php:269
+msgid "Full-width CTA section with heading, description, and buttons."
+msgstr ""
+
+#: inc/patterns.php:325
+msgid "Two-column about section with bio text and skills list."
+msgstr ""
+
+#: inc/patterns.php:430
+msgid "Pricing Table"
+msgstr ""
+
+#: inc/patterns.php:431
+msgid "Three-tier pricing table with features and CTA buttons."
+msgstr ""
+
+#: inc/portfolio.php:20
+msgctxt "post type general name"
+msgid "Projects"
+msgstr ""
+
+#: inc/portfolio.php:21
+msgctxt "post type singular name"
+msgid "Project"
+msgstr ""
+
+#: inc/portfolio.php:22
+msgctxt "project"
+msgid "Add Project"
+msgstr ""
+
+#: inc/portfolio.php:23
+msgid "Add New Project"
+msgstr ""
+
+#: inc/portfolio.php:24
+msgid "Edit Project"
+msgstr ""
+
+#: inc/portfolio.php:25
+msgid "All Projects"
+msgstr ""
+
+#: inc/portfolio.php:26
+msgid "Search Projects"
+msgstr ""
+
+#: inc/portfolio.php:27
+msgid "No projects found."
+msgstr ""
+
+#: inc/portfolio.php:28
+msgid "No projects found in Trash."
+msgstr ""
+
+#: inc/portfolio.php:44
+msgid "Project Categories"
+msgstr ""
+
+#: inc/portfolio.php:46
+msgid "Add New Category"
+msgstr ""
+
+#: inc/portfolio.php:47
+msgid "Edit Category"
+msgstr ""
+
+#: inc/portfolio.php:48
+msgid "All Categories"
+msgstr ""
+
+#: inc/portfolio.php:49
+msgid "Search Categories"
+msgstr ""
+
+#: inc/portfolio.php:63
+msgid "Project Details"
+msgstr ""
+
+#: inc/portfolio.php:79
+msgid "Client Name"
+msgstr ""
+
+#: inc/portfolio.php:83
+msgid "Live URL"
+msgstr ""
+
+#: inc/portfolio.php:87 inc/portfolio.php:132
+msgid "Year"
+msgstr ""
+
+#: inc/portfolio.php:91
+msgid "Tech Stack (comma-separated)"
+msgstr ""
+
+#: inc/setup.php:73
+msgid "Primary Navigation"
+msgstr ""
+
+#: inc/setup.php:83 sidebar.php:13
+msgid "Sidebar"
+msgstr ""
+
+#: inc/setup.php:85
+msgid "Add widgets here."
+msgstr ""
+
+#: inc/woocommerce.php:105
+msgid "Add to Cart"
+msgstr ""
+
+#: inc/woocommerce.php:150
+msgid "Shop Sidebar"
+msgstr ""
+
+#: inc/woocommerce.php:152
+msgid "Widgets displayed on WooCommerce shop pages."
+msgstr ""
+
+#: page.php:25 single.php:53
+msgid "Pages:"
+msgstr ""
+
+#: search.php:12
+msgid "Search Results"
+msgstr ""
+
+#: search.php:17
+#, php-format
+msgid "Results for: %s"
+msgstr ""
+
+#: search.php:42
+msgid "Search results pagination"
+msgstr ""
+
+#: search.php:52
+msgid "No results found. Try a different search term."
+msgstr ""
+
+#: single.php:26
+#, php-format
 msgid "By %s"
 msgstr ""
 
-#: single.php
+#: single.php:59
 msgid "Tags"
 msgstr ""
 
-#: single.php
+#: single.php:68
 msgid "Post navigation"
+msgstr ""
+
+#: template-parts/section-about.php:17
+msgid "About Me"
+msgstr ""
+
+#: template-parts/section-about.php:20
+msgid "The Man<br>Behind the <em>Work</em>"
+msgstr ""
+
+#: template-parts/section-about.php:23
+msgid "Residence"
+msgstr ""
+
+#: template-parts/section-about.php:24
+msgid "Freelance"
+msgstr ""
+
+#: template-parts/section-about.php:25
+msgid "Specialties"
+msgstr ""
+
+#: template-parts/section-about.php:25
+msgid "Project Management · Web Dev · Consulting · Branding · Game Dev"
+msgstr ""
+
+#: template-parts/section-about.php:26
+msgid "Twitter/X"
+msgstr ""
+
+#: template-parts/section-about.php:30
+msgid "Core Skills"
+msgstr ""
+
+#: template-parts/section-about.php:51
+msgid "Current Status"
+msgstr ""
+
+#: template-parts/section-about.php:52
+msgid "Open to new projects, collaborations, and consulting engagements."
+msgstr ""
+
+#: template-parts/section-about.php:53
+msgid "Start a Conversation"
+msgstr ""
+
+#: template-parts/section-blog.php:19
+msgid "Latest Posts"
+msgstr ""
+
+#: template-parts/section-blog.php:21
+msgid "From the<br><em>Blog</em>"
+msgstr ""
+
+#: template-parts/section-blog.php:22
+msgid ""
+"Thoughts, insights, and updates on web development, project management, and "
+"the digital landscape."
+msgstr ""
+
+#: template-parts/section-blog.php:43
+msgid "View All Posts"
+msgstr ""
+
+#: template-parts/section-clients.php:16
+msgid "Trusted By"
+msgstr ""
+
+#: template-parts/section-clients.php:17
+msgid "Clients &amp;<br><em>Partners</em>"
+msgstr ""
+
+#: template-parts/section-contact.php:16
+msgid "Let's Build<br>Something <em>Great</em>"
+msgstr ""
+
+#: template-parts/section-contact.php:17
+msgid ""
+"Have a project in mind? Looking for a consultant, developer, or creative "
+"partner? I'd love to hear from you."
+msgstr ""
+
+#: template-parts/section-contact.php:19
+msgid "Location"
+msgstr ""
+
+#: template-parts/section-contact.php:20
+msgid "Availability"
+msgstr ""
+
+#: template-parts/section-contact.php:20
+msgid "Open for Freelance & Consulting"
+msgstr ""
+
+#: template-parts/section-contact.php:21 template-parts/section-contact.php:28
+msgid "Website"
+msgstr ""
+
+#: template-parts/section-contact.php:24
+msgid "Follow Me"
+msgstr ""
+
+#: template-parts/section-contact.php:26
+msgid "Twitter / X"
+msgstr ""
+
+#: template-parts/section-contact.php:27
+msgid "Instagram"
+msgstr ""
+
+#: template-parts/section-contact.php:33
+msgid "Contact form"
+msgstr ""
+
+#: template-parts/section-contact.php:35
+msgid "First Name"
+msgstr ""
+
+#: template-parts/section-contact.php:35
+msgid "Amaka"
+msgstr ""
+
+#: template-parts/section-contact.php:36
+msgid "Last Name"
+msgstr ""
+
+#: template-parts/section-contact.php:36
+msgid "Okafor"
+msgstr ""
+
+#: template-parts/section-contact.php:38
+msgid "Email Address"
+msgstr ""
+
+#: template-parts/section-contact.php:38
+msgid "you@example.com"
+msgstr ""
+
+#: template-parts/section-contact.php:39
+msgid "Subject"
+msgstr ""
+
+#: template-parts/section-contact.php:39
+msgid "Web development project..."
+msgstr ""
+
+#: template-parts/section-contact.php:40
+msgid "Your Message"
+msgstr ""
+
+#: template-parts/section-contact.php:40
+msgid "Tell me about your project..."
+msgstr ""
+
+#: template-parts/section-contact.php:41
+msgid "Send Message"
+msgstr ""
+
+#: template-parts/section-faq.php:74
+msgid "Frequently Asked<br><em>Questions</em>"
+msgstr ""
+
+#: template-parts/section-faq.php:75
+msgid "Quick answers to common questions about working with me."
+msgstr ""
+
+#: template-parts/section-hero.php:45
+msgid "Let's Work Together"
+msgstr ""
+
+#: template-parts/section-hero.php:46
+msgid "View Services"
+msgstr ""
+
+#: template-parts/section-newsletter.php:22
+msgid "Newsletter"
+msgstr ""
+
+#: template-parts/section-newsletter.php:28
+msgid "Email address"
+msgstr ""
+
+#: template-parts/section-newsletter.php:33
+msgid "Enter your email"
+msgstr ""
+
+#: template-parts/section-newsletter.php:37
+msgid "Subscribe"
+msgstr ""
+
+#: template-parts/section-newsletter.php:39
+msgid "No spam. Unsubscribe anytime."
+msgstr ""
+
+#: template-parts/section-portfolio.php:29
+msgid "Portfolio"
+msgstr ""
+
+#: template-parts/section-portfolio.php:31
+msgid "Selected<br><em>Work</em>"
+msgstr ""
+
+#: template-parts/section-portfolio.php:32
+msgid ""
+"A selection of projects that showcase my approach to solving problems "
+"through design and code."
+msgstr ""
+
+#: template-parts/section-portfolio.php:36
+msgid "Filter projects"
+msgstr ""
+
+#: template-parts/section-portfolio.php:37
+msgid "All"
+msgstr ""
+
+#: template-parts/section-portfolio.php:59
+msgid "View live site"
+msgstr ""
+
+#: template-parts/section-portfolio.php:87
+msgid "View All Projects"
+msgstr ""
+
+#: template-parts/section-services.php:14
+msgid "What I Do"
+msgstr ""
+
+#: template-parts/section-services.php:16
+msgid "Services I<br><em>Offer</em>"
+msgstr ""
+
+#: template-parts/section-services.php:17
+msgid ""
+"From web presence to business transformation — I bring a holistic approach "
+"to every engagement."
+msgstr ""
+
+#: template-parts/section-testimonials.php:24
+msgid "What People<br><em>Say</em>"
+msgstr ""
+
+#: template-parts/section-testimonials.php:25
+msgid ""
+"Hear from clients and partners who have experienced working with me "
+"firsthand."
 msgstr ""
