@@ -21,6 +21,14 @@ if ( function_exists( 'elementor_theme_do_location' ) && elementor_theme_do_loca
   </nav>
 </footer>
 <?php } ?>
+
+<!-- Back to Top Button -->
+<button class="back-to-top" id="backToTop" aria-label="<?php esc_attr_e( 'Back to top', 'ifende' ); ?>" title="<?php esc_attr_e( 'Back to top', 'ifende' ); ?>">
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+    <path d="M8 14V2M8 2L2 8M8 2L14 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</button>
+
 <?php wp_footer(); ?>
 </body>
 </html>

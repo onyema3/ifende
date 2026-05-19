@@ -296,3 +296,69 @@ body{font-family:'Syne',sans-serif;background:var(--black);color:var(--white);ov
 .entry-content .wp-block-separator{border-color:var(--border);opacity:1;}
 .entry-content .wp-block-button .wp-block-button__link{background:var(--green);color:var(--black);padding:14px 30px;border-radius:2px;font-size:0.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;text-decoration:none;transition:all .3s;}
 .entry-content .wp-block-button .wp-block-button__link:hover{background:var(--green2);color:var(--white);}
+
+
+
+/* Back to Top Button */
+.back-to-top{position:fixed;bottom:32px;right:32px;z-index:100;width:44px;height:44px;border-radius:50%;background:var(--green);color:var(--black);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transform:translateY(12px);transition:opacity .3s,visibility .3s,transform .3s,background .2s;box-shadow:0 4px 16px rgba(33,161,78,0.3);}
+.back-to-top.visible{opacity:1;visibility:visible;transform:translateY(0);}
+.back-to-top:hover{background:var(--green2);transform:translateY(-2px);box-shadow:0 6px 20px rgba(33,161,78,0.4);}
+.back-to-top:focus-visible{outline:2px solid var(--gold);outline-offset:3px;}
+@media(max-width:600px){.back-to-top{bottom:20px;right:20px;width:40px;height:40px;}}
+
+
+
+/* ==========================================================================
+   DARK / LIGHT MODE
+   ========================================================================== */
+
+/* Light theme overrides */
+[data-theme="light"]{
+  --black:#FAFAFA;
+  --white:#1A1A1A;
+  --green:#1A8F42;
+  --green2:#147A36;
+  --gold:#9A7B30;
+  --grey:#5A5A5A;
+  --border:rgba(26,26,26,0.1);
+}
+[data-theme="light"] body{background:var(--black);color:var(--white);}
+[data-theme="light"] .site-nav.scrolled{background:rgba(250,250,250,0.95);}
+[data-theme="light"] .mobile-drawer{background:var(--black);}
+[data-theme="light"] .hero-bg{background:radial-gradient(ellipse 50% 60% at 70% 40%,rgba(26,143,66,0.06) 0%,transparent 70%),radial-gradient(ellipse 30% 40% at 10% 80%,rgba(154,123,48,0.04) 0%,transparent 60%);}
+[data-theme="light"] .hero-grid-bg{background-image:linear-gradient(rgba(26,26,26,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(26,26,26,0.04) 1px,transparent 1px);}
+[data-theme="light"] .hero-photo{background:linear-gradient(145deg,#e8f5e9,#f1f8e9);}
+[data-theme="light"] .hero-photo-placeholder{background:linear-gradient(145deg,rgba(26,143,66,0.08),rgba(250,250,250,0.9));}
+[data-theme="light"] .hero-status{background:var(--black);border-color:var(--border);}
+[data-theme="light"] .marquee-section{background:rgba(26,143,66,0.03);}
+[data-theme="light"] .if-section.dark{background:rgba(26,26,26,0.02);}
+[data-theme="light"] .service-card{background:var(--black);}
+[data-theme="light"] .service-card:hover{background:rgba(26,143,66,0.04);}
+[data-theme="light"] .service-num{color:rgba(26,26,26,0.05);}
+[data-theme="light"] .client-card{background:var(--black);}
+[data-theme="light"] .client-card:hover{background:rgba(26,143,66,0.04);}
+[data-theme="light"] .form-group input,[data-theme="light"] .form-group textarea{background:rgba(26,26,26,0.03);color:var(--white);}
+[data-theme="light"] .form-group input::placeholder,[data-theme="light"] .form-group textarea::placeholder{color:rgba(26,26,26,0.35);}
+[data-theme="light"] .hero-bio{color:rgba(26,26,26,0.6);}
+[data-theme="light"] .section-sub{color:var(--grey);}
+[data-theme="light"] .nav-links a{color:rgba(26,26,26,0.55);}
+[data-theme="light"] .nav-links a:hover,[data-theme="light"] .nav-links .current-menu-item>a{color:var(--white);}
+[data-theme="light"] .hamburger span{background:var(--white);}
+[data-theme="light"] .skill-tag{color:rgba(26,26,26,0.6);border-color:var(--border);}
+[data-theme="light"] .about-val{color:rgba(26,26,26,0.7);}
+[data-theme="light"] .cursor{background:var(--green);}
+[data-theme="light"] .back-to-top{box-shadow:0 4px 16px rgba(26,143,66,0.2);}
+[data-theme="light"] .site-footer{border-top-color:var(--border);}
+
+/* Theme Toggle Button */
+.theme-toggle{background:none;border:1px solid var(--border);border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--white);transition:border-color .2s,color .2s,background .2s;padding:0;}
+.theme-toggle:hover{border-color:var(--green);color:var(--green);background:rgba(33,161,78,0.08);}
+.theme-toggle:focus-visible{outline:2px solid var(--green);outline-offset:3px;}
+
+/* Show/hide sun/moon icons based on theme */
+[data-theme="dark"] .theme-icon--sun{display:block;}
+[data-theme="dark"] .theme-icon--moon{display:none;}
+[data-theme="light"] .theme-icon--sun{display:none;}
+[data-theme="light"] .theme-icon--moon{display:block;}
+/* Default (no data-theme yet) */
+.theme-icon--moon{display:none;}
