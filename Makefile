@@ -11,7 +11,7 @@
 # POT: uses xgettext with the WordPress keyword set. Requires `xgettext`
 #      from GNU gettext (apt: `gettext`, brew: `gettext`).
 
-.PHONY: minify css js pot
+.PHONY: minify css js pot fonts
 
 minify: css js
 	@echo "✓ Minified assets generated"
@@ -47,3 +47,10 @@ pot:
 		--output=languages/ifende.pot
 	@rm -f .pot-files.tmp
 	@echo "  → languages/ifende.pot"
+
+
+fonts:
+	@command -v python3 >/dev/null || { echo "ERROR: python3 not found."; exit 1; }
+	@python3 tools/fetch-fonts.py
+	@echo "  → assets/fonts/*.woff2"
+	@echo "  → assets/css/fonts.css"

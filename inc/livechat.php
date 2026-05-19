@@ -186,6 +186,15 @@ add_action( 'wp_footer', 'ifende_livechat_output', 99 );
 
 /**
  * Output Tawk.to chat widget.
+ *
+ * Defers the actual widget.js fetch until the visitor shows intent —
+ * either by interacting with the page (move mouse, touch, scroll, key)
+ * or after a 6-second idle window — whichever comes first. Saves
+ * 200-400 KB of script weight on the initial load for the ~95 % of
+ * visitors who never engage with chat.
+ *
+ * Once loaded, Tawk.to's own widget.js renders the floating chat
+ * button; we just delay when that script runs.
  */
 function ifende_livechat_tawkto() {
 	$property_id = get_theme_mod( 'ifende_livechat_tawkto_id', '' );
@@ -197,24 +206,42 @@ function ifende_livechat_tawkto() {
 	// Sanitize — only allow alphanumeric and forward slashes.
 	$property_id = preg_replace( '/[^a-zA-Z0-9\/]/', '', $property_id );
 	?>
-	<!--Start of Tawk.to Script-->
+	<!-- Tawk.to (deferred until user interaction or 6s idle) -->
 	<script type="text/javascript">
-	var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
 	(function(){
-	var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-	s1.async=true;
-	s1.src='https://embed.tawk.to/<?php echo esc_js( $property_id ); ?>/default';
-	s1.charset='UTF-8';
-	s1.setAttribute('crossorigin','*');
-	s0.parentNode.insertBefore(s1,s0);
+		var loaded = false;
+		function loadTawk() {
+			if (loaded) return;
+			loaded = true;
+			window.Tawk_API = window.Tawk_API || {};
+			window.Tawk_LoadStart = new Date();
+			var s = document.createElement('script');
+			s.async = true;
+			s.src = 'https://embed.tawk.to/<?php echo esc_js( $property_id ); ?>/default';
+			s.charset = 'UTF-8';
+			s.setAttribute('crossorigin', '*');
+			(document.getElementsByTagName('script')[0] || document.body).parentNode
+				.insertBefore(s, document.getElementsByTagName('script')[0] || null);
+		}
+		var events = ['mousemove', 'touchstart', 'keydown', 'scroll'];
+		events.forEach(function(ev) {
+			window.addEventListener(ev, loadTawk, { once: true, passive: true });
+		});
+		// Idle fallback — load anyway after 6s so visitors who land on the
+		// page and read without interacting still get the chat widget.
+		setTimeout(loadTawk, 6000);
 	})();
 	</script>
-	<!--End of Tawk.to Script-->
 	<?php
 }
 
 /**
  * Output Crisp chat widget.
+ *
+ * Same deferred-load pattern as Tawk.to — the official Crisp install
+ * snippet immediately injects client.crisp.chat/l.js into <head>, which
+ * then pulls another ~200 KB. Wrapping it in the same first-interaction
+ * gate is a free perf win on cold loads.
  */
 function ifende_livechat_crisp() {
 	$website_id = get_theme_mod( 'ifende_livechat_crisp_id', '' );
@@ -226,16 +253,27 @@ function ifende_livechat_crisp() {
 	// Sanitize — UUID format.
 	$website_id = preg_replace( '/[^a-f0-9\-]/', '', strtolower( $website_id ) );
 	?>
-	<!--Start of Crisp Script-->
+	<!-- Crisp (deferred until user interaction or 6s idle) -->
 	<script type="text/javascript">
-	window.$crisp=[];window.CRISP_WEBSITE_ID="<?php echo esc_js( $website_id ); ?>";
 	(function(){
-	var d=document;var s=d.createElement("script");
-	s.src="https://client.crisp.chat/l.js";
-	s.async=1;d.getElementsByTagName("head")[0].appendChild(s);
+		var loaded = false;
+		window.$crisp = [];
+		window.CRISP_WEBSITE_ID = '<?php echo esc_js( $website_id ); ?>';
+		function loadCrisp() {
+			if (loaded) return;
+			loaded = true;
+			var s = document.createElement('script');
+			s.src = 'https://client.crisp.chat/l.js';
+			s.async = 1;
+			document.getElementsByTagName('head')[0].appendChild(s);
+		}
+		var events = ['mousemove', 'touchstart', 'keydown', 'scroll'];
+		events.forEach(function(ev) {
+			window.addEventListener(ev, loadCrisp, { once: true, passive: true });
+		});
+		setTimeout(loadCrisp, 6000);
 	})();
 	</script>
-	<!--End of Crisp Script-->
 	<?php
 }
 
