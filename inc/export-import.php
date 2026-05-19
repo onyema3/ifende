@@ -49,7 +49,9 @@ function ifende_export_import_handler() {
 		header( 'Content-Type: application/json' );
 		header( 'Content-Disposition: attachment; filename="ifende-settings-' . gmdate( 'Y-m-d' ) . '.json"' );
 		header( 'Content-Length: ' . strlen( $json ) );
-		echo $json;
+		// Direct JSON file download — no HTML escaping is appropriate here, the
+		// browser receives the raw JSON as a file via Content-Disposition.
+		echo $json; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		exit;
 	}
 
@@ -60,10 +62,16 @@ function ifende_export_import_handler() {
 			return;
 		}
 
-		$file = $_FILES['ifende_import_file']['tmp_name'];
+		// $_FILES['..']['tmp_name'] is a server-generated path inside the
+		// upload tmpdir; sanitize_text_field is sufficient to satisfy the
+		// "non-sanitized input" sniff.
+		$file          = sanitize_text_field( wp_unslash( $_FILES['ifende_import_file']['tmp_name'] ) );
+		$original_name = isset( $_FILES['ifende_import_file']['name'] )
+			? sanitize_file_name( wp_unslash( $_FILES['ifende_import_file']['name'] ) )
+			: '';
 
 		// Validate file type.
-		$file_info = wp_check_filetype( $_FILES['ifende_import_file']['name'] );
+		$file_info = wp_check_filetype( $original_name );
 		if ( 'json' !== $file_info['ext'] ) {
 			add_settings_error( 'ifende_import', 'invalid_file', esc_html__( 'Invalid file type. Please upload a .json file.', 'ifende' ), 'error' );
 			return;

@@ -107,23 +107,23 @@ function ifende_project_meta_cb( $post ) {
  * Save project meta.
  */
 function ifende_save_project_meta( $post_id ) {
-	if ( ! isset( $_POST['ifende_project_nonce'] ) || ! wp_verify_nonce( $_POST['ifende_project_nonce'], 'ifende_project_meta' ) ) {
+	if ( ! isset( $_POST['ifende_project_nonce'] ) || ! wp_verify_nonce( sanitize_key( wp_unslash( $_POST['ifende_project_nonce'] ) ), 'ifende_project_meta' ) ) {
 		return;
 	}
 	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
 		return;
 	}
 	if ( isset( $_POST['ifende_project_client'] ) ) {
-		update_post_meta( $post_id, '_ifende_project_client', sanitize_text_field( $_POST['ifende_project_client'] ) );
+		update_post_meta( $post_id, '_ifende_project_client', sanitize_text_field( wp_unslash( $_POST['ifende_project_client'] ) ) );
 	}
 	if ( isset( $_POST['ifende_project_url'] ) ) {
-		update_post_meta( $post_id, '_ifende_project_url', esc_url_raw( $_POST['ifende_project_url'] ) );
+		update_post_meta( $post_id, '_ifende_project_url', esc_url_raw( wp_unslash( $_POST['ifende_project_url'] ) ) );
 	}
 	if ( isset( $_POST['ifende_project_year'] ) ) {
-		update_post_meta( $post_id, '_ifende_project_year', sanitize_text_field( $_POST['ifende_project_year'] ) );
+		update_post_meta( $post_id, '_ifende_project_year', sanitize_text_field( wp_unslash( $_POST['ifende_project_year'] ) ) );
 	}
 	if ( isset( $_POST['ifende_project_tech'] ) ) {
-		update_post_meta( $post_id, '_ifende_project_tech', sanitize_text_field( $_POST['ifende_project_tech'] ) );
+		update_post_meta( $post_id, '_ifende_project_tech', sanitize_text_field( wp_unslash( $_POST['ifende_project_tech'] ) ) );
 	}
 }
 add_action( 'save_post_ifende_project', 'ifende_save_project_meta' );

@@ -38,13 +38,14 @@ function ifende_testimonial_request_handler() {
 	if ( ! current_user_can( 'manage_options' ) ) {
 		return;
 	}
-	if ( ! wp_verify_nonce( $_POST['_ifende_request_nonce'] ?? '', 'ifende_testimonial_request' ) ) {
+	$nonce = isset( $_POST['_ifende_request_nonce'] ) ? sanitize_key( wp_unslash( $_POST['_ifende_request_nonce'] ) ) : '';
+	if ( ! wp_verify_nonce( $nonce, 'ifende_testimonial_request' ) ) {
 		return;
 	}
 
-	$client_name  = sanitize_text_field( $_POST['client_name'] ?? '' );
-	$client_email = sanitize_email( $_POST['client_email'] ?? '' );
-	$project_name = sanitize_text_field( $_POST['project_name'] ?? '' );
+	$client_name  = isset( $_POST['client_name'] ) ? sanitize_text_field( wp_unslash( $_POST['client_name'] ) ) : '';
+	$client_email = isset( $_POST['client_email'] ) ? sanitize_email( wp_unslash( $_POST['client_email'] ) ) : '';
+	$project_name = isset( $_POST['project_name'] ) ? sanitize_text_field( wp_unslash( $_POST['project_name'] ) ) : '';
 
 	if ( empty( $client_name ) || empty( $client_email ) ) {
 		add_settings_error( 'ifende_testimonial_request', 'missing', esc_html__( 'Client name and email are required.', 'ifende' ), 'error' );
@@ -67,19 +68,28 @@ function ifende_testimonial_request_handler() {
 
 	// Send the email.
 	$site_name = get_bloginfo( 'name' );
-	$subject   = sprintf( __( '%s — We\'d love your feedback!', 'ifende' ), $site_name );
-	$body      = sprintf(
-		__( "Hi %s,\n\nThank you for working with us" . ( $project_name ? " on %s" : "%s" ) . "! We'd love to hear about your experience.\n\nPlease take a moment to share a brief testimonial:\n\n%s\n\nIt only takes a minute and helps us grow.\n\nThank you!\n— %s", 'ifende' ),
-		$client_name,
-		$project_name,
-		$submit_url,
-		$site_name
-	);
+	/* translators: %s: site name */
+	$subject = sprintf( __( '%s — We\'d love your feedback!', 'ifende' ), $site_name );
+
+	// Two literal templates so the WordPress.WP.I18n sniff (which requires
+	// __()'s text argument to be a single literal, not a concatenation /
+	// ternary) is satisfied. The branching is on whether a project name is
+	// available; both templates carry the same %1$s..%4$s positional set.
+	if ( '' !== $project_name ) {
+		/* translators: 1: client name, 2: project name, 3: submission URL, 4: site name */
+		$template = __( "Hi %1\$s,\n\nThank you for working with us on %2\$s! We'd love to hear about your experience.\n\nPlease take a moment to share a brief testimonial:\n\n%3\$s\n\nIt only takes a minute and helps us grow.\n\nThank you!\n— %4\$s", 'ifende' );
+	} else {
+		/* translators: 1: client name, 2: unused, 3: submission URL, 4: site name */
+		$template = __( "Hi %1\$s,\n\nThank you for working with us! We'd love to hear about your experience.%2\$s\n\nPlease take a moment to share a brief testimonial:\n\n%3\$s\n\nIt only takes a minute and helps us grow.\n\nThank you!\n— %4\$s", 'ifende' );
+	}
+	$body = sprintf( $template, $client_name, $project_name, $submit_url, $site_name );
+
 	$headers = [ 'Content-Type: text/plain; charset=UTF-8' ];
 
 	$sent = wp_mail( $client_email, $subject, $body, $headers );
 
 	if ( $sent ) {
+		/* translators: %s: client email address */
 		add_settings_error( 'ifende_testimonial_request', 'sent', sprintf( esc_html__( 'Request sent to %s!', 'ifende' ), $client_email ), 'success' );
 	} else {
 		add_settings_error( 'ifende_testimonial_request', 'failed', esc_html__( 'Failed to send email. Check your server mail settings.', 'ifende' ), 'error' );
@@ -130,7 +140,7 @@ function ifende_testimonial_submission_form() {
 		return;
 	}
 
-	$token = sanitize_text_field( $_GET['token'] );
+	$token = sanitize_text_field( wp_unslash( $_GET['token'] ) );
 	$data  = get_transient( 'ifende_testimonial_token_' . $token );
 
 	if ( ! $data ) {
@@ -139,9 +149,10 @@ function ifende_testimonial_submission_form() {
 	}
 
 	// Handle submission.
-	if ( isset( $_POST['ifende_submit_testimonial'] ) && wp_verify_nonce( $_POST['_testimonial_nonce'] ?? '', 'ifende_submit_testimonial' ) ) {
-		$quote = sanitize_textarea_field( $_POST['testimonial_quote'] ?? '' );
-		$role  = sanitize_text_field( $_POST['testimonial_role'] ?? '' );
+	$nonce = isset( $_POST['_testimonial_nonce'] ) ? sanitize_key( wp_unslash( $_POST['_testimonial_nonce'] ) ) : '';
+	if ( isset( $_POST['ifende_submit_testimonial'] ) && wp_verify_nonce( $nonce, 'ifende_submit_testimonial' ) ) {
+		$quote = isset( $_POST['testimonial_quote'] ) ? sanitize_textarea_field( wp_unslash( $_POST['testimonial_quote'] ) ) : '';
+		$role  = isset( $_POST['testimonial_role'] ) ? sanitize_text_field( wp_unslash( $_POST['testimonial_role'] ) ) : '';
 
 		if ( ! empty( $quote ) ) {
 			$post_id = wp_insert_post( [
@@ -178,7 +189,7 @@ function ifende_testimonial_submission_page( $data, $token ) {
 	<head>
 		<meta charset="<?php bloginfo( 'charset' ); ?>">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title><?php echo esc_html__( 'Submit Testimonial', 'ifende' ) . ' — ' . get_bloginfo( 'name' ); ?></title>
+		<title><?php echo esc_html( __( 'Submit Testimonial', 'ifende' ) . ' — ' . get_bloginfo( 'name' ) ); ?></title>
 		<style>
 			:root{--black:#0A0A0A;--white:#F5F2EC;--green:#21A14E;--grey:#8A8A8A;--border:rgba(245,242,236,0.12);}
 			*{margin:0;padding:0;box-sizing:border-box;}
@@ -225,7 +236,7 @@ function ifende_testimonial_thank_you_page( $name ) {
 	<head>
 		<meta charset="<?php bloginfo( 'charset' ); ?>">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title><?php echo esc_html__( 'Thank You!', 'ifende' ) . ' — ' . get_bloginfo( 'name' ); ?></title>
+		<title><?php echo esc_html( __( 'Thank You!', 'ifende' ) . ' — ' . get_bloginfo( 'name' ) ); ?></title>
 		<style>
 			:root{--black:#0A0A0A;--white:#F5F2EC;--green:#21A14E;}
 			*{margin:0;padding:0;box-sizing:border-box;}

@@ -17,17 +17,18 @@ function ifende_handle_contact() {
   check_ajax_referer( 'ifende_nonce', 'nonce' );
 
   // Basic rate limiting: 1 submission per IP per 60 seconds.
-  $ip_hash       = md5( $_SERVER['REMOTE_ADDR'] ?? 'unknown' );
+  $remote_addr   = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : 'unknown';
+  $ip_hash       = md5( $remote_addr );
   $transient_key = 'ifende_contact_' . $ip_hash;
 
   if ( get_transient( $transient_key ) ) {
     wp_send_json_error( [ 'message' => __( 'Please wait before sending another message.', 'ifende' ) ] );
   }
 
-  $name    = sanitize_text_field( $_POST['name'] ?? '' );
-  $email   = sanitize_email( $_POST['email'] ?? '' );
-  $subject = sanitize_text_field( $_POST['subject'] ?? 'Portfolio Enquiry' );
-  $message = sanitize_textarea_field( $_POST['message'] ?? '' );
+  $name    = isset( $_POST['name'] ) ? sanitize_text_field( wp_unslash( $_POST['name'] ) ) : '';
+  $email   = isset( $_POST['email'] ) ? sanitize_email( wp_unslash( $_POST['email'] ) ) : '';
+  $subject = isset( $_POST['subject'] ) ? sanitize_text_field( wp_unslash( $_POST['subject'] ) ) : 'Portfolio Enquiry';
+  $message = isset( $_POST['message'] ) ? sanitize_textarea_field( wp_unslash( $_POST['message'] ) ) : '';
 
   if ( ! $email || ! $message ) {
     wp_send_json_error( [ 'message' => __( 'Required fields missing.', 'ifende' ) ] );

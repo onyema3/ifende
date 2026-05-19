@@ -117,16 +117,17 @@ function ifende_project_inquiry_form() {
  * Handle project inquiry AJAX submission.
  */
 function ifende_handle_project_inquiry() {
-	if ( ! wp_verify_nonce( $_POST['nonce'] ?? '', 'ifende_project_inquiry' ) ) {
+	$nonce = isset( $_POST['nonce'] ) ? sanitize_key( wp_unslash( $_POST['nonce'] ) ) : '';
+	if ( ! wp_verify_nonce( $nonce, 'ifende_project_inquiry' ) ) {
 		wp_send_json_error( 'Invalid request.' );
 	}
 
-	$name    = sanitize_text_field( $_POST['client_name'] ?? '' );
-	$email   = sanitize_email( $_POST['client_email'] ?? '' );
-	$type    = sanitize_text_field( $_POST['project_type'] ?? '' );
-	$budget  = sanitize_text_field( $_POST['budget'] ?? '' );
-	$details = sanitize_textarea_field( $_POST['details'] ?? '' );
-	$project = sanitize_text_field( $_POST['referral_project'] ?? '' );
+	$name    = isset( $_POST['client_name'] ) ? sanitize_text_field( wp_unslash( $_POST['client_name'] ) ) : '';
+	$email   = isset( $_POST['client_email'] ) ? sanitize_email( wp_unslash( $_POST['client_email'] ) ) : '';
+	$type    = isset( $_POST['project_type'] ) ? sanitize_text_field( wp_unslash( $_POST['project_type'] ) ) : '';
+	$budget  = isset( $_POST['budget'] ) ? sanitize_text_field( wp_unslash( $_POST['budget'] ) ) : '';
+	$details = isset( $_POST['details'] ) ? sanitize_textarea_field( wp_unslash( $_POST['details'] ) ) : '';
+	$project = isset( $_POST['referral_project'] ) ? sanitize_text_field( wp_unslash( $_POST['referral_project'] ) ) : '';
 
 	if ( empty( $name ) || empty( $email ) ) {
 		wp_send_json_error( 'Name and email are required.' );
