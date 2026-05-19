@@ -400,4 +400,123 @@ filterBtns.forEach(function(btn) {
   });
 });
 
+/* PAGE TRANSITIONS — View Transitions API (progressive enhancement) */
+if (document.startViewTransition && !prefersReducedMotion) {
+  document.addEventListener('click', function(e) {
+    var link = e.target.closest('a[href]');
+    if (!link) return;
+    var url = link.href;
+    // Only for same-origin, non-hash, non-target links
+    if (link.origin !== location.origin || link.hash || link.target) return;
+    e.preventDefault();
+    document.startViewTransition(function() {
+      return fetch(url).then(function(r) { return r.text(); }).then(function(html) {
+        var doc = new DOMParser().parseFromString(html, 'text/html');
+        document.title = doc.title;
+        var newMain = doc.getElementById('main-content');
+        var oldMain = document.getElementById('main-content');
+        if (newMain && oldMain) {
+          oldMain.replaceWith(newMain);
+        }
+        history.pushState(null, '', url);
+        window.scrollTo(0, 0);
+      });
+    });
+  });
+}
+
+/* PARALLAX — subtle on hero section */
+if (!prefersReducedMotion) {
+  var heroGridBg = document.querySelector('.hero-grid-bg');
+  if (heroGridBg) {
+    window.addEventListener('scroll', function() {
+      var y = window.scrollY;
+      if (y < window.innerHeight) {
+        heroGridBg.style.transform = 'translateY(' + (y * 0.3) + 'px)';
+      }
+    }, { passive: true });
+  }
+}
+
+/* TYPED TEXT EFFECT — hero roles */
+var heroTitleLine = document.querySelector('.hero-title-line');
+if (heroTitleLine && !prefersReducedMotion) {
+  var roleSpans = heroTitleLine.querySelectorAll('span:not(.title-sep)');
+  if (roleSpans.length > 1) {
+    var typeContainer = document.createElement('span');
+    typeContainer.className = 'typed-role';
+    var roles = [];
+    roleSpans.forEach(function(s) { roles.push(s.textContent); });
+    // Hide original roles, show typed
+    heroTitleLine.innerHTML = '';
+    heroTitleLine.appendChild(typeContainer);
+    var typeIdx = 0;
+    var charIdx = 0;
+    var deleting = false;
+    var typeSpeed = 80;
+    function typeStep() {
+      var current = roles[typeIdx];
+      if (!deleting) {
+        typeContainer.textContent = current.substring(0, charIdx + 1);
+        charIdx++;
+        if (charIdx >= current.length) {
+          deleting = true;
+          setTimeout(typeStep, 2000);
+          return;
+        }
+      } else {
+        typeContainer.textContent = current.substring(0, charIdx - 1);
+        charIdx--;
+        if (charIdx <= 0) {
+          deleting = false;
+          typeIdx = (typeIdx + 1) % roles.length;
+          setTimeout(typeStep, 400);
+          return;
+        }
+      }
+      setTimeout(typeStep, deleting ? 40 : typeSpeed);
+    }
+    typeStep();
+  }
+}
+
+/* IMAGE LIGHTBOX — for post-content and project images */
+(function() {
+  var contentImages = document.querySelectorAll('.post-content img, .project-content img');
+  if (!contentImages.length) return;
+
+  // Create lightbox overlay.
+  var lb = document.createElement('div');
+  lb.className = 'ifende-lightbox';
+  lb.setAttribute('aria-hidden', 'true');
+  lb.innerHTML = '<div class="ifende-lightbox-backdrop"></div><img class="ifende-lightbox-img" alt="">';
+  document.body.appendChild(lb);
+  var lbImg = lb.querySelector('.ifende-lightbox-img');
+
+  function openLightbox(src, alt) {
+    lbImg.src = src;
+    lbImg.alt = alt || '';
+    lb.classList.add('visible');
+    lb.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox() {
+    lb.classList.remove('visible');
+    lb.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  contentImages.forEach(function(img) {
+    img.style.cursor = 'zoom-in';
+    img.addEventListener('click', function() {
+      openLightbox(img.src, img.alt);
+    });
+  });
+
+  lb.addEventListener('click', closeLightbox);
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && lb.classList.contains('visible')) closeLightbox();
+  });
+})();
+
 })();
