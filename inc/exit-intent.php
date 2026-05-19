@@ -137,19 +137,27 @@ function ifende_exit_intent_output() {
 		var shown = false;
 		var overlay = document.getElementById('exitPopupOverlay');
 		var closeBtn = document.getElementById('exitPopupClose');
+		var trap = null;
 
 		function showPopup() {
 			if (shown) return;
 			shown = true;
 			overlay.classList.add('visible');
 			overlay.setAttribute('aria-hidden', 'false');
-			closeBtn.focus();
+			// Trap focus inside the dialog so Tab cycles between Close and CTA.
+			// Falls back gracefully when main.js hasn't loaded yet.
+			if (typeof window.ifendeFocusTrap === 'function') {
+				trap = window.ifendeFocusTrap(overlay.querySelector('.exit-popup'));
+			} else {
+				closeBtn.focus();
+			}
 		}
 
 		function hidePopup() {
 			overlay.classList.remove('visible');
 			overlay.setAttribute('aria-hidden', 'true');
 			localStorage.setItem(storageKey, String(Date.now()));
+			if (trap) { trap.release(); trap = null; }
 		}
 
 		// Exit-intent: mouse leaves viewport from the top.

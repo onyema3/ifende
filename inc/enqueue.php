@@ -30,12 +30,36 @@ add_filter( 'wp_resource_hints', 'ifende_resource_hints', 10, 2 );
 /**
  * Enqueue front-end styles and scripts.
  */
+/**
+ * Single source of truth for the Google Fonts stylesheet URL — referenced by
+ * both the wp_enqueue_style() call below and the preload printed in <head>.
+ *
+ * @return string
+ */
+function ifende_google_fonts_url() {
+  return 'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,600&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&display=optional';
+}
+
+/**
+ * Print a <link rel="preload" as="style"> for the Google Fonts CSS so the
+ * browser starts the request as early as possible — before the stylesheet
+ * link is parsed via the swap technique below. Pairs with the existing
+ * preconnect hints to remove most of the font-loading critical-path latency.
+ */
+function ifende_preload_google_fonts() {
+  printf(
+    '<link rel="preload" href="%s" as="style" crossorigin="anonymous">' . "\n",
+    esc_url( ifende_google_fonts_url() )
+  );
+}
+add_action( 'wp_head', 'ifende_preload_google_fonts', 1 );
+
 function ifende_enqueue() {
   // Google Fonts — loaded with font-display=optional for performance.
   // This prevents layout shift by using local fallback until fonts are cached.
   wp_enqueue_style(
     'ifende-google-fonts',
-    'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,600&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&display=optional',
+    ifende_google_fonts_url(),
     [],
     null
   );
