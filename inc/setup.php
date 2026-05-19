@@ -71,6 +71,7 @@ function ifende_setup() {
   // Register navigation menus.
   register_nav_menus( [
     'primary' => esc_html__( 'Primary Navigation', 'ifende' ),
+    'footer'  => esc_html__( 'Footer Navigation', 'ifende' ),
   ] );
 }
 add_action( 'after_setup_theme', 'ifende_setup' );
