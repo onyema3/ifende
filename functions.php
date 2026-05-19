@@ -33,3 +33,4 @@ require_once IFENDE_DIR . '/inc/enqueue.php';
 require_once IFENDE_DIR . '/inc/customizer.php';
 require_once IFENDE_DIR . '/inc/ajax.php';
 require_once IFENDE_DIR . '/inc/seo.php';
+require_once IFENDE_DIR . '/inc/page-builders.php';

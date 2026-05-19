@@ -263,3 +263,36 @@ body{font-family:'Syne',sans-serif;background:var(--black);color:var(--white);ov
 
 /* Focus visible global fallback */
 :focus-visible{outline:2px solid var(--green);outline-offset:3px;}
+
+
+
+/* ==========================================================================
+   PAGE BUILDER COMPATIBILITY (Elementor / Gutenberg / Full Width)
+   ========================================================================== */
+
+/* Full-width template — removes all padding/max-width constraints */
+.fullwidth-content{padding:0;max-width:none;}
+.fullwidth-content .entry-content{max-width:none;}
+
+/* Elementor active page — remove theme wrapper constraints */
+.elementor-active-page .page-content-wrap{padding:0;max-width:none;margin:0;}
+.elementor-active-page .page-content-wrap h1{display:none;}
+.elementor-active-page .single-post-wrap{max-width:none;margin:0;}
+.elementor-active-page .if-section{padding-top:80px;}
+.elementor-page .entry-content,.elementor-page .post-content{max-width:none;}
+
+/* Canvas template — completely blank */
+.ifende-canvas{background:var(--black);color:var(--white);}
+
+/* Gutenberg block alignment support */
+.entry-content .alignwide{max-width:1200px;margin-left:auto;margin-right:auto;width:100%;}
+.entry-content .alignfull{max-width:100vw;margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);width:100vw;}
+.entry-content .aligncenter{text-align:center;}
+.entry-content .wp-block-image.alignfull img,.entry-content .wp-block-cover.alignfull{width:100%;}
+
+/* Block editor colors to match theme */
+.entry-content .has-background{padding:20px 30px;}
+.entry-content .wp-block-group{margin-bottom:24px;}
+.entry-content .wp-block-separator{border-color:var(--border);opacity:1;}
+.entry-content .wp-block-button .wp-block-button__link{background:var(--green);color:var(--black);padding:14px 30px;border-radius:2px;font-size:0.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;text-decoration:none;transition:all .3s;}
+.entry-content .wp-block-button .wp-block-button__link:hover{background:var(--green2);color:var(--white);}

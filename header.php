@@ -20,6 +20,12 @@
 <div class="cursor" id="cursor" aria-hidden="true"></div>
 <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
 
+<?php
+// Allow Elementor Pro Theme Builder to override the header.
+if ( function_exists( 'elementor_theme_do_location' ) && elementor_theme_do_location( 'header' ) ) {
+  // Elementor Pro handles the header — skip default.
+} else {
+?>
 <nav class="site-nav" id="siteNav" aria-label="<?php esc_attr_e( 'Primary navigation', 'ifende' ); ?>">
   <a class="nav-logo" href="<?php echo esc_url( home_url( '/' ) ); ?>">
     <?php if ( has_custom_logo() ) :
@@ -61,3 +67,4 @@
   <a href="#clients"  onclick="toggleDrawer()"><?php esc_html_e( 'Clients', 'ifende' ); ?></a>
   <a href="#contact"  onclick="toggleDrawer()"><?php esc_html_e( 'Contact', 'ifende' ); ?></a>
 </div>
+<?php } // End Elementor header check. ?>

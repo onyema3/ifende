@@ -41,6 +41,17 @@ function ifende_setup() {
   // Add support for automatic feed links.
   add_theme_support( 'automatic-feed-links' );
 
+  // Block editor (Gutenberg) support.
+  add_theme_support( 'align-wide' );
+  add_theme_support( 'responsive-embeds' );
+  add_theme_support( 'wp-block-styles' );
+  add_theme_support( 'editor-styles' );
+
+  // Elementor / page builder support — allow full-width layouts.
+  add_theme_support( 'elementor', [
+    'default_generic_fonts' => 'Syne, sans-serif',
+  ] );
+
   // Register navigation menus.
   register_nav_menus( [
     'primary' => esc_html__( 'Primary Navigation', 'ifende' ),
