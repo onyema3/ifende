@@ -396,6 +396,19 @@ if (cookieBanner) {
 
   function closeCookieBanner(value) {
     localStorage.setItem('ifende-cookie-consent', value);
+    // Mirror the consent state to a server-readable cookie so PHP can gate
+    // analytics, custom head scripts, and the visitor-count badge before
+    // they render. localStorage isn't visible to PHP, so we need both:
+    // localStorage drives the JS-side banner UI, the cookie drives the
+    // server-side gating in inc/gdpr.php::ifende_consent_given().
+    if (value === 'accepted') {
+      document.cookie = 'ifende-consent=accepted; max-age=31536000; path=/; SameSite=Lax';
+    } else {
+      // Dismissed (or any non-accept value) — clear any stale cookie so we
+      // never accidentally treat a previously-accepted-then-dismissed
+      // visitor as still consenting.
+      document.cookie = 'ifende-consent=; max-age=0; path=/; SameSite=Lax';
+    }
     cookieBanner.classList.remove('visible');
     setTimeout(function() {
       cookieBanner.style.display = 'none';
