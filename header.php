@@ -22,6 +22,11 @@
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
 
+<!-- Page Preloader -->
+<div class="site-preloader" id="sitePreloader" aria-hidden="true">
+  <div class="preloader-spinner"></div>
+</div>
+
 <!-- Skip to content link for screen readers / keyboard users -->
 <a class="skip-link screen-reader-text" href="#main-content"><?php esc_html_e( 'Skip to content', 'ifende' ); ?></a>
 
