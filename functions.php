@@ -45,3 +45,5 @@ require_once IFENDE_DIR . '/inc/livechat.php';
 require_once IFENDE_DIR . '/inc/cpt.php';
 require_once IFENDE_DIR . '/inc/portfolio.php';
 require_once IFENDE_DIR . '/inc/maintenance.php';
+require_once IFENDE_DIR . '/inc/booking.php';
+require_once IFENDE_DIR . '/inc/export-import.php';

@@ -1,0 +1,283 @@
+/**
+ * Ifende — RTL (Right-to-Left) Stylesheet
+ *
+ * Overrides for Arabic, Hebrew, and other RTL languages.
+ * WordPress auto-loads this file when the site language is RTL.
+ *
+ * @package Ifende
+ * @since   1.3.0
+ */
+
+/* Base direction */
+body {
+  direction: rtl;
+  text-align: right;
+}
+
+/* Navigation */
+.site-nav {
+  flex-direction: row-reverse;
+}
+
+.nav-links {
+  flex-direction: row-reverse;
+}
+
+.nav-links a::after {
+  left: auto;
+  right: 0;
+}
+
+/* Hero */
+.hero-section {
+  direction: rtl;
+}
+
+.hero-label::before {
+  content: '';
+  width: 32px;
+  margin-left: 12px;
+  margin-right: 0;
+}
+
+.hero-title-line {
+  flex-direction: row-reverse;
+}
+
+.hero-actions {
+  flex-direction: row-reverse;
+}
+
+.hero-stats {
+  flex-direction: row-reverse;
+}
+
+.hero-right {
+  justify-content: flex-start;
+}
+
+.hero-status {
+  left: auto;
+  right: -24px;
+}
+
+/* Section labels */
+.section-label {
+  flex-direction: row-reverse;
+}
+
+.section-label::before {
+  margin-left: 12px;
+  margin-right: 0;
+}
+
+/* About */
+.about-grid {
+  direction: rtl;
+}
+
+.about-item {
+  flex-direction: row-reverse;
+}
+
+.about-key {
+  text-align: right;
+}
+
+/* Skills Progress */
+.skill-progress-header {
+  flex-direction: row-reverse;
+}
+
+.skill-progress-fill {
+  background: linear-gradient(270deg, var(--green), var(--gold));
+}
+
+/* Services */
+.service-card::before {
+  left: auto;
+  right: 0;
+}
+
+.service-num {
+  right: auto;
+  left: 24px;
+}
+
+/* Clients */
+.clients-intro {
+  direction: rtl;
+}
+
+/* Contact */
+.contact-grid {
+  direction: rtl;
+}
+
+.contact-item {
+  flex-direction: row-reverse;
+}
+
+.contact-icon {
+  margin-left: 18px;
+  margin-right: 0;
+}
+
+/* Contact Form */
+.form-row {
+  direction: rtl;
+}
+
+/* Footer */
+.site-footer {
+  flex-direction: row-reverse;
+}
+
+.footer-links {
+  flex-direction: row-reverse;
+}
+
+/* Post content */
+.post-content blockquote {
+  border-left: none;
+  border-right: 3px solid var(--green);
+  padding-left: 0;
+  padding-right: 20px;
+}
+
+.post-content ul,
+.post-content ol {
+  padding-left: 0;
+  padding-right: 24px;
+}
+
+/* Post navigation */
+.post-navigation {
+  flex-direction: row-reverse;
+}
+
+/* Share buttons */
+.share-buttons {
+  flex-direction: row-reverse;
+}
+
+/* Related posts */
+.related-post-content {
+  text-align: right;
+}
+
+/* Portfolio */
+.portfolio-filters {
+  flex-direction: row-reverse;
+}
+
+.portfolio-card-meta {
+  flex-direction: row-reverse;
+}
+
+.portfolio-card-tech {
+  flex-direction: row-reverse;
+}
+
+/* FAQ */
+.faq-question {
+  flex-direction: row-reverse;
+  text-align: right;
+}
+
+.faq-answer p {
+  text-align: right;
+}
+
+/* Newsletter */
+.newsletter-wrap {
+  direction: rtl;
+}
+
+.newsletter-input-wrap {
+  flex-direction: row-reverse;
+}
+
+/* Cookie banner */
+.cookie-banner-inner {
+  flex-direction: row-reverse;
+}
+
+/* Back to top */
+.back-to-top {
+  right: auto;
+  left: 32px;
+}
+
+@media (max-width: 600px) {
+  .back-to-top {
+    right: auto;
+    left: 20px;
+  }
+}
+
+/* Scroll progress */
+.scroll-progress {
+  left: auto;
+  right: 0;
+  background: linear-gradient(270deg, var(--green), var(--gold));
+}
+
+/* Mobile drawer */
+.mobile-drawer {
+  transform: translateX(-100%);
+}
+
+.mobile-drawer.open {
+  transform: translateX(0);
+}
+
+/* Hamburger */
+.hamburger {
+  order: -1;
+}
+
+/* Archive cards */
+.archive-card-content {
+  text-align: right;
+}
+
+/* Testimonials */
+.testimonial-quote-mark {
+  left: auto;
+  right: 24px;
+}
+
+.testimonial-author {
+  flex-direction: row-reverse;
+}
+
+/* Blog cards */
+.blog-card-content {
+  text-align: right;
+}
+
+/* WooCommerce RTL */
+.woocommerce div.product {
+  direction: rtl;
+}
+
+.woocommerce table.shop_table {
+  direction: rtl;
+}
+
+.woocommerce-MyAccount-navigation ul li a {
+  text-align: right;
+}
+
+/* Responsive RTL fixes */
+@media (max-width: 900px) {
+  .hero-section {
+    text-align: right;
+  }
+
+  .about-grid,
+  .contact-grid {
+    direction: rtl;
+  }
+}

@@ -1,0 +1,83 @@
+name: Theme Quality Check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  php-lint:
+    name: PHP Syntax Check
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-version: ['8.0', '8.1', '8.2']
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+
+      - name: PHP Lint
+        run: find . -name "*.php" -not -path "./.git/*" -exec php -l {} \; | grep -v "No syntax errors" && exit 1 || exit 0
+
+  theme-check:
+    name: WordPress Theme Standards
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          tools: composer
+
+      - name: Install PHPCS and WP Standards
+        run: |
+          composer global require "squizlabs/php_codesniffer=*"
+          composer global require "wp-coding-standards/wpcs=*"
+          composer global require "phpcompatibility/phpcompatibility-wp=*"
+          phpcs --config-set installed_paths $(composer global config home)/vendor/wp-coding-standards/wpcs,$(composer global config home)/vendor/phpcompatibility/phpcompatibility-wp
+
+      - name: Run PHPCS (errors only)
+        run: |
+          phpcs --standard=WordPress-Theme --extensions=php \
+            --ignore=node_modules,vendor,.git \
+            --error-severity=1 --warning-severity=0 \
+            --report=summary . || true
+
+      - name: Check required files exist
+        run: |
+          echo "Checking required theme files..."
+          for f in style.css index.php functions.php screenshot.png readme.txt; do
+            if [ ! -f "$f" ]; then
+              echo "MISSING: $f"
+              exit 1
+            fi
+          done
+          echo "All required files present."
+
+      - name: Validate style.css header
+        run: |
+          grep -q "Theme Name:" style.css || (echo "Missing Theme Name in style.css" && exit 1)
+          grep -q "Text Domain:" style.css || (echo "Missing Text Domain in style.css" && exit 1)
+          grep -q "License:" style.css || (echo "Missing License in style.css" && exit 1)
+          echo "style.css header valid."
+
+  js-lint:
+    name: JavaScript Syntax Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: JS Syntax Check
+        run: node -c assets/js/main.js
