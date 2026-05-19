@@ -93,3 +93,5 @@ if ( function_exists( 'elementor_theme_do_location' ) && elementor_theme_do_loca
   <a href="#contact"  onclick="toggleDrawer()"><?php esc_html_e( 'Contact', 'ifende' ); ?></a>
 </div>
 <?php } // End Elementor header check. ?>
+
+<?php do_action( 'ifende_after_header' ); ?>
