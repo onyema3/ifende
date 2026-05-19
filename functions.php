@@ -42,3 +42,4 @@ require_once IFENDE_DIR . '/inc/performance.php';
 require_once IFENDE_DIR . '/inc/woocommerce.php';
 require_once IFENDE_DIR . '/inc/patterns.php';
 require_once IFENDE_DIR . '/inc/livechat.php';
+require_once IFENDE_DIR . '/inc/cpt.php';
