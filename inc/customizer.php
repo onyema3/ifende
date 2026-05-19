@@ -225,5 +225,133 @@ function ifende_customizer( $wp_customize ) {
     'type'        => 'textarea',
     'input_attrs' => [ 'rows' => 10 ],
   ] );
+
+
+  // --- NEWSLETTER SECTION ---
+  $wp_customize->add_section( 'ifende_newsletter', [
+    'title'       => esc_html__( 'Newsletter Signup', 'ifende' ),
+    'panel'       => 'ifende_panel',
+    'description' => esc_html__( 'Configure the newsletter signup section on the homepage.', 'ifende' ),
+  ] );
+
+  $wp_customize->add_setting( 'ifende_newsletter_heading', [
+    'default'           => 'Stay in the Loop',
+    'sanitize_callback' => 'sanitize_text_field',
+  ] );
+  $wp_customize->add_control( 'ifende_newsletter_heading', [
+    'label'   => esc_html__( 'Heading', 'ifende' ),
+    'section' => 'ifende_newsletter',
+    'type'    => 'text',
+  ] );
+
+  $wp_customize->add_setting( 'ifende_newsletter_desc', [
+    'default'           => 'Get occasional updates on new projects, insights, and opportunities. No spam, unsubscribe anytime.',
+    'sanitize_callback' => 'sanitize_textarea_field',
+  ] );
+  $wp_customize->add_control( 'ifende_newsletter_desc', [
+    'label'   => esc_html__( 'Description', 'ifende' ),
+    'section' => 'ifende_newsletter',
+    'type'    => 'textarea',
+  ] );
+
+  $wp_customize->add_setting( 'ifende_newsletter_action_url', [
+    'default'           => '',
+    'sanitize_callback' => 'esc_url_raw',
+  ] );
+  $wp_customize->add_control( 'ifende_newsletter_action_url', [
+    'label'       => esc_html__( 'Form Action URL (Mailchimp, ConvertKit, etc.)', 'ifende' ),
+    'description' => esc_html__( 'Paste the form action URL from your email provider. Leave empty to hide the section.', 'ifende' ),
+    'section'     => 'ifende_newsletter',
+    'type'        => 'url',
+  ] );
+
+  $wp_customize->add_setting( 'ifende_newsletter_email_field', [
+    'default'           => 'EMAIL',
+    'sanitize_callback' => 'sanitize_text_field',
+  ] );
+  $wp_customize->add_control( 'ifende_newsletter_email_field', [
+    'label'       => esc_html__( 'Email Field Name', 'ifende' ),
+    'description' => esc_html__( 'The name attribute for the email input (e.g., EMAIL for Mailchimp, email_address for ConvertKit).', 'ifende' ),
+    'section'     => 'ifende_newsletter',
+    'type'        => 'text',
+  ] );
+
+
+  // --- ANALYTICS & TRACKING ---
+  $wp_customize->add_section( 'ifende_analytics', [
+    'title' => esc_html__( 'Analytics & Tracking', 'ifende' ),
+    'panel' => 'ifende_panel',
+  ] );
+
+  $wp_customize->add_setting( 'ifende_ga_measurement_id', [
+    'default'           => '',
+    'sanitize_callback' => 'sanitize_text_field',
+  ] );
+  $wp_customize->add_control( 'ifende_ga_measurement_id', [
+    'label'       => esc_html__( 'Google Analytics Measurement ID', 'ifende' ),
+    'description' => esc_html__( 'Enter your GA4 Measurement ID (e.g., G-XXXXXXXXXX). Leave empty to disable.', 'ifende' ),
+    'section'     => 'ifende_analytics',
+    'type'        => 'text',
+  ] );
+
+  $wp_customize->add_setting( 'ifende_head_scripts', [
+    'default'           => '',
+    'sanitize_callback' => 'ifende_sanitize_scripts',
+  ] );
+  $wp_customize->add_control( 'ifende_head_scripts', [
+    'label'       => esc_html__( 'Custom Head Scripts', 'ifende' ),
+    'description' => esc_html__( 'Additional scripts to add before </head> (e.g., Meta Pixel, Hotjar). Include <script> tags.', 'ifende' ),
+    'section'     => 'ifende_analytics',
+    'type'        => 'textarea',
+  ] );
+
+
+  // --- GDPR / COOKIE CONSENT ---
+  $wp_customize->add_section( 'ifende_gdpr', [
+    'title' => esc_html__( 'Cookie / GDPR Notice', 'ifende' ),
+    'panel' => 'ifende_panel',
+  ] );
+
+  $wp_customize->add_setting( 'ifende_cookie_notice_enabled', [
+    'default'           => true,
+    'sanitize_callback' => 'wp_validate_boolean',
+  ] );
+  $wp_customize->add_control( 'ifende_cookie_notice_enabled', [
+    'label'   => esc_html__( 'Show cookie consent banner', 'ifende' ),
+    'section' => 'ifende_gdpr',
+    'type'    => 'checkbox',
+  ] );
+
+  $wp_customize->add_setting( 'ifende_cookie_message', [
+    'default'           => 'This site uses cookies and third-party services (like Google Fonts) to enhance your experience. By continuing to browse, you consent to their use.',
+    'sanitize_callback' => 'sanitize_textarea_field',
+  ] );
+  $wp_customize->add_control( 'ifende_cookie_message', [
+    'label'   => esc_html__( 'Cookie Notice Message', 'ifende' ),
+    'section' => 'ifende_gdpr',
+    'type'    => 'textarea',
+  ] );
+
+  $wp_customize->add_setting( 'ifende_cookie_policy_url', [
+    'default'           => '',
+    'sanitize_callback' => 'esc_url_raw',
+  ] );
+  $wp_customize->add_control( 'ifende_cookie_policy_url', [
+    'label'   => esc_html__( 'Privacy Policy URL (optional)', 'ifende' ),
+    'section' => 'ifende_gdpr',
+    'type'    => 'url',
+  ] );
 }
 add_action( 'customize_register', 'ifende_customizer' );
+
+/**
+ * Sanitize scripts field — allows script tags for admin users only.
+ */
+function ifende_sanitize_scripts( $input ) {
+  if ( current_user_can( 'unfiltered_html' ) ) {
+    return $input;
+  }
+  return wp_kses( $input, [
+    'script' => [ 'src' => [], 'async' => [], 'defer' => [], 'type' => [] ],
+  ] );
+}

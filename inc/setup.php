@@ -16,6 +16,9 @@ function ifende_setup() {
   // Let WordPress manage the document title.
   add_theme_support( 'title-tag' );
 
+  // Load theme text domain for translations.
+  load_theme_textdomain( 'ifende', get_template_directory() . '/languages' );
+
   // Enable support for Post Thumbnails.
   add_theme_support( 'post-thumbnails' );
 
