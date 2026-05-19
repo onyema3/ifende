@@ -11,17 +11,26 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Output breadcrumbs with Schema.org structured data.
+ * Build the breadcrumb trail for the current request as an array.
  *
- * @param bool $echo Whether to echo or return.
- * @return string|void
+ * Returns one entry per crumb, in render order, each shaped as
+ * `[ 'name' => string, 'url' => string ]`. The last entry's URL is
+ * an empty string, signalling "this is the current page".
+ *
+ * Extracted from {@see ifende_breadcrumbs()} so the same trail can
+ * back both the HTML rendering and the JSON-LD BreadcrumbList emitter
+ * in `inc/seo.php` without duplicating the routing logic.
+ *
+ * @since 1.5.0
+ *
+ * @return array<int, array{name: string, url: string}> Empty on the front page.
  */
-function ifende_breadcrumbs( $echo = true ) {
+function ifende_breadcrumb_items() {
 	if ( is_front_page() ) {
-		return '';
+		return [];
 	}
 
-	$items = [];
+	$items   = [];
 	$items[] = [
 		'name' => esc_html__( 'Home', 'ifende' ),
 		'url'  => home_url( '/' ),
@@ -44,6 +53,7 @@ function ifende_breadcrumbs( $echo = true ) {
 		$items[] = [ 'name' => esc_html__( 'Projects', 'ifende' ), 'url' => get_post_type_archive_link( 'ifende_project' ) ];
 		$items[] = [ 'name' => single_term_title( '', false ), 'url' => '' ];
 	} elseif ( is_search() ) {
+		/* translators: %s: search query */
 		$items[] = [ 'name' => sprintf( esc_html__( 'Search: %s', 'ifende' ), get_search_query() ), 'url' => '' ];
 	} elseif ( is_404() ) {
 		$items[] = [ 'name' => esc_html__( '404', 'ifende' ), 'url' => '' ];
@@ -51,9 +61,23 @@ function ifende_breadcrumbs( $echo = true ) {
 		$items[] = [ 'name' => get_the_archive_title(), 'url' => '' ];
 	}
 
+	return $items;
+}
+
+/**
+ * Output breadcrumbs with Schema.org structured data.
+ *
+ * @param bool $echo Whether to echo or return.
+ * @return string|void
+ */
+function ifende_breadcrumbs( $echo = true ) {
+	$items = ifende_breadcrumb_items();
+	if ( empty( $items ) ) {
+		return '';
+	}
 
 	// Build HTML.
-	$html = '<nav class="breadcrumbs" aria-label="' . esc_attr__( 'Breadcrumb', 'ifende' ) . '">';
+	$html  = '<nav class="breadcrumbs" aria-label="' . esc_attr__( 'Breadcrumb', 'ifende' ) . '">';
 	$html .= '<ol class="breadcrumbs-list" itemscope itemtype="https://schema.org/BreadcrumbList">';
 
 	foreach ( $items as $i => $item ) {
