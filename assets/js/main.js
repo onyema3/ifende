@@ -271,4 +271,26 @@ if (backToTop) {
   });
 }
 
+/* COOKIE CONSENT BANNER */
+var cookieBanner = document.getElementById('cookieBanner');
+if (cookieBanner) {
+  var consent = localStorage.getItem('ifende-cookie-consent');
+  if (!consent) {
+    cookieBanner.style.display = 'block';
+    setTimeout(function() { cookieBanner.classList.add('visible'); }, 100);
+  }
+
+  var acceptBtn = document.getElementById('cookieAccept');
+  var dismissBtn = document.getElementById('cookieDismiss');
+
+  function closeCookieBanner(value) {
+    localStorage.setItem('ifende-cookie-consent', value);
+    cookieBanner.classList.remove('visible');
+    setTimeout(function() { cookieBanner.style.display = 'none'; }, 400);
+  }
+
+  if (acceptBtn) acceptBtn.addEventListener('click', function() { closeCookieBanner('accepted'); });
+  if (dismissBtn) dismissBtn.addEventListener('click', function() { closeCookieBanner('dismissed'); });
+}
+
 })();

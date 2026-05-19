@@ -1,0 +1,277 @@
+# Copyright (C) 2024 Onyemechi Ifende
+# This file is distributed under the GNU General Public License v2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Ifende Portfolio 1.0.0\n"
+"Report-Msgid-Bugs-To: https://ifende.com\n"
+"POT-Creation-Date: 2024-01-01 00:00+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Kiro\n"
+"X-Domain: ifende\n"
+
+#: header.php
+msgid "Skip to content"
+msgstr ""
+
+#: header.php
+msgid "Primary navigation"
+msgstr ""
+
+#: header.php
+msgid "Toggle mobile menu"
+msgstr ""
+
+#: header.php
+msgid "Toggle dark/light mode"
+msgstr ""
+
+#: header.php
+msgid "About"
+msgstr ""
+
+#: header.php
+msgid "Services"
+msgstr ""
+
+#: header.php
+msgid "Clients"
+msgstr ""
+
+#: header.php
+msgid "Get In Touch"
+msgstr ""
+
+#: header.php
+msgid "Contact"
+msgstr ""
+
+#: template-parts/section-hero.php
+msgid "Let's Work Together"
+msgstr ""
+
+#: template-parts/section-hero.php
+msgid "View Services"
+msgstr ""
+
+#: template-parts/section-about.php
+msgid "About Me"
+msgstr ""
+
+#: template-parts/section-about.php
+msgid "The Man<br>Behind the <em>Work</em>"
+msgstr ""
+
+#: template-parts/section-about.php
+msgid "Residence"
+msgstr ""
+
+#: template-parts/section-about.php
+msgid "Freelance"
+msgstr ""
+
+#: template-parts/section-about.php
+msgid "Specialties"
+msgstr ""
+
+#: template-parts/section-about.php
+msgid "Twitter/X"
+msgstr ""
+
+#: template-parts/section-about.php
+msgid "Core Skills"
+msgstr ""
+
+#: template-parts/section-about.php
+msgid "Current Status"
+msgstr ""
+
+#: template-parts/section-about.php
+msgid "Open to new projects, collaborations, and consulting engagements."
+msgstr ""
+
+#: template-parts/section-about.php
+msgid "Start a Conversation"
+msgstr ""
+
+#: template-parts/section-services.php
+msgid "What I Do"
+msgstr ""
+
+#: template-parts/section-services.php
+msgid "Services I<br><em>Offer</em>"
+msgstr ""
+
+#: template-parts/section-services.php
+msgid "From web presence to business transformation — I bring a holistic approach to every engagement."
+msgstr ""
+
+#: template-parts/section-clients.php
+msgid "Trusted By"
+msgstr ""
+
+#: template-parts/section-clients.php
+msgid "Clients &amp;<br><em>Partners</em>"
+msgstr ""
+
+#: template-parts/section-testimonials.php
+msgid "Testimonials"
+msgstr ""
+
+#: template-parts/section-testimonials.php
+msgid "What People<br><em>Say</em>"
+msgstr ""
+
+#: template-parts/section-blog.php
+msgid "Latest Posts"
+msgstr ""
+
+#: template-parts/section-blog.php
+msgid "From the<br><em>Blog</em>"
+msgstr ""
+
+#: template-parts/section-blog.php
+msgid "Read More"
+msgstr ""
+
+#: template-parts/section-blog.php
+msgid "View All Posts"
+msgstr ""
+
+#: template-parts/section-newsletter.php
+msgid "Newsletter"
+msgstr ""
+
+#: template-parts/section-newsletter.php
+msgid "Enter your email"
+msgstr ""
+
+#: template-parts/section-newsletter.php
+msgid "Subscribe"
+msgstr ""
+
+#: template-parts/section-newsletter.php
+msgid "No spam. Unsubscribe anytime."
+msgstr ""
+
+#: template-parts/section-contact.php
+msgid "Get In Touch"
+msgstr ""
+
+#: template-parts/section-contact.php
+msgid "Let's Build<br>Something <em>Great</em>"
+msgstr ""
+
+#: template-parts/section-contact.php
+msgid "Location"
+msgstr ""
+
+#: template-parts/section-contact.php
+msgid "Availability"
+msgstr ""
+
+#: template-parts/section-contact.php
+msgid "Website"
+msgstr ""
+
+#: template-parts/section-contact.php
+msgid "Follow Me"
+msgstr ""
+
+#: template-parts/section-contact.php
+msgid "First Name"
+msgstr ""
+
+#: template-parts/section-contact.php
+msgid "Last Name"
+msgstr ""
+
+#: template-parts/section-contact.php
+msgid "Email Address"
+msgstr ""
+
+#: template-parts/section-contact.php
+msgid "Subject"
+msgstr ""
+
+#: template-parts/section-contact.php
+msgid "Your Message"
+msgstr ""
+
+#: template-parts/section-contact.php
+msgid "Send Message"
+msgstr ""
+
+#: footer.php
+msgid "All rights reserved"
+msgstr ""
+
+#: footer.php
+msgid "Home"
+msgstr ""
+
+#: footer.php
+msgid "Back to top"
+msgstr ""
+
+#: 404.php
+msgid "Error 404"
+msgstr ""
+
+#: 404.php
+msgid "Page Not"
+msgstr ""
+
+#: 404.php
+msgid "Found"
+msgstr ""
+
+#: 404.php
+msgid "Back to Home"
+msgstr ""
+
+#: inc/gdpr.php
+msgid "Accept"
+msgstr ""
+
+#: inc/gdpr.php
+msgid "Dismiss"
+msgstr ""
+
+#: inc/gdpr.php
+msgid "Privacy Policy"
+msgstr ""
+
+#: search.php
+msgid "Search Results"
+msgstr ""
+
+#: search.php
+msgid "Results for: %s"
+msgstr ""
+
+#: search.php
+msgid "Previous"
+msgstr ""
+
+#: search.php
+msgid "Next"
+msgstr ""
+
+#: single.php
+msgid "By %s"
+msgstr ""
+
+#: single.php
+msgid "Tags"
+msgstr ""
+
+#: single.php
+msgid "Post navigation"
+msgstr ""
