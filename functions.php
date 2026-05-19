@@ -55,3 +55,4 @@ require_once IFENDE_DIR . '/inc/toc.php';
 require_once IFENDE_DIR . '/inc/breadcrumbs.php';
 require_once IFENDE_DIR . '/inc/related-projects.php';
 require_once IFENDE_DIR . '/inc/author-box.php';
+require_once IFENDE_DIR . '/inc/visitor-count.php';
