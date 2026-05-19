@@ -1,0 +1,23 @@
+/*
+Theme Name:        Ifende Child
+Theme URI:         https://ifende.com
+Author:            Onyemechi Ifende
+Author URI:        https://ifende.com
+Description:       Child theme for Ifende Portfolio. Customize styles and functionality without modifying the parent theme.
+Version:           1.0.0
+Requires at least: 6.0
+Tested up to:      6.5
+Requires PHP:      8.0
+Template:          ifende
+License:           GNU General Public License v2 or later
+License URI:       http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain:       ifende-child
+Tags:              portfolio, dark, one-page, custom-colors, custom-logo, custom-menu
+*/
+
+/* ==========================================================================
+   Child Theme Custom Styles
+   ==========================================================================
+   Add your custom CSS below. These styles will load after the parent theme
+   styles and will override them where applicable.
+   ========================================================================== */
