@@ -1,6 +1,8 @@
 <?php
 /**
  * Ifende Portfolio — header.php
+ *
+ * @package Ifende
  */
 ?><!DOCTYPE html>
 <html <?php language_attributes(); ?>>
@@ -11,37 +13,51 @@
 </head>
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursorRing"></div>
-<nav class="site-nav" id="siteNav">
-  <a class="nav-logo" href="<?php echo esc_url(home_url('/')); ?>">
-    <?php if(has_custom_logo()):
-      $lid=get_theme_mod('custom_logo');
-      $lurl=wp_get_attachment_image_url($lid,'full');
-      echo '<img src="'.esc_url($lurl).'" alt="'.get_bloginfo('name').'" style="height:40px;width:auto;">';
-    else:
-      echo esc_html(get_bloginfo('name')||'Onyemechi').'<em>.</em>';
+
+<!-- Skip to content link for screen readers / keyboard users -->
+<a class="skip-link screen-reader-text" href="#main-content"><?php esc_html_e( 'Skip to content', 'ifende' ); ?></a>
+
+<div class="cursor" id="cursor" aria-hidden="true"></div>
+<div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
+
+<nav class="site-nav" id="siteNav" aria-label="<?php esc_attr_e( 'Primary navigation', 'ifende' ); ?>">
+  <a class="nav-logo" href="<?php echo esc_url( home_url( '/' ) ); ?>">
+    <?php if ( has_custom_logo() ) :
+      $lid  = get_theme_mod( 'custom_logo' );
+      $lurl = wp_get_attachment_image_url( $lid, 'full' );
+      echo '<img src="' . esc_url( $lurl ) . '" alt="' . esc_attr( get_bloginfo( 'name' ) ) . '" style="height:40px;width:auto;">';
+    else :
+      echo esc_html( get_bloginfo( 'name' ) ?: 'Onyemechi' ) . '<em>.</em>';
     endif; ?>
   </a>
-  <?php wp_nav_menu([
-    'theme_location'=>'primary','container'=>false,
-    'items_wrap'=>'<ul class="nav-links">%3$s</ul>',
-    'fallback_cb'=>function(){ ?>
-      <ul class="nav-links">
-        <li><a href="#about">About</a></li>
-        <li><a href="#services">Services</a></li>
-        <li><a href="#clients">Clients</a></li>
-        <li><a href="#contact" class="btn-nav-cta">Get In Touch</a></li>
+  <?php wp_nav_menu( [
+    'theme_location' => 'primary',
+    'container'      => false,
+    'items_wrap'     => '<ul class="nav-links" role="menubar">%3$s</ul>',
+    'fallback_cb'    => function() { ?>
+      <ul class="nav-links" role="menubar">
+        <li role="none"><a href="#about" role="menuitem"><?php esc_html_e( 'About', 'ifende' ); ?></a></li>
+        <li role="none"><a href="#services" role="menuitem"><?php esc_html_e( 'Services', 'ifende' ); ?></a></li>
+        <li role="none"><a href="#clients" role="menuitem"><?php esc_html_e( 'Clients', 'ifende' ); ?></a></li>
+        <li role="none"><a href="#contact" role="menuitem" class="btn-nav-cta"><?php esc_html_e( 'Get In Touch', 'ifende' ); ?></a></li>
       </ul>
     <?php }
-  ]); ?>
-  <button class="hamburger" id="hamburger" onclick="toggleDrawer()">
+  ] ); ?>
+  <button
+    class="hamburger"
+    id="hamburger"
+    onclick="toggleDrawer()"
+    aria-label="<?php esc_attr_e( 'Toggle mobile menu', 'ifende' ); ?>"
+    aria-expanded="false"
+    aria-controls="mobileDrawer"
+  >
     <span></span><span></span><span></span>
   </button>
 </nav>
-<div class="mobile-drawer" id="mobileDrawer">
-  <a href="#about"    onclick="toggleDrawer()">About</a>
-  <a href="#services" onclick="toggleDrawer()">Services</a>
-  <a href="#clients"  onclick="toggleDrawer()">Clients</a>
-  <a href="#contact"  onclick="toggleDrawer()">Contact</a>
+
+<div class="mobile-drawer" id="mobileDrawer" role="dialog" aria-label="<?php esc_attr_e( 'Mobile navigation', 'ifende' ); ?>" aria-hidden="true">
+  <a href="#about"    onclick="toggleDrawer()"><?php esc_html_e( 'About', 'ifende' ); ?></a>
+  <a href="#services" onclick="toggleDrawer()"><?php esc_html_e( 'Services', 'ifende' ); ?></a>
+  <a href="#clients"  onclick="toggleDrawer()"><?php esc_html_e( 'Clients', 'ifende' ); ?></a>
+  <a href="#contact"  onclick="toggleDrawer()"><?php esc_html_e( 'Contact', 'ifende' ); ?></a>
 </div>
