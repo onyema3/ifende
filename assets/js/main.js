@@ -324,4 +324,80 @@ faqItems.forEach(function(item) {
   }
 });
 
+/* ANIMATED NUMBER COUNTERS */
+var statNums = document.querySelectorAll('.stat-num[data-count]');
+if (statNums.length && !prefersReducedMotion && 'IntersectionObserver' in window) {
+  var counterObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        animateCounter(entry.target);
+        counterObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.5 });
+  statNums.forEach(function(el) { counterObserver.observe(el); });
+} else if (prefersReducedMotion) {
+  // Show final values immediately
+  statNums.forEach(function(el) { el.textContent = el.getAttribute('data-count'); });
+}
+
+function animateCounter(el) {
+  var raw = el.getAttribute('data-count');
+  var suffix = raw.replace(/[\d]/g, ''); // Extract non-numeric suffix like "+"
+  var target = parseInt(raw, 10);
+  if (isNaN(target)) { el.textContent = raw; return; }
+  var duration = 1500;
+  var start = 0;
+  var startTime = null;
+  el.classList.add('counting');
+  function step(timestamp) {
+    if (!startTime) startTime = timestamp;
+    var progress = Math.min((timestamp - startTime) / duration, 1);
+    var eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+    var current = Math.floor(eased * target);
+    el.textContent = current + suffix;
+    if (progress < 1) {
+      requestAnimationFrame(step);
+    } else {
+      el.textContent = raw;
+      el.classList.remove('counting');
+    }
+  }
+  requestAnimationFrame(step);
+}
+
+/* SKILLS PROGRESS BARS */
+var progressBars = document.querySelectorAll('.skill-progress-fill');
+if (progressBars.length && !prefersReducedMotion && 'IntersectionObserver' in window) {
+  var barObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('animated');
+        barObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.3 });
+  progressBars.forEach(function(bar) { barObserver.observe(bar); });
+} else {
+  progressBars.forEach(function(bar) { bar.classList.add('animated'); });
+}
+
+/* PORTFOLIO FILTER */
+var filterBtns = document.querySelectorAll('.portfolio-filter');
+var portfolioCards = document.querySelectorAll('.portfolio-card');
+filterBtns.forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    filterBtns.forEach(function(b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+    var filter = btn.getAttribute('data-filter');
+    portfolioCards.forEach(function(card) {
+      if (filter === 'all' || card.getAttribute('data-categories').indexOf(filter) !== -1) {
+        card.classList.remove('hidden');
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+  });
+});
+
 })();

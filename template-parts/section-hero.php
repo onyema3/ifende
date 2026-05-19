@@ -46,9 +46,9 @@ $last  = $np[1] ?? '';
       <a href="#services" class="btn-secondary"><?php esc_html_e( 'View Services', 'ifende' ); ?></a>
     </div>
     <div class="hero-stats">
-      <div><div class="stat-num"><?php echo esc_html( $s1n ); ?></div><div class="stat-label"><?php echo esc_html( $s1l ); ?></div></div>
-      <div><div class="stat-num"><?php echo esc_html( $s2n ); ?></div><div class="stat-label"><?php echo esc_html( $s2l ); ?></div></div>
-      <div><div class="stat-num"><?php echo esc_html( $s3n ); ?></div><div class="stat-label"><?php echo esc_html( $s3l ); ?></div></div>
+      <div><div class="stat-num" data-count="<?php echo esc_attr( $s1n ); ?>"><?php echo esc_html( $s1n ); ?></div><div class="stat-label"><?php echo esc_html( $s1l ); ?></div></div>
+      <div><div class="stat-num" data-count="<?php echo esc_attr( $s2n ); ?>"><?php echo esc_html( $s2n ); ?></div><div class="stat-label"><?php echo esc_html( $s2l ); ?></div></div>
+      <div><div class="stat-num" data-count="<?php echo esc_attr( $s3n ); ?>"><?php echo esc_html( $s3n ); ?></div><div class="stat-label"><?php echo esc_html( $s3l ); ?></div></div>
     </div>
   </div>
   <div class="hero-right">
