@@ -61,6 +61,7 @@ function ifende_setup() {
   add_theme_support( 'responsive-embeds' );
   add_theme_support( 'wp-block-styles' );
   add_theme_support( 'editor-styles' );
+  add_editor_style( 'assets/css/editor-style.css' );
 
   // Elementor / page builder support — allow full-width layouts.
   add_theme_support( 'elementor', [
