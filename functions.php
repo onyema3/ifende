@@ -56,3 +56,6 @@ require_once IFENDE_DIR . '/inc/breadcrumbs.php';
 require_once IFENDE_DIR . '/inc/related-projects.php';
 require_once IFENDE_DIR . '/inc/author-box.php';
 require_once IFENDE_DIR . '/inc/visitor-count.php';
+require_once IFENDE_DIR . '/inc/debug-panel.php';
+require_once IFENDE_DIR . '/inc/login-branding.php';
+require_once IFENDE_DIR . '/inc/dashboard-widget.php';

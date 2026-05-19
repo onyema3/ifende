@@ -85,6 +85,12 @@ function ifende_export_import_handler() {
 
 		add_settings_error( 'ifende_import', 'success', esc_html__( 'Settings imported successfully!', 'ifende' ), 'success' );
 	}
+
+	// RESET.
+	if ( isset( $_POST['ifende_reset'] ) && check_admin_referer( 'ifende_reset_nonce', 'ifende_reset_nonce_field' ) ) {
+		remove_theme_mods();
+		add_settings_error( 'ifende_import', 'reset_success', esc_html__( 'All theme settings have been reset to defaults.', 'ifende' ), 'success' );
+	}
 }
 add_action( 'admin_init', 'ifende_export_import_handler' );
 
@@ -158,6 +164,20 @@ function ifende_export_import_page() {
 				<li><?php esc_html_e( 'Custom logo & site identity', 'ifende' ); ?></li>
 			</ul>
 			<p class="description" style="margin-top:16px;"><?php esc_html_e( 'Note: CPT entries (Projects, Services, Clients, Testimonials, FAQs) are stored as posts and are not included in this export. Use WordPress built-in Tools > Export for those.', 'ifende' ); ?></p>
+		</div>
+
+		<!-- RESET TO DEFAULTS -->
+		<div style="margin-top:32px;background:#fff;padding:24px;border:1px solid #d63638;border-radius:4px;">
+			<h2 style="margin-top:0;color:#d63638;"><?php esc_html_e( 'Reset to Defaults', 'ifende' ); ?></h2>
+			<p><?php esc_html_e( 'Remove all Customizer settings and restore the theme to its original default state. This cannot be undone.', 'ifende' ); ?></p>
+			<form method="post">
+				<?php wp_nonce_field( 'ifende_reset_nonce', 'ifende_reset_nonce_field' ); ?>
+				<p>
+					<button type="submit" name="ifende_reset" class="button button-link-delete" onclick="return confirm('<?php echo esc_js( __( 'Are you absolutely sure? This will permanently delete ALL your theme settings and cannot be undone. Export a backup first!', 'ifende' ) ); ?>');">
+						<?php esc_html_e( 'Reset All Settings', 'ifende' ); ?>
+					</button>
+				</p>
+			</form>
 		</div>
 	</div>
 	<?php
