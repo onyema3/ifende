@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Ifende 1.3.0\n"
+"Project-Id-Version: Ifende\n"
 "Report-Msgid-Bugs-To: hello@ifende.com\n"
-"POT-Creation-Date: 2026-05-19 17:28+0000\n"
+"POT-Creation-Date: 2026-05-19 19:50+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -48,7 +48,7 @@ msgstr ""
 msgid "Search"
 msgstr ""
 
-#: archive.php:15 inc/portfolio.php:45
+#: archive.php:15 inc/portfolio.php:45 single-ifende_project.php:45
 msgid "Category"
 msgstr ""
 
@@ -92,6 +92,7 @@ msgstr ""
 msgid "Discussion"
 msgstr ""
 
+#. translators: 1: comment count
 #: comments.php:21
 #, php-format
 msgid "%1$s Comment"
@@ -127,60 +128,105 @@ msgstr ""
 msgid "Post Comment"
 msgstr ""
 
-#: footer.php:15
-msgid "All rights reserved"
-msgstr ""
-
-#: footer.php:16
+#: footer.php:35
 msgid "Footer navigation"
 msgstr ""
 
-#: footer.php:17
+#: footer.php:53 footer.php:68 inc/breadcrumbs.php:26
 msgid "Home"
 msgstr ""
 
-#: footer.php:18 header.php:61 header.php:90
+#: footer.php:55
+msgid "Privacy"
+msgstr ""
+
+#: footer.php:58
+msgid "Terms"
+msgstr ""
+
+#: footer.php:69 header.php:54 header.php:91
 msgid "About"
 msgstr ""
 
-#: footer.php:19 header.php:62 header.php:91 inc/cpt.php:23
+#: footer.php:70 header.php:55 header.php:92 inc/cpt.php:23
+#: inc/dashboard-widget.php:70
 msgid "Services"
 msgstr ""
 
-#: footer.php:20 header.php:93
+#: footer.php:71 header.php:94
 msgid "Contact"
 msgstr ""
 
-#: footer.php:26
+#: footer.php:88
 msgid "Back to top"
 msgstr ""
 
-#: header.php:34
+#: header.php:26
 msgid "Skip to content"
 msgstr ""
 
-#: header.php:45
+#: header.php:37
 msgid "Primary navigation"
 msgstr ""
 
-#: header.php:63 header.php:92 inc/cpt.php:47
+#: header.php:56 header.php:93 inc/cpt.php:47 inc/dashboard-widget.php:74
 msgid "Clients"
 msgstr ""
 
-#: header.php:64 template-parts/section-contact.php:13
+#: header.php:57 template-parts/section-contact.php:13
 msgid "Get In Touch"
 msgstr ""
 
-#: header.php:71 header.php:72
+#: header.php:64 header.php:65
 msgid "Toggle dark/light mode"
 msgstr ""
 
-#: header.php:81
+#: header.php:74
 msgid "Toggle mobile menu"
 msgstr ""
 
-#: header.php:89
+#: header.php:82
 msgid "Mobile navigation"
+msgstr ""
+
+#: inc/action-bar.php:20
+msgid "Floating Action Bar"
+msgstr ""
+
+#: inc/action-bar.php:22
+msgid "A sticky announcement bar at the top of the page with a CTA button."
+msgstr ""
+
+#: inc/action-bar.php:30
+msgid "Enable Action Bar"
+msgstr ""
+
+#: inc/action-bar.php:40 inc/exit-intent.php:51 inc/maintenance.php:51
+msgid "Message"
+msgstr ""
+
+#: inc/action-bar.php:50 inc/exit-intent.php:61
+msgid "CTA Button Text"
+msgstr ""
+
+#: inc/action-bar.php:60 inc/exit-intent.php:71
+msgid "CTA Button URL"
+msgstr ""
+
+#: inc/action-bar.php:70
+msgid "Position"
+msgstr ""
+
+#: inc/action-bar.php:74
+msgid "Top of page"
+msgstr ""
+
+#: inc/action-bar.php:75
+msgid "Bottom of page"
+msgstr ""
+
+#: inc/action-bar.php:107 inc/gdpr.php:34
+msgid "Dismiss"
 msgstr ""
 
 #: inc/ajax.php:24
@@ -195,13 +241,29 @@ msgstr ""
 msgid "Failed to send."
 msgstr ""
 
-#: inc/blog.php:46
+#: inc/author-box.php:41
+msgid "Written by"
+msgstr ""
+
+#: inc/author-box.php:48
+#, php-format
+msgid "View all %d posts"
+msgstr ""
+
+#: inc/author-box.php:52 template-parts/section-contact.php:21
+#: template-parts/section-contact.php:28
+msgid "Website"
+msgstr ""
+
+#. translators: %d: number of minutes
+#: inc/blog.php:46 inc/seo.php:191
 #, php-format
 msgid "%d minute read"
 msgid_plural "%d minutes read"
 msgstr[0] ""
 msgstr[1] ""
 
+#. translators: %d: number of minutes
 #: inc/blog.php:49
 #, php-format
 msgid "%d min read"
@@ -237,6 +299,96 @@ msgstr ""
 msgid "Share"
 msgstr ""
 
+#: inc/booking.php:23
+msgid "Appointment Booking"
+msgstr ""
+
+#: inc/booking.php:25
+msgid ""
+"Add a booking widget so visitors can schedule calls directly from your site."
+msgstr ""
+
+#: inc/booking.php:34
+msgid "Booking Provider"
+msgstr ""
+
+#: inc/booking.php:38 inc/livechat.php:35
+msgid "Disabled"
+msgstr ""
+
+#: inc/booking.php:39
+msgid "Calendly"
+msgstr ""
+
+#: inc/booking.php:40
+msgid "Cal.com"
+msgstr ""
+
+#: inc/booking.php:41
+msgid "Custom URL"
+msgstr ""
+
+#: inc/booking.php:51
+msgid "Calendly URL"
+msgstr ""
+
+#: inc/booking.php:52
+msgid ""
+"Your Calendly scheduling page URL (e.g., https://calendly.com/"
+"yourname/30min)."
+msgstr ""
+
+#: inc/booking.php:63
+msgid "Cal.com URL"
+msgstr ""
+
+#: inc/booking.php:64
+msgid ""
+"Your Cal.com scheduling page URL (e.g., https://cal.com/yourname/30min)."
+msgstr ""
+
+#: inc/booking.php:75
+msgid "Custom Booking URL"
+msgstr ""
+
+#: inc/booking.php:76
+msgid "Any external booking page URL. Opens in a new tab."
+msgstr ""
+
+#: inc/booking.php:87
+msgid "Button Text"
+msgstr ""
+
+#: inc/booking.php:98
+msgid "Show floating \"Book a Call\" button"
+msgstr ""
+
+#: inc/booking.php:109
+msgid "Hide booking button for logged-in admins"
+msgstr ""
+
+#: inc/breadcrumbs.php:31 inc/breadcrumbs.php:39
+msgid "Blog"
+msgstr ""
+
+#: inc/breadcrumbs.php:34 inc/breadcrumbs.php:42 inc/breadcrumbs.php:44
+#: inc/dashboard-widget.php:62
+msgid "Projects"
+msgstr ""
+
+#: inc/breadcrumbs.php:47
+#, php-format
+msgid "Search: %s"
+msgstr ""
+
+#: inc/breadcrumbs.php:49
+msgid "404"
+msgstr ""
+
+#: inc/breadcrumbs.php:56
+msgid "Breadcrumb"
+msgstr ""
+
 #: inc/cpt.php:24
 msgid "Service"
 msgstr ""
@@ -269,7 +421,7 @@ msgstr ""
 msgid "No services found in Trash."
 msgstr ""
 
-#: inc/cpt.php:48 inc/portfolio.php:131
+#: inc/cpt.php:48 inc/portfolio.php:139 single-ifende_project.php:33
 msgid "Client"
 msgstr ""
 
@@ -301,8 +453,8 @@ msgstr ""
 msgid "No clients found in Trash."
 msgstr ""
 
-#: inc/cpt.php:71 inc/customizer.php:211
-#: template-parts/section-testimonials.php:22
+#: inc/cpt.php:71 inc/customizer.php:211 inc/dashboard-widget.php:66
+#: inc/export-import.php:154 template-parts/section-testimonials.php:22
 msgid "Testimonials"
 msgstr ""
 
@@ -578,22 +730,340 @@ msgid ""
 msgstr ""
 
 #: inc/customizer.php:332
+msgid "Footer"
+msgstr ""
+
+#: inc/customizer.php:334
+msgid "Configure the small text shown at the bottom of the site footer."
+msgstr ""
+
+#: inc/customizer.php:338 inc/customizer.php:419
+msgid "All rights reserved"
+msgstr ""
+
+#: inc/customizer.php:342
+msgid "Copyright text"
+msgstr ""
+
+#: inc/customizer.php:345
+#, php-format
+msgid ""
+"Tokens: %1$s expands to the current year, %2$s expands to the site name."
+msgstr ""
+
+#: inc/customizer.php:356
 msgid "Cookie / GDPR Notice"
 msgstr ""
 
-#: inc/customizer.php:341
+#: inc/customizer.php:365
 msgid "Show cookie consent banner"
 msgstr ""
 
-#: inc/customizer.php:351
+#: inc/customizer.php:375
 msgid "Cookie Notice Message"
 msgstr ""
 
-#: inc/customizer.php:361
+#: inc/customizer.php:385
 msgid "Privacy Policy URL (optional)"
 msgstr ""
 
-#: inc/gdpr.php:29
+#: inc/dashboard-widget.php:19
+msgid "Ifende Theme"
+msgstr ""
+
+#: inc/dashboard-widget.php:55
+msgid "Maintenance Mode is ON"
+msgstr ""
+
+#: inc/dashboard-widget.php:55
+msgid "Disable"
+msgstr ""
+
+#: inc/dashboard-widget.php:78
+msgid "Quick Links"
+msgstr ""
+
+#: inc/dashboard-widget.php:80
+msgid "Customize Theme"
+msgstr ""
+
+#: inc/dashboard-widget.php:81
+msgid "Manage Projects"
+msgstr ""
+
+#: inc/dashboard-widget.php:82
+msgid "Import / Export Settings"
+msgstr ""
+
+#: inc/dashboard-widget.php:83 inc/testimonial-request.php:22
+msgid "Request Testimonial"
+msgstr ""
+
+#: inc/dashboard-widget.php:84
+msgid "Live Chat Settings"
+msgstr ""
+
+#: inc/dashboard-widget.php:87
+msgid "Recent Changes"
+msgstr ""
+
+#: inc/dashboard-widget.php:89
+msgid "Page transitions, parallax, typed text, lightbox"
+msgstr ""
+
+#: inc/dashboard-widget.php:90
+msgid "Exit-intent popup, action bar, project inquiry"
+msgstr ""
+
+#: inc/dashboard-widget.php:91
+msgid "TOC, breadcrumbs, related projects, author box"
+msgstr ""
+
+#: inc/dashboard-widget.php:92
+msgid "Debug panel, CSP headers, login branding"
+msgstr ""
+
+#: inc/debug-panel.php:41
+msgid "Toggle debug panel"
+msgstr ""
+
+#: inc/debug-panel.php:43
+msgid "Debug Info"
+msgstr ""
+
+#: inc/debug-panel.php:45
+msgid "Template"
+msgstr ""
+
+#: inc/debug-panel.php:46
+msgid "Memory"
+msgstr ""
+
+#: inc/debug-panel.php:47
+msgid "Queries"
+msgstr ""
+
+#: inc/debug-panel.php:48
+msgid "Load Time"
+msgstr ""
+
+#: inc/debug-panel.php:49
+msgid "Theme"
+msgstr ""
+
+#: inc/debug-panel.php:50
+msgid "WordPress"
+msgstr ""
+
+#: inc/debug-panel.php:51
+msgid "PHP"
+msgstr ""
+
+#: inc/exit-intent.php:21
+msgid "Exit-Intent Popup"
+msgstr ""
+
+#: inc/exit-intent.php:23
+msgid "Show a popup when visitors are about to leave the page."
+msgstr ""
+
+#: inc/exit-intent.php:31
+msgid "Enable Exit-Intent Popup"
+msgstr ""
+
+#: inc/exit-intent.php:41 inc/maintenance.php:41
+msgid "Headline"
+msgstr ""
+
+#: inc/exit-intent.php:81
+msgid "Show again after (days)"
+msgstr ""
+
+#: inc/exit-intent.php:82
+msgid ""
+"Once dismissed, the popup won't show again for this many days. Set to 0 for "
+"once per session."
+msgstr ""
+
+#: inc/exit-intent.php:116
+msgid "Close popup"
+msgstr ""
+
+#: inc/export-import.php:21
+msgid "Import/Export Settings"
+msgstr ""
+
+#: inc/export-import.php:22
+msgid "Import/Export"
+msgstr ""
+
+#: inc/export-import.php:59
+msgid "Please select a JSON file to import."
+msgstr ""
+
+#: inc/export-import.php:68
+msgid "Invalid file type. Please upload a .json file."
+msgstr ""
+
+#: inc/export-import.php:77
+msgid "The file contains invalid JSON. Please check the file and try again."
+msgstr ""
+
+#: inc/export-import.php:86
+msgid "Settings imported successfully!"
+msgstr ""
+
+#: inc/export-import.php:92
+msgid "All theme settings have been reset to defaults."
+msgstr ""
+
+#: inc/export-import.php:103
+msgid "Ifende — Import/Export Settings"
+msgstr ""
+
+#: inc/export-import.php:104
+msgid ""
+"Export your theme Customizer settings as a JSON file, or import a previously "
+"exported file to restore settings."
+msgstr ""
+
+#: inc/export-import.php:112
+msgid "Export Settings"
+msgstr ""
+
+#: inc/export-import.php:113
+msgid ""
+"Download all your current Customizer settings as a JSON file. Use this to "
+"back up your configuration or migrate to another site."
+msgstr ""
+
+#: inc/export-import.php:118
+msgid "Download Settings (.json)"
+msgstr ""
+
+#: inc/export-import.php:122
+msgid ""
+"This includes all Ifende theme options: hero, about, services, clients, "
+"testimonials, FAQ, newsletter, analytics, GDPR, live chat, booking, and "
+"maintenance settings."
+msgstr ""
+
+#: inc/export-import.php:127
+msgid "Import Settings"
+msgstr ""
+
+#: inc/export-import.php:128
+msgid ""
+"Upload a previously exported JSON file to restore your Customizer settings. "
+"This will overwrite your current settings."
+msgstr ""
+
+#: inc/export-import.php:135
+msgid "This will overwrite your current settings. Continue?"
+msgstr ""
+
+#: inc/export-import.php:136
+msgid "Upload & Import"
+msgstr ""
+
+#: inc/export-import.php:140
+msgid ""
+"Warning: Importing will replace all current theme settings. Consider "
+"exporting first as a backup."
+msgstr ""
+
+#: inc/export-import.php:147
+msgid "What Gets Exported"
+msgstr ""
+
+#: inc/export-import.php:148
+msgid "The export includes all theme_mod settings for the Ifende theme:"
+msgstr ""
+
+#: inc/export-import.php:150
+msgid "Hero section (name, roles, bio, stats, photo)"
+msgstr ""
+
+#: inc/export-import.php:151
+msgid "About section (bio, skills, social links)"
+msgstr ""
+
+#: inc/export-import.php:152
+msgid "Services (icons, titles, descriptions)"
+msgstr ""
+
+#: inc/export-import.php:153
+msgid "Clients list"
+msgstr ""
+
+#: inc/export-import.php:155
+msgid "FAQ items"
+msgstr ""
+
+#: inc/export-import.php:156
+msgid "Marquee/scrolling text"
+msgstr ""
+
+#: inc/export-import.php:157
+msgid "Newsletter configuration"
+msgstr ""
+
+#: inc/export-import.php:158
+msgid "Contact form settings"
+msgstr ""
+
+#: inc/export-import.php:159
+msgid "Analytics & tracking IDs"
+msgstr ""
+
+#: inc/export-import.php:160
+msgid "GDPR/cookie consent settings"
+msgstr ""
+
+#: inc/export-import.php:161
+msgid "Live chat provider & IDs"
+msgstr ""
+
+#: inc/export-import.php:162
+msgid "Booking provider settings"
+msgstr ""
+
+#: inc/export-import.php:163
+msgid "Maintenance mode settings"
+msgstr ""
+
+#: inc/export-import.php:164
+msgid "Custom logo & site identity"
+msgstr ""
+
+#: inc/export-import.php:166
+msgid ""
+"Note: CPT entries (Projects, Services, Clients, Testimonials, FAQs) are "
+"stored as posts and are not included in this export. Use WordPress built-in "
+"Tools > Export for those."
+msgstr ""
+
+#: inc/export-import.php:171
+msgid "Reset to Defaults"
+msgstr ""
+
+#: inc/export-import.php:172
+msgid ""
+"Remove all Customizer settings and restore the theme to its original default "
+"state. This cannot be undone."
+msgstr ""
+
+#: inc/export-import.php:176
+msgid ""
+"Are you absolutely sure? This will permanently delete ALL your theme "
+"settings and cannot be undone. Export a backup first!"
+msgstr ""
+
+#: inc/export-import.php:177
+msgid "Reset All Settings"
+msgstr ""
+
+#: inc/gdpr.php:29 inc/legal-pages.php:24 inc/legal-pages.php:61
 msgid "Privacy Policy"
 msgstr ""
 
@@ -601,8 +1071,16 @@ msgstr ""
 msgid "Accept"
 msgstr ""
 
-#: inc/gdpr.php:34
-msgid "Dismiss"
+#: inc/legal-pages.php:40 inc/legal-pages.php:64
+msgid "Terms & Conditions"
+msgstr ""
+
+#. translators: %s: comma-separated list of page links
+#: inc/legal-pages.php:74
+#, php-format
+msgid ""
+"Ifende created draft legal pages for you: %s. Review and publish them when "
+"ready."
 msgstr ""
 
 #: inc/livechat.php:20
@@ -617,10 +1095,6 @@ msgstr ""
 
 #: inc/livechat.php:31
 msgid "Chat Provider"
-msgstr ""
-
-#: inc/livechat.php:35
-msgid "Disabled"
 msgstr ""
 
 #: inc/livechat.php:36
@@ -708,14 +1182,6 @@ msgstr ""
 msgid "Enable Maintenance Mode"
 msgstr ""
 
-#: inc/maintenance.php:41
-msgid "Headline"
-msgstr ""
-
-#: inc/maintenance.php:51
-msgid "Message"
-msgstr ""
-
 #: inc/maintenance.php:108
 msgid "Admin Login"
 msgstr ""
@@ -796,7 +1262,7 @@ msgstr ""
 msgid "Edit Project"
 msgstr ""
 
-#: inc/portfolio.php:25
+#: inc/portfolio.php:25 single-ifende_project.php:88
 msgid "All Projects"
 msgstr ""
 
@@ -832,36 +1298,240 @@ msgstr ""
 msgid "Search Categories"
 msgstr ""
 
-#: inc/portfolio.php:63
+#: inc/portfolio.php:71 inc/project-inquiry.php:61
 msgid "Project Details"
 msgstr ""
 
-#: inc/portfolio.php:79
+#: inc/portfolio.php:87 inc/testimonial-request.php:105
 msgid "Client Name"
 msgstr ""
 
-#: inc/portfolio.php:83
+#: inc/portfolio.php:91
 msgid "Live URL"
 msgstr ""
 
-#: inc/portfolio.php:87 inc/portfolio.php:132
+#: inc/portfolio.php:95 inc/portfolio.php:140 single-ifende_project.php:39
 msgid "Year"
 msgstr ""
 
-#: inc/portfolio.php:91
+#: inc/portfolio.php:99
 msgid "Tech Stack (comma-separated)"
+msgstr ""
+
+#: inc/project-inquiry.php:29
+msgid "Interested?"
+msgstr ""
+
+#: inc/project-inquiry.php:30
+msgid "Start a Similar Project"
+msgstr ""
+
+#: inc/project-inquiry.php:31
+msgid ""
+"Liked what you see? Tell me about your project and let's make it happen."
+msgstr ""
+
+#: inc/project-inquiry.php:40
+msgid "Your Name"
+msgstr ""
+
+#: inc/project-inquiry.php:41
+msgid "John Doe"
+msgstr ""
+
+#: inc/project-inquiry.php:44
+msgid "Email"
+msgstr ""
+
+#: inc/project-inquiry.php:45
+msgid "john@example.com"
+msgstr ""
+
+#: inc/project-inquiry.php:51
+msgid "Project Type"
+msgstr ""
+
+#: inc/project-inquiry.php:52
+msgid "e.g., Web Development"
+msgstr ""
+
+#: inc/project-inquiry.php:55
+msgid "Budget Range"
+msgstr ""
+
+#: inc/project-inquiry.php:56
+msgid "e.g., $1,000 - $5,000"
+msgstr ""
+
+#: inc/project-inquiry.php:62
+msgid "Tell me briefly about your project goals..."
+msgstr ""
+
+#: inc/project-inquiry.php:66
+msgid "Referral:"
+msgstr ""
+
+#: inc/project-inquiry.php:70
+msgid "Send Inquiry"
+msgstr ""
+
+#: inc/related-projects.php:49
+msgid "More Work"
+msgstr ""
+
+#: inc/related-projects.php:50
+msgid "Related Projects"
+msgstr ""
+
+#: inc/seo.php:195
+msgid "Read on website &rarr;"
 msgstr ""
 
 #: inc/setup.php:73
 msgid "Primary Navigation"
 msgstr ""
 
-#: inc/setup.php:83 sidebar.php:13
+#: inc/setup.php:74
+msgid "Footer Navigation"
+msgstr ""
+
+#: inc/setup.php:75
+msgid "Social Links"
+msgstr ""
+
+#: inc/setup.php:85 sidebar.php:13
 msgid "Sidebar"
 msgstr ""
 
-#: inc/setup.php:85
+#: inc/setup.php:87
 msgid "Add widgets here."
+msgstr ""
+
+#: inc/setup.php:97
+#, php-format
+msgid "Footer Column %d"
+msgstr ""
+
+#. translators: %d: footer column number
+#: inc/setup.php:100
+#, php-format
+msgid ""
+"Widgets added here appear in column %d of the footer. Empty columns are "
+"skipped."
+msgstr ""
+
+#: inc/social-walker.php:200
+msgid "Social links"
+msgstr ""
+
+#: inc/testimonial-request.php:23
+msgid "Request"
+msgstr ""
+
+#: inc/testimonial-request.php:50
+msgid "Client name and email are required."
+msgstr ""
+
+#: inc/testimonial-request.php:70
+#, php-format
+msgid "%s — We'd love your feedback!"
+msgstr ""
+
+#: inc/testimonial-request.php:72
+#, php-format
+msgid ""
+"Hi %s,\n"
+"\n"
+"Thank you for working with us"
+msgstr ""
+
+#: inc/testimonial-request.php:83
+#, php-format
+msgid "Request sent to %s!"
+msgstr ""
+
+#: inc/testimonial-request.php:85
+msgid "Failed to send email. Check your server mail settings."
+msgstr ""
+
+#: inc/testimonial-request.php:96
+msgid "Request a Testimonial"
+msgstr ""
+
+#: inc/testimonial-request.php:97
+msgid ""
+"Send a branded email to a past client asking them to submit a testimonial. "
+"Their submission will appear as a draft for your review."
+msgstr ""
+
+#: inc/testimonial-request.php:109
+msgid "Client Email"
+msgstr ""
+
+#: inc/testimonial-request.php:113
+msgid "Project Name (optional)"
+msgstr ""
+
+#: inc/testimonial-request.php:118
+msgid "Send Request Email"
+msgstr ""
+
+#: inc/testimonial-request.php:181 inc/testimonial-request.php:210
+msgid "Submit Testimonial"
+msgstr ""
+
+#: inc/testimonial-request.php:199
+#, php-format
+msgid "Hi %s!"
+msgstr ""
+
+#: inc/testimonial-request.php:200
+msgid ""
+"We'd love to hear about your experience working with us. Your testimonial "
+"helps others make informed decisions."
+msgstr ""
+
+#: inc/testimonial-request.php:204
+msgid "Your Title / Company"
+msgstr ""
+
+#: inc/testimonial-request.php:205
+msgid "e.g., CEO, Company Name"
+msgstr ""
+
+#: inc/testimonial-request.php:207
+msgid "Your Testimonial"
+msgstr ""
+
+#: inc/testimonial-request.php:208
+msgid "Share your experience..."
+msgstr ""
+
+#: inc/testimonial-request.php:228
+msgid "Thank You!"
+msgstr ""
+
+#: inc/testimonial-request.php:241
+#, php-format
+msgid "Thank you, %s!"
+msgstr ""
+
+#: inc/testimonial-request.php:242
+msgid ""
+"Your testimonial has been submitted and is pending review. We truly "
+"appreciate your feedback!"
+msgstr ""
+
+#: inc/toc.php:65
+msgid "Table of Contents"
+msgstr ""
+
+#: inc/toc.php:66
+msgid "Contents"
+msgstr ""
+
+#: inc/visitor-count.php:26
+msgid "viewing now"
 msgstr ""
 
 #: inc/woocommerce.php:105
@@ -884,6 +1554,7 @@ msgstr ""
 msgid "Search Results"
 msgstr ""
 
+#. translators: %s: search query
 #: search.php:17
 #, php-format
 msgid "Results for: %s"
@@ -897,6 +1568,35 @@ msgstr ""
 msgid "No results found. Try a different search term."
 msgstr ""
 
+#: single-ifende_project.php:26
+msgid "Case Study"
+msgstr ""
+
+#: single-ifende_project.php:51
+msgid "Live"
+msgstr ""
+
+#: single-ifende_project.php:74
+msgid "Tech Stack"
+msgstr ""
+
+#: single-ifende_project.php:86
+msgid "View Live Project"
+msgstr ""
+
+#: single-ifende_project.php:92
+msgid "Project navigation"
+msgstr ""
+
+#: single-ifende_project.php:99
+msgid "Previous Project"
+msgstr ""
+
+#: single-ifende_project.php:105
+msgid "Next Project"
+msgstr ""
+
+#. translators: %s: author name
 #: single.php:26
 #, php-format
 msgid "By %s"
@@ -1000,10 +1700,6 @@ msgstr ""
 
 #: template-parts/section-contact.php:20
 msgid "Open for Freelance & Consulting"
-msgstr ""
-
-#: template-parts/section-contact.php:21 template-parts/section-contact.php:28
-msgid "Website"
 msgstr ""
 
 #: template-parts/section-contact.php:24

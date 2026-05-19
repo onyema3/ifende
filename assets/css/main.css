@@ -870,6 +870,9 @@ body{font-family:'Syne',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-
 .ifende-lightbox.visible{opacity:1;visibility:visible;}
 .ifende-lightbox-backdrop{position:absolute;inset:0;background:rgba(0,0,0,0.92);backdrop-filter:blur(4px);}
 .ifende-lightbox-img{position:relative;z-index:1;max-width:90vw;max-height:85vh;border-radius:4px;box-shadow:0 20px 60px rgba(0,0,0,0.5);cursor:zoom-out;object-fit:contain;}
+.ifende-lightbox-close{position:absolute;top:24px;right:24px;z-index:2;width:44px;height:44px;border-radius:50%;background:rgba(245,242,236,0.1);color:var(--white);border:1px solid rgba(245,242,236,0.2);font-size:1.5rem;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s,border-color .2s;}
+.ifende-lightbox-close:hover{background:rgba(245,242,236,0.2);border-color:rgba(245,242,236,0.4);}
+.ifende-lightbox-close:focus-visible{outline:2px solid var(--green);outline-offset:3px;}
 
 
 /* ==========================================================================

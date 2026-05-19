@@ -1,6 +1,84 @@
 (function(){
 'use strict';
 
+/* FOCUS TRAP — small utility used by every modal in the theme.
+ *
+ * Usage:
+ *   var trap = window.ifendeFocusTrap(modalElement);
+ *   // ...later, when closing:
+ *   trap.release(); // releases the trap and restores focus to the
+ *                   // element that was focused before the modal opened.
+ *
+ * Behaviour:
+ *   - Captures the currently-focused element so we can restore it on close.
+ *   - Moves focus to the first focusable child of the modal (or to the
+ *     modal itself if none, with tabindex=-1 added temporarily).
+ *   - Tab / Shift+Tab are intercepted so focus cycles inside the modal.
+ *   - The caller is still responsible for hiding the modal visually and
+ *     for handling Escape — we only manage focus order.
+ */
+window.ifendeFocusTrap = function(modal) {
+  if (!modal) return { release: function(){} };
+
+  var FOCUSABLE = 'a[href], area[href], button:not([disabled]), input:not([disabled]):not([type="hidden"]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+  var previouslyFocused = document.activeElement;
+  var addedTabindex = false;
+
+  function focusable() {
+    // Re-query each time so dynamically-added children participate.
+    return Array.prototype.slice.call(modal.querySelectorAll(FOCUSABLE))
+      .filter(function(el) {
+        // Skip hidden elements (display:none / visibility:hidden / aria-hidden).
+        return el.offsetWidth > 0 || el.offsetHeight > 0 || el === document.activeElement;
+      });
+  }
+
+  function onKeyDown(e) {
+    if (e.key !== 'Tab') return;
+    var nodes = focusable();
+    if (!nodes.length) {
+      e.preventDefault();
+      modal.focus();
+      return;
+    }
+    var first = nodes[0];
+    var last = nodes[nodes.length - 1];
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
+  }
+
+  // Move initial focus inside the modal.
+  var initial = focusable()[0];
+  if (initial) {
+    initial.focus();
+  } else {
+    if (!modal.hasAttribute('tabindex')) {
+      modal.setAttribute('tabindex', '-1');
+      addedTabindex = true;
+    }
+    modal.focus();
+  }
+
+  document.addEventListener('keydown', onKeyDown);
+
+  return {
+    release: function() {
+      document.removeEventListener('keydown', onKeyDown);
+      if (addedTabindex) modal.removeAttribute('tabindex');
+      // Restore focus to the trigger only if it's still in the DOM and visible.
+      if (previouslyFocused && document.contains(previouslyFocused) &&
+          typeof previouslyFocused.focus === 'function') {
+        previouslyFocused.focus();
+      }
+    }
+  };
+};
+
 /* PAGE PRELOADER — fade out once DOM is ready */
 var preloader = document.getElementById('sitePreloader');
 if (preloader) {
@@ -301,9 +379,16 @@ if (backToTop) {
 var cookieBanner = document.getElementById('cookieBanner');
 if (cookieBanner) {
   var consent = localStorage.getItem('ifende-cookie-consent');
+  var cookieTrap = null;
+
   if (!consent) {
     cookieBanner.style.display = 'block';
-    setTimeout(function() { cookieBanner.classList.add('visible'); }, 100);
+    setTimeout(function() {
+      cookieBanner.classList.add('visible');
+      // Trap focus inside the banner so keyboard users can Tab between
+      // the Accept and Dismiss buttons without escaping into the page.
+      cookieTrap = window.ifendeFocusTrap(cookieBanner);
+    }, 100);
   }
 
   var acceptBtn = document.getElementById('cookieAccept');
@@ -312,11 +397,23 @@ if (cookieBanner) {
   function closeCookieBanner(value) {
     localStorage.setItem('ifende-cookie-consent', value);
     cookieBanner.classList.remove('visible');
-    setTimeout(function() { cookieBanner.style.display = 'none'; }, 400);
+    setTimeout(function() {
+      cookieBanner.style.display = 'none';
+      if (cookieTrap) {
+        cookieTrap.release();
+        cookieTrap = null;
+      }
+    }, 400);
   }
 
   if (acceptBtn) acceptBtn.addEventListener('click', function() { closeCookieBanner('accepted'); });
   if (dismissBtn) dismissBtn.addEventListener('click', function() { closeCookieBanner('dismissed'); });
+  // Escape closes the banner the same as clicking Dismiss.
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && cookieBanner.classList.contains('visible')) {
+      closeCookieBanner('dismissed');
+    }
+  });
 }
 
 /* SCROLL PROGRESS INDICATOR */
@@ -506,13 +603,21 @@ if (heroTitleLine && !prefersReducedMotion) {
   var contentImages = document.querySelectorAll('.post-content img, .project-content img');
   if (!contentImages.length) return;
 
-  // Create lightbox overlay.
+  // Create lightbox overlay. We promote it to role=dialog with aria-modal
+  // so AT users get the same announcement as for any other modal.
   var lb = document.createElement('div');
   lb.className = 'ifende-lightbox';
   lb.setAttribute('aria-hidden', 'true');
-  lb.innerHTML = '<div class="ifende-lightbox-backdrop"></div><img class="ifende-lightbox-img" alt="">';
+  lb.setAttribute('role', 'dialog');
+  lb.setAttribute('aria-modal', 'true');
+  lb.setAttribute('aria-label', 'Image preview');
+  lb.innerHTML = '<div class="ifende-lightbox-backdrop"></div>' +
+                 '<img class="ifende-lightbox-img" alt="">' +
+                 '<button class="ifende-lightbox-close" type="button" aria-label="Close image preview">&times;</button>';
   document.body.appendChild(lb);
   var lbImg = lb.querySelector('.ifende-lightbox-img');
+  var lbClose = lb.querySelector('.ifende-lightbox-close');
+  var lbTrap = null;
 
   function openLightbox(src, alt) {
     lbImg.src = src;
@@ -520,21 +625,44 @@ if (heroTitleLine && !prefersReducedMotion) {
     lb.classList.add('visible');
     lb.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
+    // Trap focus so Tab cycles between the close button and (if it ever has
+    // siblings) any other focusable elements inside the lightbox.
+    lbTrap = window.ifendeFocusTrap(lb);
   }
   function closeLightbox() {
     lb.classList.remove('visible');
     lb.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
+    if (lbTrap) {
+      lbTrap.release(); // returns focus to the image that was clicked
+      lbTrap = null;
+    }
   }
 
   contentImages.forEach(function(img) {
     img.style.cursor = 'zoom-in';
+    // Make the image keyboard-activatable as well, so non-mouse users can
+    // open the lightbox.
+    if (!img.hasAttribute('tabindex')) img.setAttribute('tabindex', '0');
+    if (!img.hasAttribute('role')) img.setAttribute('role', 'button');
     img.addEventListener('click', function() {
       openLightbox(img.src, img.alt);
     });
+    img.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        openLightbox(img.src, img.alt);
+      }
+    });
   });
 
-  lb.addEventListener('click', closeLightbox);
+  lbClose.addEventListener('click', closeLightbox);
+  // Click anywhere on the backdrop (but not the image) closes the lightbox.
+  lb.addEventListener('click', function(e) {
+    if (e.target === lb || e.target.classList.contains('ifende-lightbox-backdrop')) {
+      closeLightbox();
+    }
+  });
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape' && lb.classList.contains('visible')) closeLightbox();
   });
