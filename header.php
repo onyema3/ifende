@@ -9,15 +9,7 @@
 <head>
 <meta charset="<?php bloginfo('charset'); ?>">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<?php wp_head(); ?>
-<script>
-// Prevent flash of wrong theme — runs before paint.
-(function(){
-  var t = localStorage.getItem('ifende-theme');
-  if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-  document.documentElement.setAttribute('data-theme', t);
-})();
-</script>
+<?php wp_head(); // ifende-no-flash.js is enqueued in the head here — see inc/enqueue.php. ?>
 </head>
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
@@ -49,7 +41,7 @@ if ( function_exists( 'elementor_theme_do_location' ) && elementor_theme_do_loca
       $lurl = wp_get_attachment_image_url( $lid, 'full' );
       echo '<img src="' . esc_url( $lurl ) . '" alt="' . esc_attr( get_bloginfo( 'name' ) ) . '" style="height:40px;width:auto;">';
     else :
-      echo esc_html( get_bloginfo( 'name' ) ?: 'Onyemechi' ) . '<em>.</em>';
+      echo esc_html( get_bloginfo( 'name' ) ) . '<em>.</em>';
     endif; ?>
   </a>
   <?php wp_nav_menu( [
@@ -75,9 +67,9 @@ if ( function_exists( 'elementor_theme_do_location' ) && elementor_theme_do_loca
     <svg class="theme-icon theme-icon--moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
   </button>
   <button
+    type="button"
     class="hamburger"
     id="hamburger"
-    onclick="toggleDrawer()"
     aria-label="<?php esc_attr_e( 'Toggle mobile menu', 'ifende' ); ?>"
     aria-expanded="false"
     aria-controls="mobileDrawer"

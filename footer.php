@@ -30,8 +30,8 @@ if ( function_exists( 'elementor_theme_do_location' ) && elementor_theme_do_loca
 <?php endif; ?>
 
 <footer class="site-footer" role="contentinfo">
-  <div class="footer-logo"><?php echo esc_html( get_bloginfo( 'name' ) ?: 'Onyemechi' ); ?><em>.</em></div>
-  <div class="footer-copy">&copy; <?php echo esc_html( wp_date( 'Y' ) ); ?> <?php bloginfo( 'name' ); ?> &middot; <?php esc_html_e( 'All rights reserved', 'ifende' ); ?></div>
+  <div class="footer-logo"><?php echo esc_html( get_bloginfo( 'name' ) ); ?><em>.</em></div>
+  <div class="footer-copy"><?php echo esc_html( ifende_footer_copyright_text() ); ?></div>
   <nav class="footer-links" aria-label="<?php esc_attr_e( 'Footer navigation', 'ifende' ); ?>">
     <?php
     if ( has_nav_menu( 'footer' ) ) {

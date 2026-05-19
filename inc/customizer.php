@@ -327,6 +327,30 @@ function ifende_customizer( $wp_customize ) {
   ] );
 
 
+  // --- FOOTER ---
+  $wp_customize->add_section( 'ifende_footer', [
+    'title'       => esc_html__( 'Footer', 'ifende' ),
+    'panel'       => 'ifende_panel',
+    'description' => esc_html__( 'Configure the small text shown at the bottom of the site footer.', 'ifende' ),
+  ] );
+
+  $wp_customize->add_setting( 'ifende_footer_copyright', [
+    'default'           => '© {year} {site} · ' . esc_html__( 'All rights reserved', 'ifende' ),
+    'sanitize_callback' => 'sanitize_text_field',
+  ] );
+  $wp_customize->add_control( 'ifende_footer_copyright', [
+    'label'       => esc_html__( 'Copyright text', 'ifende' ),
+    /* translators: 1: {year} placeholder, 2: {site} placeholder */
+    'description' => sprintf(
+      esc_html__( 'Tokens: %1$s expands to the current year, %2$s expands to the site name.', 'ifende' ),
+      '<code>{year}</code>',
+      '<code>{site}</code>'
+    ),
+    'section'     => 'ifende_footer',
+    'type'        => 'text',
+  ] );
+
+
   // --- GDPR / COOKIE CONSENT ---
   $wp_customize->add_section( 'ifende_gdpr', [
     'title' => esc_html__( 'Cookie / GDPR Notice', 'ifende' ),
@@ -375,4 +399,31 @@ function ifende_sanitize_scripts( $input ) {
   return wp_kses( $input, [
     'script' => [ 'src' => [], 'async' => [], 'defer' => [], 'type' => [] ],
   ] );
+}
+
+
+/**
+ * Render the footer copyright text with token substitution.
+ *
+ * Reads the `ifende_footer_copyright` Customizer setting and replaces:
+ *   - {year} with the current year (via wp_date so it respects site timezone)
+ *   - {site} with the site name (get_bloginfo)
+ *
+ * Returns plain text. Callers are responsible for escaping when echoing.
+ *
+ * @return string
+ */
+function ifende_footer_copyright_text() {
+	$template = get_theme_mod(
+		'ifende_footer_copyright',
+		'© {year} {site} · ' . __( 'All rights reserved', 'ifende' )
+	);
+
+	return strtr(
+		(string) $template,
+		[
+			'{year}' => wp_date( 'Y' ),
+			'{site}' => get_bloginfo( 'name' ),
+		]
+	);
 }
