@@ -9,7 +9,7 @@
 
 get_header();
 ?>
-<main id="main-content" class="page-content-wrap <?php echo ifende_is_built_with_elementor() ? 'elementor-page' : ''; ?>">
+<main id="main-content" tabindex="-1" class="page-content-wrap <?php echo ifende_is_built_with_elementor() ? 'elementor-page' : ''; ?>">
   <?php while ( have_posts() ) : the_post(); ?>
     <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
       <?php

@@ -8,7 +8,7 @@
 
 get_header();
 ?>
-<main id="main-content" class="if-section" style="padding-top:140px;">
+<main id="main-content" tabindex="-1" class="if-section" style="padding-top:140px;">
   <div class="section-label"><?php esc_html_e( 'Search Results', 'ifende' ); ?></div>
   <h1 class="section-title" style="margin-bottom:48px;">
     <?php

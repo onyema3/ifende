@@ -11,7 +11,7 @@
 
 get_header();
 ?>
-<main id="main-content" class="fullwidth-content">
+<main id="main-content" tabindex="-1" class="fullwidth-content">
   <?php
   while ( have_posts() ) :
     the_post();

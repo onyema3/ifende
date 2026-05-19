@@ -35,15 +35,16 @@ if ( function_exists( 'elementor_theme_do_location' ) && elementor_theme_do_loca
 } else {
 ?>
 <nav class="site-nav" id="siteNav" aria-label="<?php esc_attr_e( 'Primary navigation', 'ifende' ); ?>">
-  <a class="nav-logo" href="<?php echo esc_url( home_url( '/' ) ); ?>">
-    <?php if ( has_custom_logo() ) :
-      $lid  = get_theme_mod( 'custom_logo' );
-      $lurl = wp_get_attachment_image_url( $lid, 'full' );
-      echo '<img src="' . esc_url( $lurl ) . '" alt="' . esc_attr( get_bloginfo( 'name' ) ) . '" style="height:40px;width:auto;">';
-    else :
-      echo esc_html( get_bloginfo( 'name' ) ) . '<em>.</em>';
-    endif; ?>
-  </a>
+  <?php if ( has_custom_logo() ) :
+    // Use the WP-standard custom logo. It outputs <a class="custom-logo-link"
+    // href="home"><img class="custom-logo" srcset="..." sizes="..." /></a>
+    // with proper responsive image attributes (srcset/sizes) automatically.
+    the_custom_logo();
+  else : ?>
+    <a class="nav-logo" href="<?php echo esc_url( home_url( '/' ) ); ?>">
+      <?php echo esc_html( get_bloginfo( 'name' ) ); ?><em>.</em>
+    </a>
+  <?php endif; ?>
   <?php wp_nav_menu( [
     'theme_location' => 'primary',
     'container'      => false,

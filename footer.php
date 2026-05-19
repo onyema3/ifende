@@ -59,11 +59,16 @@ if ( function_exists( 'elementor_theme_do_location' ) && elementor_theme_do_loca
         }
         echo '</ul>';
       } else {
+        // Final fallback: section anchors. On the homepage we use bare hashes
+        // (in-page smooth scroll); on every other route we prepend the home
+        // URL so clicking, say, "About" from a blog post navigates to the
+        // homepage and scrolls to that section instead of dead-clicking.
+        $base = is_front_page() ? '' : esc_url( home_url( '/' ) );
         ?>
-        <a href="#home"><?php esc_html_e( 'Home', 'ifende' ); ?></a>
-        <a href="#about"><?php esc_html_e( 'About', 'ifende' ); ?></a>
-        <a href="#services"><?php esc_html_e( 'Services', 'ifende' ); ?></a>
-        <a href="#contact"><?php esc_html_e( 'Contact', 'ifende' ); ?></a>
+        <a href="<?php echo $base; ?>#home"><?php esc_html_e( 'Home', 'ifende' ); ?></a>
+        <a href="<?php echo $base; ?>#about"><?php esc_html_e( 'About', 'ifende' ); ?></a>
+        <a href="<?php echo $base; ?>#services"><?php esc_html_e( 'Services', 'ifende' ); ?></a>
+        <a href="<?php echo $base; ?>#contact"><?php esc_html_e( 'Contact', 'ifende' ); ?></a>
         <?php
       }
     }
