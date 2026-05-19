@@ -31,6 +31,9 @@ get_header();
             <?php if ( has_category() ) : ?>
               <span class="post-meta-item"> &middot; <?php the_category( ', ' ); ?></span>
             <?php endif; ?>
+            <?php if ( function_exists( 'ifende_reading_time_badge' ) ) : ?>
+              <span class="post-meta-item"> &middot; <?php ifende_reading_time_badge(); ?></span>
+            <?php endif; ?>
           </div>
 
           <?php if ( has_post_thumbnail() ) : ?>
@@ -56,6 +59,12 @@ get_header();
             <?php the_tags( '<div class="section-label" style="margin-bottom:12px;">' . esc_html__( 'Tags', 'ifende' ) . '</div><div class="skills-grid" style="grid-template-columns:repeat(auto-fill,minmax(120px,1fr));">', '', '</div>' ); ?>
           </div>
 
+          <?php if ( function_exists( 'ifende_share_buttons' ) ) : ?>
+            <div class="post-share" style="margin-top:48px;padding-top:32px;border-top:1px solid var(--border);">
+              <?php ifende_share_buttons(); ?>
+            </div>
+          <?php endif; ?>
+
           <nav class="post-navigation" style="margin-top:48px;display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;" aria-label="<?php esc_attr_e( 'Post navigation', 'ifende' ); ?>">
             <div>
               <?php
@@ -74,6 +83,10 @@ get_header();
               <?php endif; ?>
             </div>
           </nav>
+
+          <?php if ( function_exists( 'ifende_related_posts_section' ) ) : ?>
+            <?php ifende_related_posts_section(); ?>
+          <?php endif; ?>
         <?php endif; ?>
       </article>
 

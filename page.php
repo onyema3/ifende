@@ -18,7 +18,15 @@ get_header();
       ?>
         <h1><?php the_title(); ?></h1>
       <?php endif; ?>
-      <div class="entry-content"><?php the_content(); ?></div>
+      <div class="entry-content">
+        <?php the_content(); ?>
+        <?php
+        wp_link_pages( [
+          'before' => '<div class="page-links">' . esc_html__( 'Pages:', 'ifende' ),
+          'after'  => '</div>',
+        ] );
+        ?>
+      </div>
     </article>
   <?php endwhile; ?>
 </main>

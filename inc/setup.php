@@ -10,6 +10,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
+ * Set the content width in pixels, based on the theme's design and stylesheet.
+ *
+ * Priority 0 to make it available to lower priority callbacks.
+ *
+ * @global int $content_width
+ */
+function ifende_content_width() {
+  $GLOBALS['content_width'] = apply_filters( 'ifende_content_width', 1200 );
+}
+add_action( 'after_setup_theme', 'ifende_content_width', 0 );
+
+/**
  * Sets up theme defaults and registers support for various WordPress features.
  */
 function ifende_setup() {
@@ -59,8 +71,13 @@ function ifende_setup() {
   register_nav_menus( [
     'primary' => esc_html__( 'Primary Navigation', 'ifende' ),
   ] );
+}
+add_action( 'after_setup_theme', 'ifende_setup' );
 
-  // Register widget area.
+/**
+ * Register widget areas.
+ */
+function ifende_widgets_init() {
   register_sidebar( [
     'name'          => esc_html__( 'Sidebar', 'ifende' ),
     'id'            => 'ifende-sidebar',
@@ -71,7 +88,7 @@ function ifende_setup() {
     'after_title'   => '</h3>',
   ] );
 }
-add_action( 'after_setup_theme', 'ifende_setup' );
+add_action( 'widgets_init', 'ifende_widgets_init' );
 
 /**
  * Flush rewrite rules on theme switch.
