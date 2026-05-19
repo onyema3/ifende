@@ -54,7 +54,7 @@ add_action( 'wp_enqueue_scripts', 'ifende_woocommerce_styles', 25 );
  * Wrap WooCommerce content in theme markup.
  */
 function ifende_woocommerce_wrapper_before() {
-	echo '<main id="main-content" class="if-section" style="padding-top:140px;"><div class="woocommerce-wrap">';
+	echo '<main id="main-content" tabindex="-1" class="if-section" style="padding-top:140px;"><div class="woocommerce-wrap">';
 }
 
 function ifende_woocommerce_wrapper_after() {
