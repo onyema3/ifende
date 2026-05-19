@@ -1,0 +1,237 @@
+/**
+ * Ifende — Editor Styles
+ *
+ * Mirrors the theme's front-end typography, colors, and spacing in the
+ * WordPress block editor (Gutenberg) for a true WYSIWYG experience.
+ *
+ * @package Ifende
+ * @since   1.2.0
+ */
+
+/* Import theme fonts */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,600&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&display=swap');
+
+/* Editor body / root */
+:root {
+  --black: #0A0A0A;
+  --white: #F5F2EC;
+  --green: #21A14E;
+  --green2: #17783A;
+  --gold: #C9A84C;
+  --grey: #8A8A8A;
+  --border: rgba(245, 242, 236, 0.12);
+}
+
+.editor-styles-wrapper {
+  font-family: 'Syne', sans-serif;
+  font-size: 1rem;
+  line-height: 1.9;
+  color: var(--white);
+  background: var(--black);
+}
+
+/* Headings */
+.editor-styles-wrapper h1,
+.editor-styles-wrapper h2,
+.editor-styles-wrapper h3,
+.editor-styles-wrapper h4,
+.editor-styles-wrapper h5,
+.editor-styles-wrapper h6 {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  color: var(--white);
+  line-height: 1.2;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+.editor-styles-wrapper h1 { font-size: clamp(2.4rem, 5vw, 4rem); }
+.editor-styles-wrapper h2 { font-size: 1.8rem; }
+.editor-styles-wrapper h3 { font-size: 1.4rem; }
+.editor-styles-wrapper h4 { font-size: 1.15rem; font-weight: 400; }
+
+.editor-styles-wrapper h1 em,
+.editor-styles-wrapper h2 em,
+.editor-styles-wrapper h3 em {
+  font-style: italic;
+  color: var(--gold);
+}
+
+/* Paragraphs */
+.editor-styles-wrapper p {
+  margin-bottom: 1.25em;
+  color: rgba(245, 242, 236, 0.8);
+}
+
+/* Links */
+.editor-styles-wrapper a {
+  color: var(--green);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.editor-styles-wrapper a:hover {
+  color: var(--green2);
+}
+
+/* Lists */
+.editor-styles-wrapper ul,
+.editor-styles-wrapper ol {
+  padding-left: 1.5em;
+  margin-bottom: 1.25em;
+}
+
+.editor-styles-wrapper li {
+  margin-bottom: 0.5em;
+  color: rgba(245, 242, 236, 0.8);
+}
+
+/* Blockquote */
+.editor-styles-wrapper blockquote,
+.editor-styles-wrapper .wp-block-quote {
+  border-left: 3px solid var(--green);
+  padding-left: 20px;
+  margin: 1.5em 0;
+  font-style: italic;
+  color: rgba(245, 242, 236, 0.6);
+}
+
+.editor-styles-wrapper .wp-block-quote cite {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.72rem;
+  font-style: normal;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--green);
+  display: block;
+  margin-top: 8px;
+}
+
+/* Code */
+.editor-styles-wrapper code,
+.editor-styles-wrapper .wp-block-code {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.88rem;
+  background: rgba(245, 242, 236, 0.06);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 2px 6px;
+}
+
+.editor-styles-wrapper pre,
+.editor-styles-wrapper .wp-block-code code {
+  display: block;
+  padding: 20px 24px;
+  overflow-x: auto;
+  line-height: 1.6;
+}
+
+/* Images */
+.editor-styles-wrapper img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+/* Separator */
+.editor-styles-wrapper .wp-block-separator {
+  border-color: var(--border);
+  opacity: 1;
+}
+
+/* Buttons */
+.editor-styles-wrapper .wp-block-button .wp-block-button__link {
+  background: var(--green);
+  color: var(--black);
+  padding: 14px 30px;
+  border-radius: 2px;
+  font-family: 'Syne', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+
+.editor-styles-wrapper .wp-block-button.is-style-outline .wp-block-button__link {
+  background: transparent;
+  border: 1px solid rgba(245, 242, 236, 0.25);
+  color: var(--white);
+}
+
+/* Table */
+.editor-styles-wrapper table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 1.5em;
+}
+
+.editor-styles-wrapper th,
+.editor-styles-wrapper td {
+  border: 1px solid var(--border);
+  padding: 12px 16px;
+  text-align: left;
+}
+
+.editor-styles-wrapper th {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--green);
+  background: rgba(33, 161, 78, 0.06);
+}
+
+/* Cover block */
+.editor-styles-wrapper .wp-block-cover {
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+/* Group block with background */
+.editor-styles-wrapper .wp-block-group.has-background {
+  padding: 24px 32px;
+  border-radius: 4px;
+}
+
+/* Columns */
+.editor-styles-wrapper .wp-block-columns {
+  gap: 32px;
+}
+
+/* Title input (post title) */
+.editor-post-title__input,
+.editor-styles-wrapper .wp-block-post-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 300;
+  color: var(--white);
+  line-height: 1.1;
+}
+
+/* Wide and full alignment */
+.editor-styles-wrapper .alignwide {
+  max-width: 1200px;
+}
+
+/* Pullquote */
+.editor-styles-wrapper .wp-block-pullquote {
+  border-top: 3px solid var(--green);
+  border-bottom: 3px solid var(--green);
+  padding: 24px 0;
+  text-align: center;
+}
+
+.editor-styles-wrapper .wp-block-pullquote blockquote {
+  border-left: none;
+  padding-left: 0;
+}
+
+.editor-styles-wrapper .wp-block-pullquote p {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.6rem;
+  font-weight: 300;
+  color: var(--white);
+}
