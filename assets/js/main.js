@@ -4,17 +4,22 @@
 /* PAGE PRELOADER — fade out once DOM is ready */
 var preloader = document.getElementById('sitePreloader');
 if (preloader) {
-  window.addEventListener('load', function() {
-    preloader.classList.add('loaded');
-    // Remove from DOM after transition completes
-    setTimeout(function() { preloader.remove(); }, 500);
-  });
-  // Failsafe: remove preloader after 4s even if load event stalls
-  setTimeout(function() {
+  function dismissPreloader() {
     if (preloader && !preloader.classList.contains('loaded')) {
       preloader.classList.add('loaded');
+      setTimeout(function() { preloader.remove(); }, 500);
     }
-  }, 4000);
+  }
+
+  // If the page has already loaded (e.g. script was deferred), dismiss immediately.
+  if (document.readyState === 'complete') {
+    dismissPreloader();
+  } else {
+    window.addEventListener('load', dismissPreloader);
+  }
+
+  // Failsafe: remove preloader after 4s even if load event stalls
+  setTimeout(dismissPreloader, 4000);
 }
 
 /* CUSTOM CURSOR — only on non-touch devices */

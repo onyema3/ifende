@@ -69,6 +69,7 @@ function ifende_defer_scripts( $tag, $handle, $src ) {
 		'jquery-migrate',
 		'wp-polyfill',
 		'wp-hooks',
+		'ifende-main', // Theme script must run immediately to dismiss the preloader.
 	];
 
 	if ( in_array( $handle, $no_defer, true ) ) {
