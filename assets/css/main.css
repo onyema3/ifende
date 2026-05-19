@@ -854,3 +854,10 @@ body{font-family:'Syne',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-
 .visitor-count.visible{opacity:1;}
 .visitor-count-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;}
 @media(max-width:600px){.visitor-count{bottom:72px;left:20px;}}
+
+
+/* Footer menu (wp_nav_menu output) */
+.footer-links .menu{display:flex;gap:24px;list-style:none;margin:0;padding:0;}
+.footer-links .menu li a{font-family:'DM Mono',monospace;font-size:0.62rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--grey);text-decoration:none;transition:color .2s;}
+.footer-links .menu li a:hover{color:var(--green);}
+.footer-links .menu li a:focus-visible{outline:2px solid var(--green);outline-offset:2px;}
