@@ -112,6 +112,79 @@ function ifende_livechat_customizer( $wp_customize ) {
 		'section' => 'ifende_livechat',
 		'type'    => 'checkbox',
 	] );
+
+	// --- Working Hours Schedule ---
+
+	$wp_customize->add_setting( 'ifende_livechat_schedule_enabled', [
+		'default'           => false,
+		'sanitize_callback' => 'wp_validate_boolean',
+	] );
+	$wp_customize->add_control( 'ifende_livechat_schedule_enabled', [
+		'label'       => esc_html__( 'Only show during working hours', 'ifende' ),
+		'description' => esc_html__( 'When enabled, the chat widget is hidden outside your configured working days and hours.', 'ifende' ),
+		'section'     => 'ifende_livechat',
+		'type'        => 'checkbox',
+	] );
+
+	// Working days (comma-separated numbers: 1=Mon, 2=Tue, …, 7=Sun).
+	$wp_customize->add_setting( 'ifende_livechat_working_days', [
+		'default'           => '1,2,3,4,5',
+		'sanitize_callback' => 'sanitize_text_field',
+	] );
+	$wp_customize->add_control( 'ifende_livechat_working_days', [
+		'label'       => esc_html__( 'Working Days', 'ifende' ),
+		'description' => esc_html__( 'Comma-separated day numbers. 1=Monday, 2=Tuesday, 3=Wednesday, 4=Thursday, 5=Friday, 6=Saturday, 7=Sunday. Default: 1,2,3,4,5 (Mon–Fri).', 'ifende' ),
+		'section'     => 'ifende_livechat',
+		'type'        => 'text',
+	] );
+
+	// Start hour (24h format, e.g. 09:00).
+	$wp_customize->add_setting( 'ifende_livechat_start_time', [
+		'default'           => '09:00',
+		'sanitize_callback' => 'sanitize_text_field',
+	] );
+	$wp_customize->add_control( 'ifende_livechat_start_time', [
+		'label'       => esc_html__( 'Start Time (24h)', 'ifende' ),
+		'description' => esc_html__( 'Time when chat becomes available. Format: HH:MM (e.g. 09:00).', 'ifende' ),
+		'section'     => 'ifende_livechat',
+		'type'        => 'text',
+	] );
+
+	// End hour (24h format, e.g. 17:00).
+	$wp_customize->add_setting( 'ifende_livechat_end_time', [
+		'default'           => '17:00',
+		'sanitize_callback' => 'sanitize_text_field',
+	] );
+	$wp_customize->add_control( 'ifende_livechat_end_time', [
+		'label'       => esc_html__( 'End Time (24h)', 'ifende' ),
+		'description' => esc_html__( 'Time when chat becomes unavailable. Format: HH:MM (e.g. 17:00).', 'ifende' ),
+		'section'     => 'ifende_livechat',
+		'type'        => 'text',
+	] );
+
+	// Timezone override (defaults to WP timezone from Settings → General).
+	$wp_customize->add_setting( 'ifende_livechat_timezone', [
+		'default'           => '',
+		'sanitize_callback' => 'sanitize_text_field',
+	] );
+	$wp_customize->add_control( 'ifende_livechat_timezone', [
+		'label'       => esc_html__( 'Timezone (optional)', 'ifende' ),
+		'description' => esc_html__( 'Leave empty to use the WordPress timezone from Settings → General. Or enter a timezone string like "Africa/Lagos", "America/New_York", "Europe/London".', 'ifende' ),
+		'section'     => 'ifende_livechat',
+		'type'        => 'text',
+	] );
+
+	// Offline message (shown instead of chat when outside working hours).
+	$wp_customize->add_setting( 'ifende_livechat_offline_message', [
+		'default'           => '',
+		'sanitize_callback' => 'sanitize_text_field',
+	] );
+	$wp_customize->add_control( 'ifende_livechat_offline_message', [
+		'label'       => esc_html__( 'Offline Message (optional)', 'ifende' ),
+		'description' => esc_html__( 'A small floating message shown when chat is unavailable, e.g. "We\'re offline. Back Mon–Fri 9am–5pm." Leave empty to show nothing outside working hours.', 'ifende' ),
+		'section'     => 'ifende_livechat',
+		'type'        => 'text',
+	] );
 }
 add_action( 'customize_register', 'ifende_livechat_customizer' );
 
@@ -143,9 +216,104 @@ function ifende_sanitize_livechat_code( $input ) {
 }
 
 /**
+ * Check whether the chat widget should be active based on the configured
+ * working hours schedule.
+ *
+ * Returns true if:
+ *   - The schedule feature is disabled (always show), OR
+ *   - The current server time (in the configured timezone) falls within
+ *     the configured working days AND hours.
+ *
+ * @since 1.6.0
+ *
+ * @return bool True if chat should render, false if outside working hours.
+ */
+function ifende_livechat_is_within_working_hours() {
+	$schedule_enabled = get_theme_mod( 'ifende_livechat_schedule_enabled', false );
+
+	// If scheduling is disabled, chat is always active.
+	if ( ! $schedule_enabled ) {
+		return true;
+	}
+
+	// Determine timezone.
+	$tz_string = get_theme_mod( 'ifende_livechat_timezone', '' );
+	if ( empty( $tz_string ) ) {
+		$tz_string = wp_timezone_string();
+	}
+
+	try {
+		$tz = new DateTimeZone( $tz_string );
+	} catch ( \Exception $e ) {
+		// Invalid timezone — fall back to UTC rather than hiding chat.
+		$tz = new DateTimeZone( 'UTC' );
+	}
+
+	$now = new DateTime( 'now', $tz );
+
+	// Check day of week. PHP: 1=Mon … 7=Sun (ISO-8601).
+	$current_day  = (int) $now->format( 'N' );
+	$working_days = get_theme_mod( 'ifende_livechat_working_days', '1,2,3,4,5' );
+	$days_array   = array_map( 'absint', array_filter( explode( ',', $working_days ) ) );
+
+	if ( ! in_array( $current_day, $days_array, true ) ) {
+		return false;
+	}
+
+	// Check time window.
+	$start_time = get_theme_mod( 'ifende_livechat_start_time', '09:00' );
+	$end_time   = get_theme_mod( 'ifende_livechat_end_time', '17:00' );
+
+	$current_minutes = (int) $now->format( 'G' ) * 60 + (int) $now->format( 'i' );
+
+	$start_parts   = explode( ':', $start_time );
+	$start_minutes = ( (int) ( $start_parts[0] ?? 9 ) ) * 60 + ( (int) ( $start_parts[1] ?? 0 ) );
+
+	$end_parts   = explode( ':', $end_time );
+	$end_minutes = ( (int) ( $end_parts[0] ?? 17 ) ) * 60 + ( (int) ( $end_parts[1] ?? 0 ) );
+
+	// Handle overnight schedules (e.g. 22:00 → 06:00): if end < start,
+	// the active window spans midnight.
+	if ( $end_minutes <= $start_minutes ) {
+		return ( $current_minutes >= $start_minutes || $current_minutes < $end_minutes );
+	}
+
+	return ( $current_minutes >= $start_minutes && $current_minutes < $end_minutes );
+}
+
+/**
+ * Output the offline message bubble when chat is hidden due to working
+ * hours restrictions. Only renders if the admin configured an offline
+ * message in the Customizer.
+ *
+ * @since 1.6.0
+ */
+function ifende_livechat_offline_bubble() {
+	$message = get_theme_mod( 'ifende_livechat_offline_message', '' );
+	if ( empty( $message ) ) {
+		return;
+	}
+	?>
+	<!-- Ifende: Chat offline message -->
+	<div class="ifende-chat-offline" aria-label="<?php esc_attr_e( 'Chat is currently offline', 'ifende' ); ?>">
+		<span class="ifende-chat-offline-dot"></span>
+		<span class="ifende-chat-offline-text"><?php echo esc_html( $message ); ?></span>
+	</div>
+	<style>
+	.ifende-chat-offline{position:fixed;bottom:32px;right:32px;z-index:99;background:var(--black,#0A0A0A);border:1px solid var(--border,rgba(245,242,236,0.12));border-radius:24px;padding:10px 18px;display:flex;align-items:center;gap:8px;box-shadow:0 4px 16px rgba(0,0,0,0.3);font-size:0.75rem;letter-spacing:0.5px;color:var(--grey,#8A8A8A);}
+	.ifende-chat-offline-dot{width:8px;height:8px;border-radius:50%;background:#e74c3c;flex-shrink:0;}
+	.ifende-chat-offline-text{white-space:nowrap;}
+	@media(max-width:600px){.ifende-chat-offline{bottom:20px;right:20px;font-size:0.7rem;padding:8px 14px;}}
+	</style>
+	<?php
+}
+
+/**
  * Output the live chat widget script in the footer.
  *
- * Only loads on the front-end, never in admin.
+ * Only loads on the front-end, never in admin. Respects working hours
+ * schedule when enabled — shows an optional offline message bubble
+ * instead of the chat widget outside configured hours.
  */
 function ifende_livechat_output() {
 	// Never load in admin.
@@ -163,6 +331,12 @@ function ifende_livechat_output() {
 	// Optionally hide for admins.
 	$hide_admin = get_theme_mod( 'ifende_livechat_hide_admin', false );
 	if ( $hide_admin && current_user_can( 'manage_options' ) ) {
+		return;
+	}
+
+	// Working hours check.
+	if ( ! ifende_livechat_is_within_working_hours() ) {
+		ifende_livechat_offline_bubble();
 		return;
 	}
 
