@@ -1,20 +1,14 @@
 <?php
 /**
- * Homepage Migration Notice
+ * Homepage Migration — Notices + Rebuild from Customizer.
  *
- * One-time admin notice on the Pages list screen pointing users at the
- * static-page-as-homepage workflow so they can edit their homepage with
- * Gutenberg or Elementor instead of (or in addition to) the Customizer-
- * driven default layout.
- *
- * The notice self-suppresses in two situations:
- *   - Once a static front page IS set (the user has already migrated; the
- *     notice has nothing to teach them).
- *   - When the current user has clicked the dismiss "X" (per-user choice,
- *     persisted via user_meta).
- *
- * Pairs with front-page.php: the notice explains the workflow that
- * front-page.php enables.
+ * Provides:
+ *   1. A one-time admin notice on the Pages list explaining the static-
+ *      front-page workflow (shown only until Reading is configured).
+ *   2. A "Pre-fill from Customizer" button when the Home page is empty.
+ *   3. A "Rebuild from Customizer" button when the Home page already has
+ *      content — re-captures all section template parts with the current
+ *      Customizer values and CPT entries, overwrites post_content.
  *
  * @package Ifende
  * @since   1.6.0
@@ -48,24 +42,17 @@ function ifende_homepage_notice_should_consider() {
 
 /**
  * Render the migration notice on the Pages list screen.
- *
- * Hooked on admin_notices. Each early-return covers a specific reason
- * not to render — comments document why, so the cumulative gate is
- * easy to review.
  */
 function ifende_homepage_migration_notice() {
 	if ( ! ifende_homepage_notice_should_consider() ) {
 		return;
 	}
 
-	// Only on the Pages list screen — the notice is teaching the user how
-	// to wire up a Page as the homepage, so it's most discoverable there.
 	$screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
 	if ( ! $screen || 'edit-page' !== $screen->id ) {
 		return;
 	}
 
-	// Already migrated to a static front page? Nothing to teach.
 	if (
 		'page' === get_option( 'show_on_front' )
 		&& (int) get_option( 'page_on_front' ) > 0
@@ -73,7 +60,6 @@ function ifende_homepage_migration_notice() {
 		return;
 	}
 
-	// Per-user dismissal.
 	if ( get_user_meta( get_current_user_id(), IFENDE_HOMEPAGE_NOTICE_USER_META, true ) ) {
 		return;
 	}
@@ -154,36 +140,26 @@ add_action( 'wp_ajax_ifende_dismiss_homepage_notice', 'ifende_dismiss_homepage_n
 
 
 /* ============================================================================
- * Homepage pre-fill — one-click migration from Customizer/CPTs into the
- * static front page's post_content.
+ * Homepage rebuild — captures Customizer + CPT content into the static
+ * front page's post_content. Works whether the page is empty (first-time
+ * setup) OR already has content (subsequent rebuilds after updating
+ * Customizer fields).
  *
- * After the user wires up a static front page (via the notice above) they
- * land on an empty Page in the editor. The helper below offers a single
- * button that captures the live homepage section template parts (each
- * already populated from the user's Customizer settings + CPT entries)
- * and writes the result into the Page as a sequence of wp:html blocks.
- *
- * Result: the Home page comes pre-filled with the user's actual content,
- * each section editable as its own block. Same homepage they had before,
- * now visually composable.
- *
- * Only offered when the page is empty so we never destroy work the user
- * already did in the editor.
+ * Workflow for the user:
+ *   1. Appearance → Customize → Ifende Portfolio Options → fill in name,
+ *      photo, bio, services, etc.
+ *   2. Pages → Home → Edit → click "Rebuild from Customizer" → confirm.
+ *   3. Page rebuilds with the latest Customizer + CPT values. Done.
  * ========================================================================= */
 
 /**
- * Sections rendered into the pre-fill, in front-end display order. Mirrors
- * the get_template_part() sequence in index.php so the pre-filled page
- * matches the live Customizer-driven homepage exactly.
+ * Sections rendered into the rebuild, in front-end display order.
  *
  * @return string[]
  */
 function ifende_homepage_prefill_sections() {
 	/**
-	 * Filter the list of section template parts captured during pre-fill.
-	 *
-	 * Each value is the suffix passed to get_template_part('template-parts/section', $value).
-	 * Reorder, add, or remove entries to customise the pre-filled output.
+	 * Filter the list of section template parts captured during rebuild.
 	 *
 	 * @since 1.6.0
 	 *
@@ -196,13 +172,11 @@ function ifende_homepage_prefill_sections() {
 }
 
 /**
- * Determine whether the current edit screen is the static front page AND
- * the page is currently empty (no post_content). Both must hold for the
- * pre-fill notice to render.
+ * Determine whether the current edit screen is the static front page.
  *
  * @return int|false Static front page post ID when applicable, otherwise false.
  */
-function ifende_homepage_prefill_target_id() {
+function ifende_homepage_is_front_page_editor() {
 	if ( ! ifende_homepage_notice_should_consider() ) {
 		return false;
 	}
@@ -222,75 +196,107 @@ function ifende_homepage_prefill_target_id() {
 		return false;
 	}
 
-	if ( '' !== trim( (string) $post->post_content ) ) {
-		// Page already has content — never overwrite.
-		return false;
-	}
-
 	return $front_page_id;
 }
 
 /**
- * Render the pre-fill notice on the static front page's edit screen.
+ * Render the rebuild/pre-fill notice on the static front page's edit screen.
+ *
+ * Shows "Pre-fill" when the page is empty (first time), or "Rebuild" when
+ * the page already has content (subsequent updates).
  */
-function ifende_homepage_prefill_notice() {
-	$page_id = ifende_homepage_prefill_target_id();
+function ifende_homepage_rebuild_notice() {
+	$page_id = ifende_homepage_is_front_page_editor();
 	if ( ! $page_id ) {
 		return;
 	}
 
+	global $post;
+	$is_empty   = '' === trim( (string) $post->post_content );
 	$action_url = admin_url( 'admin-post.php' );
-	?>
-	<div class="notice notice-info">
-		<p style="font-size:14px;font-weight:600;margin:12px 0 4px;">
-			<?php esc_html_e( 'Pre-fill this page with your existing homepage content?', 'ifende' ); ?>
-		</p>
-		<p style="margin:4px 0 12px;">
-			<?php esc_html_e( 'This page is empty. Click below to drop in the eleven homepage sections (Hero, Marquee, About, Services, Portfolio, Clients, Testimonials, Blog, FAQ, Newsletter, Contact) populated from your current Customizer settings and CPT entries. Each section becomes a block you can edit visually. Sections you don\'t want can be deleted afterwards.', 'ifende' ); ?>
-		</p>
-		<form method="post" action="<?php echo esc_url( $action_url ); ?>" style="margin:0 0 12px;">
-			<?php wp_nonce_field( 'ifende_prefill_homepage', '_ifende_prefill_nonce' ); ?>
-			<input type="hidden" name="action" value="ifende_prefill_homepage">
-			<input type="hidden" name="page_id" value="<?php echo esc_attr( (string) $page_id ); ?>">
-			<button type="submit" class="button button-primary">
-				<?php esc_html_e( 'Pre-fill from Customizer', 'ifende' ); ?>
-			</button>
-		</form>
-		<p style="font-size:12px;color:#646970;margin:0 0 12px;">
-			<?php esc_html_e( "Tip: only shown while this page is empty. If you'd rather start from scratch, use the inserter (+) and pick patterns from the \"Ifende\" category instead.", 'ifende' ); ?>
-		</p>
-	</div>
-	<?php
+
+	if ( $is_empty ) {
+		// First-time pre-fill (page is empty).
+		?>
+		<div class="notice notice-info">
+			<p style="font-size:14px;font-weight:600;margin:12px 0 4px;">
+				<?php esc_html_e( 'Pre-fill this page with your existing homepage content?', 'ifende' ); ?>
+			</p>
+			<p style="margin:4px 0 12px;">
+				<?php esc_html_e( 'This page is empty. Click below to populate it with the eleven homepage sections from your Customizer settings and CPT entries. Each section becomes a block you can edit visually.', 'ifende' ); ?>
+			</p>
+			<form method="post" action="<?php echo esc_url( $action_url ); ?>" style="margin:0 0 12px;">
+				<?php wp_nonce_field( 'ifende_rebuild_homepage', '_ifende_rebuild_nonce' ); ?>
+				<input type="hidden" name="action" value="ifende_rebuild_homepage">
+				<input type="hidden" name="page_id" value="<?php echo esc_attr( (string) $page_id ); ?>">
+				<button type="submit" class="button button-primary">
+					<?php esc_html_e( 'Pre-fill from Customizer', 'ifende' ); ?>
+				</button>
+			</form>
+			<p style="font-size:12px;color:#646970;margin:0 0 12px;">
+				<?php esc_html_e( "Or use the inserter (+) → Patterns → Ifende to add sections manually.", 'ifende' ); ?>
+			</p>
+		</div>
+		<?php
+	} else {
+		// Page already has content — offer rebuild with confirmation.
+		$customize_url = admin_url( 'customize.php?autofocus[panel]=ifende_panel' );
+		?>
+		<div class="notice notice-warning" style="border-left-color:#21A14E;">
+			<p style="font-size:14px;font-weight:600;margin:12px 0 4px;">
+				<?php esc_html_e( 'Rebuild homepage from Customizer?', 'ifende' ); ?>
+			</p>
+			<p style="margin:4px 0 12px;">
+				<?php
+				echo wp_kses_post(
+					sprintf(
+						/* translators: %s: URL to Customizer */
+						__( 'Update your content in <a href="%s">Appearance → Customize → Ifende Portfolio Options</a> (name, photo, bio, services, etc.), then click the button below to rebuild this page with the latest values. <strong>This replaces all current page content.</strong>', 'ifende' ),
+						esc_url( $customize_url )
+					)
+				);
+				?>
+			</p>
+			<form method="post" action="<?php echo esc_url( $action_url ); ?>" style="margin:0 0 12px;" onsubmit="return confirm('<?php echo esc_js( __( 'This will replace ALL content on this page with a fresh build from your Customizer settings. Any manual edits you made in the editor will be lost. Continue?', 'ifende' ) ); ?>');">
+				<?php wp_nonce_field( 'ifende_rebuild_homepage', '_ifende_rebuild_nonce' ); ?>
+				<input type="hidden" name="action" value="ifende_rebuild_homepage">
+				<input type="hidden" name="page_id" value="<?php echo esc_attr( (string) $page_id ); ?>">
+				<button type="submit" class="button button-secondary" style="border-color:#21A14E;color:#21A14E;">
+					<?php esc_html_e( 'Rebuild from Customizer', 'ifende' ); ?>
+				</button>
+			</form>
+			<p style="font-size:12px;color:#646970;margin:0 0 12px;">
+				<?php esc_html_e( 'Tip: edit name, photo, bio, services, clients, testimonials, FAQs in Customize first, then rebuild here. One click, no HTML editing.', 'ifende' ); ?>
+			</p>
+		</div>
+		<?php
+	}
 }
-add_action( 'admin_notices', 'ifende_homepage_prefill_notice' );
+add_action( 'admin_notices', 'ifende_homepage_rebuild_notice' );
 
 /**
- * Render the success notice after a pre-fill, triggered by a query arg
- * appended on the post-prefill redirect.
+ * Render the success notice after a rebuild.
  */
-function ifende_homepage_prefill_success_notice() {
-	if ( ! isset( $_GET['ifende_prefilled'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only flag from our own redirect; no state mutation here.
+function ifende_homepage_rebuild_success_notice() {
+	if ( ! isset( $_GET['ifende_rebuilt'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		return;
 	}
-	$flag = sanitize_key( wp_unslash( $_GET['ifende_prefilled'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- same.
+	$flag = sanitize_key( wp_unslash( $_GET['ifende_rebuilt'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 	if ( '1' !== $flag ) {
 		return;
 	}
 	?>
 	<div class="notice notice-success is-dismissible">
 		<p>
-			<?php esc_html_e( 'Homepage pre-filled with your existing Customizer content. Each section is now an editable block below.', 'ifende' ); ?>
+			<?php esc_html_e( 'Homepage rebuilt from Customizer. Each section is now an editable block below. Refresh the front-end to see changes.', 'ifende' ); ?>
 		</p>
 	</div>
 	<?php
 }
-add_action( 'admin_notices', 'ifende_homepage_prefill_success_notice' );
+add_action( 'admin_notices', 'ifende_homepage_rebuild_success_notice' );
 
 /**
  * Capture one section template part as wp:html block markup.
- *
- * The wp:html wrapper round-trips through the block parser unchanged, so
- * each captured section becomes a single editable block in the editor.
  *
  * @param string $section Template part suffix (e.g. 'hero', 'services').
  * @return string Block markup, or empty string on failure / empty capture.
@@ -308,11 +314,7 @@ function ifende_homepage_prefill_capture_section( $section ) {
 }
 
 /**
- * Build the full pre-fill block content for the static front page.
- *
- * Walks ifende_homepage_prefill_sections() in order, captures each section
- * template part with the user's live Customizer + CPT data, and concatenates
- * the wp:html blocks with a blank line between each.
+ * Build the full block content for the static front page.
  *
  * @return string Block markup ready for wp_update_post.
  */
@@ -328,28 +330,23 @@ function ifende_homepage_prefill_build_content() {
 }
 
 /**
- * Form handler for the pre-fill button. Captures the section template
- * parts, writes them into the static front page's post_content, and
- * redirects back to the editor with a success flag.
+ * Form handler — rebuild/pre-fill the static front page from Customizer.
  *
- * Hooked to admin_post_ifende_prefill_homepage so it fires before any
- * output, allowing a clean wp_safe_redirect.
+ * Works whether the page is empty (first-time) or already has content
+ * (subsequent rebuild). The confirmation JS on the form prevents
+ * accidental overwrites; the server-side still processes either case.
  */
-function ifende_homepage_prefill_handle() {
+function ifende_rebuild_homepage_handle() {
 	if ( ! current_user_can( 'edit_pages' ) ) {
 		wp_die( esc_html__( 'Permission denied.', 'ifende' ), '', [ 'response' => 403 ] );
 	}
-	check_admin_referer( 'ifende_prefill_homepage', '_ifende_prefill_nonce' );
+	check_admin_referer( 'ifende_rebuild_homepage', '_ifende_rebuild_nonce' );
 
 	$page_id = isset( $_POST['page_id'] ) ? absint( wp_unslash( $_POST['page_id'] ) ) : 0;
 	if ( ! $page_id ) {
 		wp_die( esc_html__( 'Missing target page.', 'ifende' ), '', [ 'response' => 400 ] );
 	}
 
-	// Only operate on a static front page that's actually configured as such,
-	// and only when it's empty. Two checks defend against stale form posts
-	// where the user reconfigured Settings -> Reading or pasted content
-	// between rendering the notice and submitting it.
 	$front_page_id = (int) get_option( 'page_on_front' );
 	if (
 		'page' !== get_option( 'show_on_front' )
@@ -362,15 +359,10 @@ function ifende_homepage_prefill_handle() {
 	if ( ! $post || 'page' !== $post->post_type ) {
 		wp_die( esc_html__( 'Target is not a page.', 'ifende' ), '', [ 'response' => 400 ] );
 	}
-	if ( '' !== trim( (string) $post->post_content ) ) {
-		wp_die( esc_html__( 'Page already has content; pre-fill skipped to avoid overwriting your work.', 'ifende' ), '', [ 'response' => 409 ] );
-	}
 
 	$content = ifende_homepage_prefill_build_content();
 
-	// Bypass kses while saving so the captured HTML (which we authored, not
-	// untrusted user input) survives intact even when the saving user lacks
-	// the unfiltered_html capability. Restored immediately after the update.
+	// Bypass kses so theme-authored HTML survives intact.
 	$kses_was_active = has_filter( 'content_save_pre', 'wp_filter_post_kses' );
 	if ( $kses_was_active ) {
 		kses_remove_filters();
@@ -393,11 +385,14 @@ function ifende_homepage_prefill_handle() {
 	}
 
 	$redirect_url = add_query_arg(
-		'ifende_prefilled',
+		'ifende_rebuilt',
 		'1',
 		get_edit_post_link( $page_id, 'url' )
 	);
 	wp_safe_redirect( $redirect_url );
 	exit;
 }
-add_action( 'admin_post_ifende_prefill_homepage', 'ifende_homepage_prefill_handle' );
+add_action( 'admin_post_ifende_rebuild_homepage', 'ifende_rebuild_homepage_handle' );
+
+// Keep the old action name as an alias so existing forms (PR #42) still work.
+add_action( 'admin_post_ifende_prefill_homepage', 'ifende_rebuild_homepage_handle' );
