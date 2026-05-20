@@ -38,6 +38,11 @@ $twitter_url = ifende_opt( 'twitter_url', 'https://twitter.com/ifende' );
         <div class="form-group"><label for="femail"><?php esc_html_e( 'Email Address', 'ifende' ); ?></label><input type="email" id="femail" name="email" placeholder="<?php esc_attr_e( 'you@example.com', 'ifende' ); ?>" autocomplete="email" required></div>
         <div class="form-group"><label for="fsubject"><?php esc_html_e( 'Subject', 'ifende' ); ?></label><input type="text" id="fsubject" name="subject" placeholder="<?php esc_attr_e( 'Web development project...', 'ifende' ); ?>"></div>
         <div class="form-group"><label for="fmessage"><?php esc_html_e( 'Your Message', 'ifende' ); ?></label><textarea id="fmessage" name="message" placeholder="<?php esc_attr_e( 'Tell me about your project...', 'ifende' ); ?>" required></textarea></div>
+        <!-- Honeypot field — hidden from humans, bots fill it automatically -->
+        <div style="position:absolute;left:-9999px;top:-9999px;" aria-hidden="true">
+          <label for="ifende_website_url"><?php esc_html_e( 'Website', 'ifende' ); ?></label>
+          <input type="text" id="ifende_website_url" name="ifende_website_url" tabindex="-1" autocomplete="off" value="">
+        </div>
         <button type="submit" class="btn-submit" id="submitBtn" aria-busy="false"><?php esc_html_e( 'Send Message', 'ifende' ); ?> &rarr;</button>
         <div id="formMsg" role="status" aria-live="polite" style="display:none;font-family:'DM Mono',monospace;font-size:0.72rem;letter-spacing:1px;color:var(--green);margin-top:8px;"></div>
       </form>
