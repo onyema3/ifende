@@ -596,8 +596,8 @@ function ifende_livechat_whatsapp() {
 
 	<style>
 	.iwa{position:fixed;bottom:32px;right:32px;z-index:100;font-family:'Syne',system-ui,sans-serif;}
-	.iwa-trigger{display:flex;align-items:center;gap:10px;background:#c0392b;color:#fff;border:none;border-radius:28px;padding:12px 20px;cursor:pointer;box-shadow:0 4px 20px rgba(192,57,43,0.4);transition:transform .2s,box-shadow .2s;font-family:inherit;}
-	.iwa-trigger:hover{transform:translateY(-2px);box-shadow:0 6px 28px rgba(192,57,43,0.5);}
+	.iwa-trigger{display:flex;align-items:center;gap:10px;background:var(--green,#21A14E);color:#fff;border:none;border-radius:28px;padding:12px 20px;cursor:pointer;box-shadow:0 4px 20px rgba(33,161,78,0.4);transition:transform .2s,box-shadow .2s;font-family:inherit;}
+	.iwa-trigger:hover{transform:translateY(-2px);box-shadow:0 6px 28px rgba(33,161,78,0.5);}
 	.iwa-trigger-icon{flex-shrink:0;}
 	.iwa-trigger-text{display:flex;flex-direction:column;text-align:left;line-height:1.3;}
 	.iwa-trigger-label{font-size:0.72rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;}
@@ -621,9 +621,9 @@ function ifende_livechat_whatsapp() {
 	/* Hide trigger when panel is open */
 	.iwa.open .iwa-trigger{display:none;}
 	@media(max-width:600px){.iwa{bottom:20px;right:20px;}.iwa-panel{width:calc(100vw - 40px);right:0;}}
-	/* Move back-to-top button left when WhatsApp is active */
-	.back-to-top{right:100px!important;}
-	@media(max-width:600px){.back-to-top{right:80px!important;}}
+	/* Move back-to-top button up so it sits above the WhatsApp trigger */
+	.back-to-top{bottom:100px!important;right:32px!important;}
+	@media(max-width:600px){.back-to-top{bottom:80px!important;right:20px!important;}}
 	</style>
 
 	<script>
