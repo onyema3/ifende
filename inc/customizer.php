@@ -298,6 +298,52 @@ function ifende_customizer( $wp_customize ) {
   ] );
 
 
+  // Lead Magnet (download after subscribe).
+  $wp_customize->add_setting( 'ifende_newsletter_lead_magnet_enabled', [
+    'default'           => false,
+    'sanitize_callback' => 'wp_validate_boolean',
+  ] );
+  $wp_customize->add_control( 'ifende_newsletter_lead_magnet_enabled', [
+    'label'       => esc_html__( 'Enable Lead Magnet (download after subscribe)', 'ifende' ),
+    'description' => esc_html__( 'When enabled, after subscribing the visitor sees a download link instead of just a thank-you message.', 'ifende' ),
+    'section'     => 'ifende_newsletter',
+    'type'        => 'checkbox',
+  ] );
+
+  $wp_customize->add_setting( 'ifende_newsletter_lead_magnet_title', [
+    'default'           => 'Free Project Planning Checklist',
+    'sanitize_callback' => 'sanitize_text_field',
+  ] );
+  $wp_customize->add_control( 'ifende_newsletter_lead_magnet_title', [
+    'label'       => esc_html__( 'Lead Magnet Title', 'ifende' ),
+    'description' => esc_html__( 'Name of the downloadable resource shown before and after subscribing.', 'ifende' ),
+    'section'     => 'ifende_newsletter',
+    'type'        => 'text',
+  ] );
+
+  $wp_customize->add_setting( 'ifende_newsletter_lead_magnet_url', [
+    'default'           => '',
+    'sanitize_callback' => 'esc_url_raw',
+  ] );
+  $wp_customize->add_control( 'ifende_newsletter_lead_magnet_url', [
+    'label'       => esc_html__( 'Lead Magnet Download URL', 'ifende' ),
+    'description' => esc_html__( 'Direct link to the PDF/file. Upload via Media → Add New, then paste the File URL here.', 'ifende' ),
+    'section'     => 'ifende_newsletter',
+    'type'        => 'url',
+  ] );
+
+  $wp_customize->add_setting( 'ifende_newsletter_lead_magnet_desc', [
+    'default'           => 'Subscribe to get instant access to our free resource.',
+    'sanitize_callback' => 'sanitize_text_field',
+  ] );
+  $wp_customize->add_control( 'ifende_newsletter_lead_magnet_desc', [
+    'label'       => esc_html__( 'Lead Magnet Description', 'ifende' ),
+    'description' => esc_html__( 'Short description shown below the newsletter heading to entice signups.', 'ifende' ),
+    'section'     => 'ifende_newsletter',
+    'type'        => 'text',
+  ] );
+
+
   // --- ANALYTICS & TRACKING ---
   $wp_customize->add_section( 'ifende_analytics', [
     'title' => esc_html__( 'Analytics & Tracking', 'ifende' ),
