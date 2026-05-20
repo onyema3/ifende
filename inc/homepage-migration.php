@@ -181,8 +181,35 @@ function ifende_homepage_is_front_page_editor() {
 		return false;
 	}
 
+	// Check if we're on the post editor screen. Use multiple detection
+	// methods because get_current_screen() can return null in some WP
+	// versions during early admin_notices, and the block editor iframes
+	// may behave differently.
+	$on_editor = false;
+
+	// Method 1: get_current_screen().
 	$screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
-	if ( ! $screen || 'post' !== $screen->base ) {
+	if ( $screen && 'post' === $screen->base ) {
+		$on_editor = true;
+	}
+
+	// Method 2: Check $_GET['action'] + $_GET['post'] (classic editor URL params).
+	if ( ! $on_editor ) {
+		$action = isset( $_GET['action'] ) ? sanitize_key( $_GET['action'] ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		if ( 'edit' === $action && isset( $_GET['post'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$on_editor = true;
+		}
+	}
+
+	// Method 3: Check global $pagenow.
+	if ( ! $on_editor ) {
+		global $pagenow;
+		if ( 'post.php' === $pagenow || 'post-new.php' === $pagenow ) {
+			$on_editor = true;
+		}
+	}
+
+	if ( ! $on_editor ) {
 		return false;
 	}
 
@@ -191,8 +218,16 @@ function ifende_homepage_is_front_page_editor() {
 		return false;
 	}
 
+	// Determine the post ID being edited.
+	$editing_id = 0;
 	global $post;
-	if ( ! $post || (int) $post->ID !== $front_page_id ) {
+	if ( $post && $post->ID ) {
+		$editing_id = (int) $post->ID;
+	} elseif ( isset( $_GET['post'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$editing_id = absint( $_GET['post'] ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+	}
+
+	if ( $editing_id !== $front_page_id ) {
 		return false;
 	}
 
