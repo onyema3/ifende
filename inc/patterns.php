@@ -26,8 +26,11 @@
  *   - cta.php           utility: full-width call-to-action banner
  *   - pricing.php       utility: three-tier pricing table
  *
- * The pattern preview in the inserter relies on assets/css/main.css being
- * loaded into the editor canvas — see add_editor_style() in inc/setup.php.
+ * Pattern previews in the inserter render with the curated editor-style.css
+ * (typography, links, buttons, blockquotes scoped under .editor-styles-wrapper)
+ * rather than the full front-end main.css. main.css used to be loaded into
+ * the editor canvas but its global body/nav/preloader rules broke the block
+ * editor admin UI — see the comment in inc/setup.php.
  *
  * @package Ifende
  * @since   1.2.0
