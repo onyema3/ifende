@@ -16,6 +16,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 function ifende_handle_contact() {
   check_ajax_referer( 'ifende_nonce', 'nonce' );
 
+  // Honeypot check — if this hidden field has a value, it's a bot.
+  $honeypot = isset( $_POST['ifende_website_url'] ) ? sanitize_text_field( wp_unslash( $_POST['ifende_website_url'] ) ) : '';
+  if ( '' !== $honeypot ) {
+    // Silently pretend success so the bot doesn't know it was caught.
+    wp_send_json_success();
+  }
+
   // Basic rate limiting: 1 submission per IP per 60 seconds.
   $remote_addr   = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : 'unknown';
   $ip_hash       = md5( $remote_addr );

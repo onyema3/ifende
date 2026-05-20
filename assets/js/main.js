@@ -290,6 +290,9 @@ if (form) {
     fd.append('email', email);
     fd.append('subject', subject);
     fd.append('message', message);
+    // Honeypot — should always be empty for real users.
+    var hp = document.getElementById('ifende_website_url');
+    fd.append('ifende_website_url', hp ? hp.value : '');
 
     fetch(ifendeData.ajaxUrl, { method: 'POST', body: fd })
       .then(function(r) { return r.json(); })
