@@ -52,19 +52,6 @@ function ifende_elementor_body_class( $classes ) {
 add_filter( 'body_class', 'ifende_elementor_body_class' );
 
 /**
- * Add Gutenberg editor styles to match front-end appearance.
- */
-function ifende_block_editor_assets() {
-  wp_enqueue_style(
-    'ifende-editor-styles',
-    IFENDE_URI . '/assets/css/main.css',
-    [],
-    IFENDE_VERSION
-  );
-}
-add_action( 'enqueue_block_editor_assets', 'ifende_block_editor_assets' );
-
-/**
  * Register Elementor widget areas if Elementor is active.
  */
 function ifende_elementor_widgets_registered() {
