@@ -96,6 +96,8 @@ All settings live under **Appearance > Customize > Ifende Portfolio Options**.
 
 ### Homepage Sections (in order)
 
+By default the homepage renders the eleven section template parts below, populated from your Customizer settings and the Services / Clients / Testimonials / FAQ custom post types. To compose the homepage visually with the block editor or Elementor instead, set a static front page in **Settings → Reading**: `front-page.php` will route to that page's content via `page.php` while the default Customizer-driven layout below stays untouched. Use the patterns under **Block Editor → Patterns → Ifende** to recreate any of these sections inside the static page.
+
 1. **Hero** — `template-parts/section-hero.php`
 2. **Marquee** — `template-parts/section-marquee.php`
 3. **About** — `template-parts/section-about.php`
@@ -109,6 +111,7 @@ All settings live under **Appearance > Customize > Ifende Portfolio Options**.
 
 ### Other Templates
 
+- `front-page.php` — Routes the homepage URL between `page.php` (when a static front page is configured in Settings → Reading) and `index.php` (default Customizer-driven one-page layout)
 - `single.php` — Blog posts (with reading time, share buttons, related posts)
 - `archive.php` — Blog archive grid
 - `search.php` — Search results

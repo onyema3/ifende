@@ -62,3 +62,4 @@ require_once IFENDE_DIR . '/inc/dashboard-widget.php';
 require_once IFENDE_DIR . '/inc/legal-pages.php';
 require_once IFENDE_DIR . '/inc/social-walker.php';
 require_once IFENDE_DIR . '/inc/regenerate-thumbnails.php';
+require_once IFENDE_DIR . '/inc/homepage-migration.php';
