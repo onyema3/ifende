@@ -89,6 +89,73 @@ function ifende_livechat_customizer( $wp_customize ) {
 		'type'        => 'text',
 	] );
 
+	// WhatsApp branded widget settings.
+	$wp_customize->add_setting( 'ifende_livechat_whatsapp_business_name', [
+		'default'           => '',
+		'sanitize_callback' => 'sanitize_text_field',
+	] );
+	$wp_customize->add_control( 'ifende_livechat_whatsapp_business_name', [
+		'label'       => esc_html__( 'Business Name (popup header)', 'ifende' ),
+		'description' => esc_html__( 'Shown at the top of the chat popup panel. Defaults to "Site Name Support" if empty.', 'ifende' ),
+		'section'     => 'ifende_livechat',
+		'type'        => 'text',
+	] );
+
+	$wp_customize->add_setting( 'ifende_livechat_whatsapp_reply_time', [
+		'default'           => '3 min',
+		'sanitize_callback' => 'sanitize_text_field',
+	] );
+	$wp_customize->add_control( 'ifende_livechat_whatsapp_reply_time', [
+		'label'       => esc_html__( 'Typical Reply Time', 'ifende' ),
+		'description' => esc_html__( 'Shown on the trigger button. e.g. "3 min", "5 min", "1 hour".', 'ifende' ),
+		'section'     => 'ifende_livechat',
+		'type'        => 'text',
+	] );
+
+	$wp_customize->add_setting( 'ifende_livechat_whatsapp_welcome', [
+		'default'           => 'Tap below to start a WhatsApp conversation with our team. We typically reply within three minutes during business hours.',
+		'sanitize_callback' => 'sanitize_textarea_field',
+	] );
+	$wp_customize->add_control( 'ifende_livechat_whatsapp_welcome', [
+		'label'       => esc_html__( 'Welcome Message (popup body)', 'ifende' ),
+		'description' => esc_html__( 'Descriptive text shown inside the popup panel above the CTA button.', 'ifende' ),
+		'section'     => 'ifende_livechat',
+		'type'        => 'textarea',
+	] );
+
+	$wp_customize->add_setting( 'ifende_livechat_whatsapp_quote_url', [
+		'default'           => '',
+		'sanitize_callback' => 'esc_url_raw',
+	] );
+	$wp_customize->add_control( 'ifende_livechat_whatsapp_quote_url', [
+		'label'       => esc_html__( 'Quote/CTA Link URL (optional)', 'ifende' ),
+		'description' => esc_html__( 'A secondary link below the WhatsApp button, e.g. a quote request form URL. Leave empty to hide.', 'ifende' ),
+		'section'     => 'ifende_livechat',
+		'type'        => 'url',
+	] );
+
+	$wp_customize->add_setting( 'ifende_livechat_whatsapp_quote_label', [
+		'default'           => 'Request a Quote',
+		'sanitize_callback' => 'sanitize_text_field',
+	] );
+	$wp_customize->add_control( 'ifende_livechat_whatsapp_quote_label', [
+		'label'       => esc_html__( 'Quote/CTA Link Label', 'ifende' ),
+		'description' => esc_html__( 'Text for the secondary link. e.g. "Request a Quote", "Book a Call".', 'ifende' ),
+		'section'     => 'ifende_livechat',
+		'type'        => 'text',
+	] );
+
+	$wp_customize->add_setting( 'ifende_livechat_whatsapp_hours_label', [
+		'default'           => 'MON-FRI · 08:00-16:00 · WAT',
+		'sanitize_callback' => 'sanitize_text_field',
+	] );
+	$wp_customize->add_control( 'ifende_livechat_whatsapp_hours_label', [
+		'label'       => esc_html__( 'Hours Label (popup footer)', 'ifende' ),
+		'description' => esc_html__( 'Shown at the bottom of the popup, e.g. "MON-FRI · 08:00-16:00 · WAT". Leave empty to hide.', 'ifende' ),
+		'section'     => 'ifende_livechat',
+		'type'        => 'text',
+	] );
+
 	// Custom embed code.
 	$wp_customize->add_setting( 'ifende_livechat_custom_code', [
 		'default'           => '',
@@ -452,7 +519,20 @@ function ifende_livechat_crisp() {
 }
 
 /**
- * Output WhatsApp floating chat button.
+ * Output branded WhatsApp chat widget — two-state (trigger button + popup panel).
+ *
+ * State 1 (default): A branded pill-shaped trigger button with the WhatsApp icon,
+ *         "CHAT WITH US" label, and an "Online – typical reply X min" subtitle.
+ * State 2 (on click): A popup panel showing business name, welcome message,
+ *         a "CHAT ON WHATSAPP" CTA that opens wa.me, an optional "REQUEST A
+ *         QUOTE" link, and the working hours. A close (×) button returns to
+ *         state 1.
+ *
+ * All text is configurable via the Customizer; the visual design uses the
+ * theme's --black / --green / --white / --border custom properties so it
+ * adapts automatically to the site's dark/light mode.
+ *
+ * @since 1.6.0
  */
 function ifende_livechat_whatsapp() {
 	$number = get_theme_mod( 'ifende_livechat_whatsapp_number', '' );
@@ -464,24 +544,122 @@ function ifende_livechat_whatsapp() {
 	// Strip everything except digits.
 	$number = preg_replace( '/[^0-9]/', '', $number );
 
-	$message = get_theme_mod( 'ifende_livechat_whatsapp_message', 'Hello! I visited your website and would like to chat.' );
-	$url     = 'https://wa.me/' . $number . '?text=' . rawurlencode( $message );
+	$message       = get_theme_mod( 'ifende_livechat_whatsapp_message', 'Hello! I visited your website and would like to chat.' );
+	$url           = 'https://wa.me/' . $number . '?text=' . rawurlencode( $message );
+	$business_name = get_theme_mod( 'ifende_livechat_whatsapp_business_name', get_bloginfo( 'name' ) . ' Support' );
+	$reply_time    = get_theme_mod( 'ifende_livechat_whatsapp_reply_time', '3 min' );
+	$welcome_text  = get_theme_mod( 'ifende_livechat_whatsapp_welcome', 'Tap below to start a WhatsApp conversation with our team. We typically reply within three minutes during business hours.' );
+	$quote_url     = get_theme_mod( 'ifende_livechat_whatsapp_quote_url', '' );
+	$quote_label   = get_theme_mod( 'ifende_livechat_whatsapp_quote_label', 'Request a Quote' );
+	$hours_label   = get_theme_mod( 'ifende_livechat_whatsapp_hours_label', 'MON-FRI · 08:00-16:00 · WAT' );
 	?>
-	<!--Start of WhatsApp Chat Button-->
-	<a href="<?php echo esc_url( $url ); ?>" class="ifende-whatsapp-btn" target="_blank" rel="noopener noreferrer" aria-label="<?php esc_attr_e( 'Chat on WhatsApp', 'ifende' ); ?>" title="<?php esc_attr_e( 'Chat on WhatsApp', 'ifende' ); ?>">
-		<svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-	</a>
+	<!--Start of WhatsApp Branded Widget-->
+	<div class="iwa" id="iwaWidget" aria-label="<?php esc_attr_e( 'WhatsApp chat', 'ifende' ); ?>">
+		<!-- Trigger Button (State 1) -->
+		<button class="iwa-trigger" id="iwaTrigger" type="button" aria-expanded="false" aria-controls="iwaPanel">
+			<svg class="iwa-trigger-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+			<span class="iwa-trigger-text">
+				<span class="iwa-trigger-label"><?php esc_html_e( 'CHAT WITH US', 'ifende' ); ?></span>
+				<span class="iwa-trigger-sub"><?php
+					/* translators: %s: typical reply time, e.g. "3 min" */
+					printf( esc_html__( 'Online – typical reply %s', 'ifende' ), esc_html( $reply_time ) );
+				?></span>
+			</span>
+		</button>
+
+		<!-- Popup Panel (State 2) -->
+		<div class="iwa-panel" id="iwaPanel" aria-hidden="true">
+			<div class="iwa-panel-header">
+				<span class="iwa-panel-title"><?php echo esc_html( $business_name ); ?></span>
+				<button class="iwa-panel-close" id="iwaClose" type="button" aria-label="<?php esc_attr_e( 'Close', 'ifende' ); ?>">&times;</button>
+			</div>
+			<div class="iwa-panel-status">
+				<span class="iwa-status-dot"></span>
+				<span><?php esc_html_e( "We're online", 'ifende' ); ?></span>
+			</div>
+			<p class="iwa-panel-msg"><?php echo esc_html( $welcome_text ); ?></p>
+			<a href="<?php echo esc_url( $url ); ?>" class="iwa-cta" target="_blank" rel="noopener noreferrer">
+				<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+				<?php esc_html_e( 'CHAT ON WHATSAPP', 'ifende' ); ?>
+			</a>
+			<?php if ( ! empty( $quote_url ) ) : ?>
+				<a href="<?php echo esc_url( $quote_url ); ?>" class="iwa-quote-link"><?php echo esc_html( $quote_label ); ?> &rarr;</a>
+			<?php endif; ?>
+			<?php if ( ! empty( $hours_label ) ) : ?>
+				<div class="iwa-panel-hours">
+					<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+					<?php echo esc_html( $hours_label ); ?>
+				</div>
+			<?php endif; ?>
+		</div>
+	</div>
+
 	<style>
-	.ifende-whatsapp-btn{position:fixed;bottom:32px;right:32px;z-index:100;width:56px;height:56px;border-radius:50%;background:#25D366;color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(37,211,102,0.4);transition:transform .2s,box-shadow .2s;text-decoration:none;}
-	.ifende-whatsapp-btn:hover{transform:translateY(-3px) scale(1.05);box-shadow:0 6px 24px rgba(37,211,102,0.5);}
-	.ifende-whatsapp-btn:focus-visible{outline:2px solid var(--gold,#C9A84C);outline-offset:3px;}
-	.ifende-whatsapp-btn svg{width:28px;height:28px;}
-	@media(max-width:600px){.ifende-whatsapp-btn{bottom:20px;right:20px;width:50px;height:50px;}.ifende-whatsapp-btn svg{width:24px;height:24px;}}
+	.iwa{position:fixed;bottom:32px;right:32px;z-index:100;font-family:'Syne',system-ui,sans-serif;}
+	.iwa-trigger{display:flex;align-items:center;gap:10px;background:#c0392b;color:#fff;border:none;border-radius:28px;padding:12px 20px;cursor:pointer;box-shadow:0 4px 20px rgba(192,57,43,0.4);transition:transform .2s,box-shadow .2s;font-family:inherit;}
+	.iwa-trigger:hover{transform:translateY(-2px);box-shadow:0 6px 28px rgba(192,57,43,0.5);}
+	.iwa-trigger-icon{flex-shrink:0;}
+	.iwa-trigger-text{display:flex;flex-direction:column;text-align:left;line-height:1.3;}
+	.iwa-trigger-label{font-size:0.72rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;}
+	.iwa-trigger-sub{font-size:0.62rem;opacity:0.85;margin-top:1px;}
+	.iwa-panel{display:none;position:absolute;bottom:calc(100% + 12px);right:0;width:300px;background:#1a1a1a;border:1px solid rgba(245,242,236,0.1);border-radius:12px;box-shadow:0 12px 40px rgba(0,0,0,0.5);overflow:hidden;animation:iwaSlideUp .25s ease;}
+	.iwa-panel[aria-hidden="false"]{display:block;}
+	@keyframes iwaSlideUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+	.iwa-panel-header{display:flex;justify-content:space-between;align-items:center;padding:16px 18px 8px;border-bottom:1px solid rgba(245,242,236,0.08);}
+	.iwa-panel-title{font-size:0.78rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#fff;}
+	.iwa-panel-close{background:none;border:none;color:#888;font-size:1.4rem;cursor:pointer;padding:0 4px;line-height:1;}
+	.iwa-panel-close:hover{color:#fff;}
+	.iwa-panel-status{display:flex;align-items:center;gap:8px;padding:12px 18px 4px;font-size:0.78rem;font-weight:600;color:#25D366;}
+	.iwa-status-dot{width:8px;height:8px;border-radius:50%;background:#25D366;animation:iwaPulse 2s infinite;}
+	@keyframes iwaPulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.5;transform:scale(1.3);}}
+	.iwa-panel-msg{padding:8px 18px 16px;font-size:0.82rem;line-height:1.6;color:#aaa;}
+	.iwa-cta{display:flex;align-items:center;justify-content:center;gap:8px;margin:0 18px 12px;padding:14px;background:#25D366;color:#fff;border-radius:6px;font-size:0.72rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;text-decoration:none;transition:background .2s;}
+	.iwa-cta:hover{background:#1da851;}
+	.iwa-quote-link{display:block;text-align:center;margin:0 18px 14px;padding:10px;border:1px solid rgba(245,242,236,0.15);border-radius:6px;color:#fff;font-size:0.7rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;text-decoration:none;transition:border-color .2s;}
+	.iwa-quote-link:hover{border-color:#25D366;color:#25D366;}
+	.iwa-panel-hours{display:flex;align-items:center;justify-content:center;gap:6px;padding:12px 18px;border-top:1px solid rgba(245,242,236,0.08);font-size:0.65rem;letter-spacing:1px;color:#666;}
+	/* Hide trigger when panel is open */
+	.iwa.open .iwa-trigger{display:none;}
+	@media(max-width:600px){.iwa{bottom:20px;right:20px;}.iwa-panel{width:calc(100vw - 40px);right:0;}}
 	/* Move back-to-top button left when WhatsApp is active */
 	.back-to-top{right:100px!important;}
 	@media(max-width:600px){.back-to-top{right:80px!important;}}
 	</style>
-	<!--End of WhatsApp Chat Button-->
+
+	<script>
+	(function(){
+		var widget = document.getElementById('iwaWidget');
+		var trigger = document.getElementById('iwaTrigger');
+		var panel = document.getElementById('iwaPanel');
+		var close = document.getElementById('iwaClose');
+		if (!widget || !trigger || !panel || !close) return;
+
+		trigger.addEventListener('click', function(){
+			widget.classList.add('open');
+			panel.setAttribute('aria-hidden', 'false');
+			trigger.setAttribute('aria-expanded', 'true');
+			close.focus();
+		});
+		close.addEventListener('click', function(){
+			widget.classList.remove('open');
+			panel.setAttribute('aria-hidden', 'true');
+			trigger.setAttribute('aria-expanded', 'false');
+			trigger.focus();
+		});
+		document.addEventListener('keydown', function(e){
+			if (e.key === 'Escape' && widget.classList.contains('open')) {
+				close.click();
+			}
+		});
+		// Close on outside click.
+		document.addEventListener('click', function(e){
+			if (widget.classList.contains('open') && !widget.contains(e.target)) {
+				close.click();
+			}
+		});
+	})();
+	</script>
+	<!--End of WhatsApp Branded Widget-->
 	<?php
 }
 
